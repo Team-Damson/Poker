@@ -50,6 +50,8 @@
     <Compile Include="AddChips.Designer.cs">
       <DependentUpon>AddChips.cs</DependentUpon>
     </Compile>
+    <Compile Include="Enums\Suit.cs" />
+    <Compile Include="Enums\Face.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>
     </Compile>
