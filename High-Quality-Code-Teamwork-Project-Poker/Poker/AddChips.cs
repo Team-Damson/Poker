@@ -1,54 +1,75 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace Poker
+﻿namespace Poker
 {
+    using System;
+    using System.Drawing;
+    using System.Windows.Forms;
+
     public partial class AddChips : Form
     {
-        public int a=0;
+        private const int MaxAllowedChips = 100000000;
+
+        private int amount;
+
         public AddChips()
         {
-            FontFamily fontFamily = new FontFamily("Arial");
-            InitializeComponent();
-            ControlBox = false;
-            label1.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            var fontFamily = new FontFamily("Arial");
+            this.InitializeComponent();
+            this.ControlBox = false;
+            this.labelRunOutOfChips.BorderStyle = BorderStyle.FixedSingle;
         }
 
-        public void button1_Click(object sender, EventArgs e)
+        public int Amount
+        {
+            get
+            {
+                return this.amount;
+            }
+
+            private set
+            {
+                if (value < 0 || value > MaxAllowedChips)
+                {
+                    throw new ArgumentOutOfRangeException("Amount of chips cannot be negative.");
+                }
+
+                this.amount = value;
+            }
+        }
+
+        public void AddChipsClick(object sender, EventArgs e)
         {
             int parsedValue;
-            if (int.Parse(textBox1.Text) > 100000000)
-            {
-                MessageBox.Show("The maximium chips you can add is 100000000");
-                return;
-            }
-            if (!int.TryParse(textBox1.Text, out parsedValue))
-            {
-                MessageBox.Show("This is a number only field");
-                return;
+            var isValidAmount = int.TryParse(this.textBoxChipsAmmount.Text, out parsedValue);
 
-            }
-            else if (int.TryParse(textBox1.Text, out parsedValue) && int.Parse(textBox1.Text) <= 100000000)
+            if (!isValidAmount)
             {
-                a = int.Parse(textBox1.Text);
+                var message = "This is a number only field.";
+                MessageBox.Show(message);
+                return;
+            }
+
+            if (parsedValue < 0)
+            {
+                var message = "You cannot add negative amount.";
+                MessageBox.Show(message);
+            }
+            else if (parsedValue > MaxAllowedChips)
+            {
+                MessageBox.Show(string.Format("The maximium chips you can add is {0}.", MaxAllowedChips));
+            }
+            else
+            {
+                this.Amount = parsedValue;
                 this.Close();
             }
         }
-        private void button2_Click(object sender, EventArgs e)
+
+        private void ExitClick(object sender, EventArgs e)
         {
             var message = "Are you sure?";
             var title = "Quit";
-            var result = MessageBox.Show(
-            message,title,
-            MessageBoxButtons.YesNo, 
-            MessageBoxIcon.Question);
+            var result = MessageBox.Show(message, title, MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+
             switch (result)
             {
                 case DialogResult.No:

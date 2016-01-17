@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Poker.Enums
+﻿namespace Poker.Enums
 {
     public enum Face
     {
@@ -20,6 +14,6 @@ namespace Poker.Enums
         Jack = 11,
         Queen = 12,
         King = 13,
-        Ace = 14,
+        Ace = 14
     }
 }
