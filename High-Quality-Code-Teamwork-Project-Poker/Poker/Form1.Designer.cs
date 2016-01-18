@@ -270,7 +270,7 @@
             this.buttonBlindOptions.TabIndex = 15;
             this.buttonBlindOptions.Text = "BB/SB";
             this.buttonBlindOptions.UseVisualStyleBackColor = true;
-            this.buttonBlindOptions.Click += new EventHandler(this.bOptions_Click);
+            this.buttonBlindOptions.Click += new EventHandler(this.OnBlindOptionsClick);
 
             // 
             // buttonBigBlind
@@ -281,7 +281,7 @@
             this.buttonBigBlind.TabIndex = 16;
             this.buttonBigBlind.Text = "Big Blind";
             this.buttonBigBlind.UseVisualStyleBackColor = true;
-            this.buttonBigBlind.Click += new EventHandler(this.bBB_Click);
+            this.buttonBigBlind.Click += new EventHandler(this.OnBigBlindClick);
 
             // 
             // textboxSmallBlind
@@ -301,7 +301,7 @@
             this.buttonSmallBlind.TabIndex = 18;
             this.buttonSmallBlind.Text = "Small Blind";
             this.buttonSmallBlind.UseVisualStyleBackColor = true;
-            this.buttonSmallBlind.Click += new EventHandler(this.bSB_Click);
+            this.buttonSmallBlind.Click += new EventHandler(this.OnSmallBlindClick);
 
             // 
             // textboxBigBlind

@@ -56,12 +56,16 @@ namespace Poker
         PictureBox[] Holder = new PictureBox[52];
         Timer timer = new Timer();
         Timer Updates = new Timer();
-        int t = 60, i, bb = 500, sb = 250, up = 10000000, turnCount = 0;
+        int t = 60, i, up = 10000000, turnCount = 0;
+
+        private int bigBlind = 500;
+        private int smallBlind = 250;
+
         #endregion
         public Form1()
         {
             //bools.Add(PFturn); bools.Add(B1Fturn); bools.Add(B2Fturn); bools.Add(B3Fturn); bools.Add(B4Fturn); bools.Add(B5Fturn);
-            call = bb;
+            call = this.bigBlind;
             MaximizeBox = false;
             MinimizeBox = false;
             Updates.Start();
@@ -98,7 +102,7 @@ namespace Poker
             this.textboxSmallBlind.Visible = false;
             this.buttonBigBlind.Visible = false;
             this.buttonSmallBlind.Visible = false;
-            this.textboxRaise.Text = (bb * 2).ToString();
+            this.textboxRaise.Text = (this.bigBlind * 2).ToString();
         }
         async Task Shuffle()
         {
@@ -1997,7 +2001,7 @@ namespace Poker
                 b4Call = 0; b4Raise = 0;
                 b5Call = 0; b5Raise = 0;
                 last = 0;
-                call = bb;
+                call = this.bigBlind;
                 Raise = 0;
                 ImgLocation = Directory.GetFiles("Assets\\Cards", "*.png", SearchOption.TopDirectoryOnly);
                 bools.Clear();
@@ -2208,7 +2212,7 @@ namespace Poker
                 FixWinners();
             }
             pPanel.Visible = false; b1Panel.Visible = false; b2Panel.Visible = false; b3Panel.Visible = false; b4Panel.Visible = false; b5Panel.Visible = false;
-            call = bb; Raise = 0;
+            call = this.bigBlind; Raise = 0;
             foldedPlayers = 5;
             type = 0; rounds = 0; b1Power = 0; b2Power = 0; b3Power = 0; b4Power = 0; b5Power = 0; pPower = 0; pType = -1; Raise = 0;
             b1Type = -1; b2Type = -1; b3Type = -1; b4Type = -1; b5Type = -1;
@@ -2913,10 +2917,12 @@ namespace Poker
             }
             this.textboxChipsAmount.Text = "Chips : " + Chips.ToString();
         }
-        private void bOptions_Click(object sender, EventArgs e)
+
+        private void OnBlindOptionsClick(object sender, EventArgs e)
         {
-            this.textboxBigBlind.Text = bb.ToString();
-            this.textboxSmallBlind.Text = sb.ToString();
+            this.textboxBigBlind.Text = this.bigBlind.ToString();
+            this.textboxSmallBlind.Text = this.smallBlind.ToString();
+
             if (this.textboxBigBlind.Visible == false)
             {
                 this.textboxBigBlind.Visible = true;
@@ -2932,66 +2938,93 @@ namespace Poker
                 this.buttonSmallBlind.Visible = false;
             }
         }
-        private void bSB_Click(object sender, EventArgs e)
+
+        private void OnSmallBlindClick(object sender, EventArgs e)
         {
+            var minSmallBlind = 250;
+            var maxSmallBlind = 100000;
             int parsedValue;
+
             if (this.textboxSmallBlind.Text.Contains(",") || this.textboxSmallBlind.Text.Contains("."))
             {
-                MessageBox.Show("The Small Blind can be only round number !");
-                this.textboxSmallBlind.Text = sb.ToString();
+                var message = "The Small Blind can be only round number !";
+                MessageBox.Show(message);
+                this.textboxSmallBlind.Text = this.smallBlind.ToString();
                 return;
             }
+
             if (!int.TryParse(this.textboxSmallBlind.Text, out parsedValue))
             {
-                MessageBox.Show("This is a number only field");
-                this.textboxSmallBlind.Text = sb.ToString();
+                var message = "This is a number only field";
+                MessageBox.Show(message);
+                this.textboxSmallBlind.Text = this.smallBlind.ToString();
                 return;
             }
-            if (int.Parse(this.textboxSmallBlind.Text) > 100000)
+
+            if (int.Parse(this.textboxSmallBlind.Text) > maxSmallBlind)
             {
-                MessageBox.Show("The maximum of the Small Blind is 100 000 $");
-                this.textboxSmallBlind.Text = sb.ToString();
+                var message = "The maximum of the Small Blind is 100 000 $";
+                MessageBox.Show(message);
+                this.textboxSmallBlind.Text = this.smallBlind.ToString();
             }
-            if (int.Parse(this.textboxSmallBlind.Text) < 250)
+
+            if (int.Parse(this.textboxSmallBlind.Text) < minSmallBlind)
             {
-                MessageBox.Show("The minimum of the Small Blind is 250 $");
+                var message = "The minimum of the Small Blind is 250 $";
+                MessageBox.Show(message);
             }
-            if (int.Parse(this.textboxSmallBlind.Text) >= 250 && int.Parse(this.textboxSmallBlind.Text) <= 100000)
+
+            if (int.Parse(this.textboxSmallBlind.Text) >= minSmallBlind && int.Parse(this.textboxSmallBlind.Text) <= maxSmallBlind)
             {
-                sb = int.Parse(this.textboxSmallBlind.Text);
-                MessageBox.Show("The changes have been saved ! They will become available the next hand you play. ");
+                this.smallBlind = int.Parse(this.textboxSmallBlind.Text);
+                var message = "The changes have been saved ! They will become available the next hand you play.";
+                MessageBox.Show(message);
             }
         }
-        private void bBB_Click(object sender, EventArgs e)
+
+        private void OnBigBlindClick(object sender, EventArgs e)
         {
+            var minBigBlind = 500;
+            var maxBigBlind = 200000;
             int parsedValue;
+
             if (this.textboxBigBlind.Text.Contains(",") || this.textboxBigBlind.Text.Contains("."))
             {
-                MessageBox.Show("The Big Blind can be only round number !");
-                this.textboxBigBlind.Text = bb.ToString();
+                var message = "The Big Blind can be only round number!";
+                MessageBox.Show(message);
+                this.textboxBigBlind.Text = this.bigBlind.ToString();
                 return;
             }
+
             if (!int.TryParse(this.textboxSmallBlind.Text, out parsedValue))
             {
-                MessageBox.Show("This is a number only field");
-                this.textboxSmallBlind.Text = bb.ToString();
+                var message = "This is a number only field";
+                MessageBox.Show(message);
+                this.textboxSmallBlind.Text = this.bigBlind.ToString();
                 return;
             }
-            if (int.Parse(this.textboxBigBlind.Text) > 200000)
+
+            if (int.Parse(this.textboxBigBlind.Text) > maxBigBlind)
             {
-                MessageBox.Show("The maximum of the Big Blind is 200 000");
-                this.textboxBigBlind.Text = bb.ToString();
+                var message = "The maximum of the Big Blind is 200 000";
+                MessageBox.Show(message);
+                this.textboxBigBlind.Text = this.bigBlind.ToString();
             }
-            if (int.Parse(this.textboxBigBlind.Text) < 500)
+
+            if (int.Parse(this.textboxBigBlind.Text) < minBigBlind)
             {
-                MessageBox.Show("The minimum of the Big Blind is 500 $");
+                var message = "The minimum of the Big Blind is 500 $";
+                MessageBox.Show(message);
             }
-            if (int.Parse(this.textboxBigBlind.Text) >= 500 && int.Parse(this.textboxBigBlind.Text) <= 200000)
+
+            if (int.Parse(this.textboxBigBlind.Text) >= minBigBlind && int.Parse(this.textboxBigBlind.Text) <= maxBigBlind)
             {
-                bb = int.Parse(this.textboxBigBlind.Text);
-                MessageBox.Show("The changes have been saved ! They will become available the next hand you play. ");
+                this.bigBlind = int.Parse(this.textboxBigBlind.Text);
+                var message = "The changes have been saved ! They will become available the next hand you play.";
+                MessageBox.Show(message);
             }
         }
+
         private void Layout_Change(object sender, LayoutEventArgs e)
         {
             width = this.Width;
