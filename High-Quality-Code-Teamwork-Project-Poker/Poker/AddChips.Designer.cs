@@ -1,15 +1,20 @@
 ﻿namespace Poker
 {
+    using System;
+    using System.ComponentModel;
+    using System.Drawing;
+    using System.Windows.Forms;
+
     partial class AddChips
     {
         /// <summary>
         /// Required designer variable.
         /// </summary>
-        private System.ComponentModel.IContainer components = null;
-        private System.Windows.Forms.Label labelRunOutOfChips;
-        private System.Windows.Forms.Button buttonAddChips;
-        private System.Windows.Forms.Button buttonExit;
-        private System.Windows.Forms.TextBox textBoxChipsAmmount;
+        private IContainer components = null;
+        private Label labelRunOutOfChips;
+        private Button buttonAddChips;
+        private Button buttonExit;
+        private TextBox textBoxChipsAmmount;
 
         /// <summary>
         /// Clean up any resources being used.
@@ -33,56 +38,56 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.labelRunOutOfChips = new System.Windows.Forms.Label();
-            this.buttonAddChips = new System.Windows.Forms.Button();
-            this.buttonExit = new System.Windows.Forms.Button();
-            this.textBoxChipsAmmount = new System.Windows.Forms.TextBox();
+            this.labelRunOutOfChips = new Label();
+            this.buttonAddChips = new Button();
+            this.buttonExit = new Button();
+            this.textBoxChipsAmmount = new TextBox();
             this.SuspendLayout();
             // 
             // labelRunOutOfChips
             // 
-            this.labelRunOutOfChips.Font = new System.Drawing.Font("Microsoft Sans Serif", 12.5F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.labelRunOutOfChips.Location = new System.Drawing.Point(48, 49);
+            this.labelRunOutOfChips.Font = new Font("Microsoft Sans Serif", 12.5F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(204)));
+            this.labelRunOutOfChips.Location = new Point(48, 49);
             this.labelRunOutOfChips.Name = "labelRunOutOfChips";
-            this.labelRunOutOfChips.Size = new System.Drawing.Size(176, 23);
+            this.labelRunOutOfChips.Size = new Size(176, 23);
             this.labelRunOutOfChips.TabIndex = 0;
             this.labelRunOutOfChips.Text = "You ran out of chips !";
-            this.labelRunOutOfChips.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.labelRunOutOfChips.TextAlign = ContentAlignment.MiddleCenter;
             // 
             // buttonAddChips
             // 
-            this.buttonAddChips.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonAddChips.Location = new System.Drawing.Point(12, 226);
+            this.buttonAddChips.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(204)));
+            this.buttonAddChips.Location = new Point(12, 226);
             this.buttonAddChips.Name = "buttonAddChips";
-            this.buttonAddChips.Size = new System.Drawing.Size(75, 23);
+            this.buttonAddChips.Size = new Size(75, 23);
             this.buttonAddChips.TabIndex = 1;
             this.buttonAddChips.Text = "Add Chips";
             this.buttonAddChips.UseVisualStyleBackColor = true;
-            this.buttonAddChips.Click += new System.EventHandler(this.AddChipsClick);
+            this.buttonAddChips.Click += new EventHandler(this.AddChipsClick);
             // 
             // buttonExit
             // 
-            this.buttonExit.Font = new System.Drawing.Font("Microsoft Sans Serif", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.buttonExit.Location = new System.Drawing.Point(197, 226);
+            this.buttonExit.Font = new Font("Microsoft Sans Serif", 9F, FontStyle.Regular, GraphicsUnit.Point, ((byte)(204)));
+            this.buttonExit.Location = new Point(197, 226);
             this.buttonExit.Name = "buttonExit";
-            this.buttonExit.Size = new System.Drawing.Size(75, 23);
+            this.buttonExit.Size = new Size(75, 23);
             this.buttonExit.TabIndex = 2;
             this.buttonExit.Text = "Exit";
             this.buttonExit.UseVisualStyleBackColor = true;
-            this.buttonExit.Click += new System.EventHandler(this.ExitClick);
+            this.buttonExit.Click += new EventHandler(this.ExitClick);
             // 
             // textBoxChipsAmmount
             // 
-            this.textBoxChipsAmmount.Location = new System.Drawing.Point(91, 229);
+            this.textBoxChipsAmmount.Location = new Point(91, 229);
             this.textBoxChipsAmmount.Name = "textBoxChipsAmmount";
-            this.textBoxChipsAmmount.Size = new System.Drawing.Size(100, 20);
+            this.textBoxChipsAmmount.Size = new Size(100, 20);
             this.textBoxChipsAmmount.TabIndex = 3;
             // 
             // AddChips
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(284, 261);
+            this.ClientSize = new Size(284, 261);
             this.Controls.Add(this.textBoxChipsAmmount);
             this.Controls.Add(this.buttonExit);
             this.Controls.Add(this.buttonAddChips);
@@ -91,7 +96,6 @@
             this.Text = "You Ran Out Of Chips";
             this.ResumeLayout(false);
             this.PerformLayout();
-
         }
 
         #endregion
