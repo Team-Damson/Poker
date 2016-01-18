@@ -8,3 +8,13 @@ C:\Users\Daniela\Documents\PROGRAMMING\Level Fundamentals\High-Quality Code\Poke
 C:\Users\Daniela\Documents\PROGRAMMING\Level Fundamentals\High-Quality Code\Poker\High-Quality-Code-Teamwork-Project-Poker\Poker\obj\Debug\Poker.csproj.GenerateResource.Cache
 C:\Users\Daniela\Documents\PROGRAMMING\Level Fundamentals\High-Quality Code\Poker\High-Quality-Code-Teamwork-Project-Poker\Poker\obj\Debug\Poker.exe
 C:\Users\Daniela\Documents\PROGRAMMING\Level Fundamentals\High-Quality Code\Poker\High-Quality-Code-Teamwork-Project-Poker\Poker\obj\Debug\Poker.pdb
+C:\Users\vutov\Documents\GitHub\Poker\High-Quality-Code-Teamwork-Project-Poker\Poker\bin\Debug\Poker.exe.config
+C:\Users\vutov\Documents\GitHub\Poker\High-Quality-Code-Teamwork-Project-Poker\Poker\obj\Debug\Poker.exe
+C:\Users\vutov\Documents\GitHub\Poker\High-Quality-Code-Teamwork-Project-Poker\Poker\obj\Debug\Poker.pdb
+C:\Users\vutov\Documents\GitHub\Poker\High-Quality-Code-Teamwork-Project-Poker\Poker\bin\Debug\Poker.exe
+C:\Users\vutov\Documents\GitHub\Poker\High-Quality-Code-Teamwork-Project-Poker\Poker\bin\Debug\Poker.pdb
+C:\Users\vutov\Documents\GitHub\Poker\High-Quality-Code-Teamwork-Project-Poker\Poker\obj\Debug\Poker.csprojResolveAssemblyReference.cache
+C:\Users\vutov\Documents\GitHub\Poker\High-Quality-Code-Teamwork-Project-Poker\Poker\obj\Debug\Poker.AddChips.resources
+C:\Users\vutov\Documents\GitHub\Poker\High-Quality-Code-Teamwork-Project-Poker\Poker\obj\Debug\Poker.Form1.resources
+C:\Users\vutov\Documents\GitHub\Poker\High-Quality-Code-Teamwork-Project-Poker\Poker\obj\Debug\Poker.Properties.Resources.resources
+C:\Users\vutov\Documents\GitHub\Poker\High-Quality-Code-Teamwork-Project-Poker\Poker\obj\Debug\Poker.csproj.GenerateResource.Cache
