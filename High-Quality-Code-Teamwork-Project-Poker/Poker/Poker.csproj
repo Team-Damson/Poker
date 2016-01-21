@@ -50,6 +50,8 @@
     <Compile Include="AddChips.Designer.cs">
       <DependentUpon>AddChips.cs</DependentUpon>
     </Compile>
+    <Compile Include="CheckHandType.cs" />
+    <Compile Include="Dunno.cs" />
     <Compile Include="Enums\HandPower.cs" />
     <Compile Include="Enums\Suit.cs" />
     <Compile Include="Enums\Face.cs" />
@@ -59,6 +61,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="HandTypes.cs" />
     <Compile Include="Interfaces\ICard.cs" />
     <Compile Include="Models\Card.cs" />
     <Compile Include="Models\Hand.cs" />
