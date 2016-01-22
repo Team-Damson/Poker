@@ -110,7 +110,7 @@
             this.buttonFold.TabIndex = 0;
             this.buttonFold.Text = "Fold";
             this.buttonFold.UseVisualStyleBackColor = true;
-            this.buttonFold.Click += new EventHandler(this.bFold_Click);
+            this.buttonFold.Click += new EventHandler(this.OnFoldClick);
 
             // 
             // buttonCheck
@@ -123,7 +123,7 @@
             this.buttonCheck.TabIndex = 2;
             this.buttonCheck.Text = "Check";
             this.buttonCheck.UseVisualStyleBackColor = true;
-            this.buttonCheck.Click += new EventHandler(this.bCheck_Click);
+            this.buttonCheck.Click += new EventHandler(this.OnCheckClick);
 
             // 
             // buttonCall
@@ -136,7 +136,7 @@
             this.buttonCall.TabIndex = 3;
             this.buttonCall.Text = "Call";
             this.buttonCall.UseVisualStyleBackColor = true;
-            this.buttonCall.Click += new EventHandler(this.bCall_Click);
+            this.buttonCall.Click += new EventHandler(this.OnCallClick);
 
             // 
             // buttonRaise
@@ -149,7 +149,7 @@
             this.buttonRaise.TabIndex = 4;
             this.buttonRaise.Text = "Raise";
             this.buttonRaise.UseVisualStyleBackColor = true;
-            this.buttonRaise.Click += new EventHandler(this.bRaise_Click);
+            this.buttonRaise.Click += new EventHandler(this.OnRaiseClick);
 
             // 
             // progressbarTimer
@@ -184,7 +184,7 @@
             this.buttonAddChips.TabIndex = 7;
             this.buttonAddChips.Text = "AddChips";
             this.buttonAddChips.UseVisualStyleBackColor = true;
-            this.buttonAddChips.Click += new EventHandler(this.bAdd_Click);
+            this.buttonAddChips.Click += new EventHandler(this.OnAddClick);
 
             // 
             // textboxPlayerChips
@@ -423,7 +423,7 @@
             this.DoubleBuffered = true;
             this.Name = "Form1";
             this.Text = "GLS Texas Poker";
-            this.Layout += new LayoutEventHandler(this.Layout_Change);
+            this.Layout += new LayoutEventHandler(this.LayoutChange);
             this.ResumeLayout(false);
             this.PerformLayout();
         }
