@@ -113,11 +113,11 @@ namespace Poker
                 }
             }
         }
-        public void rFullHouse(IPlayer player, ref bool done, int[] Straight, ref List<Type> Win, ref Type sorted, ref double type)
+        public void rFullHouse(IPlayer player, ref bool done, int[] Straight, ref List<Type> Win, ref Type sorted)
         {
             if (player.Type.Current >= -1)
             {
-                type = player.Type.Power;
+                double type = player.Type.Power;
                 for (int j = 0; j <= 12; j++)
                 {
                     var fh = Straight.Where(o => o / 4 == j).ToArray();

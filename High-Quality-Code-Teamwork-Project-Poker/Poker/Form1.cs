@@ -31,23 +31,23 @@ namespace Poker
         private IPlayer AI5;
 
         ProgressBar asd = new ProgressBar();
-        public int Nm;
+        //public int Nm;
         //Panel pPanel = new Panel(); Panel b1Panel = new Panel(); Panel b2Panel = new Panel(); Panel b3Panel = new Panel();
         //Panel b4Panel = new Panel(); Panel b5Panel = new Panel();
         int call = 500, foldedPlayers = 5;
         //public int Chips = 10000, bot1Chips = 10000, bot2Chips = 10000, bot3Chips = 10000, bot4Chips = 10000, bot5Chips = 10000;
-        private double type;
+        //private double type;
         double rounds = 0, /*b1Power, b2Power, b3Power, b4Power, b5Power, pPower = 0, pType = -1,*/ Raise = 0;
         // b1Type = -1, b2Type = -1, b3Type = -1, b4Type = -1, b5Type = -1;
         //bool B1turn = false, B2turn = false, B3turn = false, B4turn = false, B5turn = false;
         //bool B1Fturn = false, B2Fturn = false, B3Fturn = false, B4Fturn = false, B5Fturn = false;
         bool /*pFolded, b1Folded, b2Folded, b3Folded, b4Folded, b5Folded,*/ intsadded, changed;
         //int pCall = 0, b1Call = 0, b2Call = 0, b3Call = 0, b4Call = 0, b5Call = 0, pRaise = 0, b1Raise = 0, b2Raise = 0, b3Raise = 0, b4Raise = 0, b5Raise = 0;
-        int height, width, winners = 0, Flop = 1, Turn = 2, River = 3, End = 4, maxLeft = 6;
-        int last = 123, raisedTurn = 1;
-        List<bool?> bools = new List<bool?>();
+        int /*height, width,*/ winners = 0, Flop = 1, Turn = 2, River = 3, End = 4, maxLeft = 6;
+        int /*last = 123,*/ raisedTurn = 1;
+        List<bool?> FoldedPlayers = new List<bool?>();
         List<Type> Win = new List<Type>();
-        List<string> CheckWinners = new List<string>();
+        List<string> Winners = new List<string>();
         List<int> ints = new List<int>();
         bool /*PFturn = false, Pturn = true,*/ restart = false, raising = false;
         Poker.Type sorted;
@@ -79,7 +79,7 @@ namespace Poker
         {
             InitializeComponent();
 
-            //bools.Add(PFturn); bools.Add(B1Fturn); bools.Add(B2Fturn); bools.Add(B3Fturn); bools.Add(B4Fturn); bools.Add(B5Fturn);
+            //FoldedPlayers.Add(PFturn); FoldedPlayers.Add(B1Fturn); FoldedPlayers.Add(B2Fturn); FoldedPlayers.Add(B3Fturn); FoldedPlayers.Add(B4Fturn); FoldedPlayers.Add(B5Fturn);
             this.human = PlayerFactory.Create("Player", 10000, this.labelPlayerStatus, this.textboxPlayerChips, 0, 0);
             this.AI1 = PlayerFactory.Create("Bot 1", 10000, this.labelBot1Status, this.textboxBot1Chips, 0, 0);
             this.AI2 = PlayerFactory.Create("Bot 2", 10000, this.labelBot2Status, this.textboxBot2Chips, 0, 0);
@@ -94,8 +94,8 @@ namespace Poker
             MinimizeBox = false;
             Updates.Start();
             
-            width = this.Width;
-            height = this.Height;
+            //width = this.Width;
+            //height = this.Height;
             Shuffle();
             this.textboxPot.Enabled = false;
             this.textboxChipsAmount.Enabled = false;
@@ -130,7 +130,7 @@ namespace Poker
         }
         async Task Shuffle()
         {
-            bools.Add(human.FoldedTurn); bools.Add(AI1.FoldedTurn); bools.Add(AI2.FoldedTurn); bools.Add(AI3.FoldedTurn); bools.Add(AI4.FoldedTurn); bools.Add(AI5.FoldedTurn);
+            FoldedPlayers.Add(human.FoldedTurn); FoldedPlayers.Add(AI1.FoldedTurn); FoldedPlayers.Add(AI2.FoldedTurn); FoldedPlayers.Add(AI3.FoldedTurn); FoldedPlayers.Add(AI4.FoldedTurn); FoldedPlayers.Add(AI5.FoldedTurn);
             this.buttonCall.Enabled = false;
             this.buttonRaise.Enabled = false;
             this.buttonFold.Enabled = false;
@@ -520,15 +520,15 @@ namespace Poker
                     MessageBox.Show(currentAI.Name + "'s Turn");
                     AI(currentAI);
                     turnCount++;
-                    last = 1;
+                    //last = 1;
                     currentAI.IsInTurn = false;
                     nextAI.IsInTurn = true;
                 }
             }
             if (currentAI.FoldedTurn && !currentAI.HasFolded)
             {
-                bools.RemoveAt(currentAI.Id + 1);
-                bools.Insert(currentAI.Id + 1, null);
+                FoldedPlayers.RemoveAt(currentAI.Id + 1);
+                FoldedPlayers.Insert(currentAI.Id + 1, null);
                 maxLeft--;
                 currentAI.HasFolded = true;
             }
@@ -569,8 +569,8 @@ namespace Poker
                 {
                     if (this.buttonCall.Text.Contains("All in") == false || this.buttonRaise.Text.Contains("All in") == false)
                     {
-                        bools.RemoveAt(0);
-                        bools.Insert(0, null);
+                        FoldedPlayers.RemoveAt(0);
+                        FoldedPlayers.Insert(0, null);
                         maxLeft--;
                         human.HasFolded = true;
                     }
@@ -600,8 +600,8 @@ namespace Poker
                 {
                     if (this.buttonCall.Text.Contains("All in") == false || this.buttonRaise.Text.Contains("All in") == false)
                     {
-                        bools.RemoveAt(0);
-                        bools.Insert(0, null);
+                        FoldedPlayers.RemoveAt(0);
+                        FoldedPlayers.Insert(0, null);
                         maxLeft--;
                         human.HasFolded = true;
                     }
@@ -670,7 +670,7 @@ namespace Poker
                         #endregion
 
                         #region Full House current = 6
-                        chHandType.rFullHouse(player, ref done, Straight, ref Win, ref sorted, ref type);
+                        chHandType.rFullHouse(player, ref done, Straight, ref Win, ref sorted);
                         #endregion
 
                         #region Four of a Kind current = 7
@@ -707,7 +707,7 @@ namespace Poker
                 if (player.Type.Power == sorted.Power)
                 {
                     winners++;
-                    CheckWinners.Add(player.Name);
+                    Winners.Add(player.Name);
                     if (player.Type.Current == -1)
                     {
                         MessageBox.Show(player.Name + " High Card ");
@@ -754,38 +754,38 @@ namespace Poker
             {
                 if (winners > 1)
                 {
-                    if (CheckWinners.Contains("Player"))
+                    if (Winners.Contains("Player"))
                     {
                         human.Chips += int.Parse(this.textboxPot.Text) / winners;
                         this.human.PlayerChips.Text = human.Chips.ToString();
                         //pPanel.Visible = true;
 
                     }
-                    if (CheckWinners.Contains("Bot 1"))
+                    if (Winners.Contains("Bot 1"))
                     {
                         AI1.Chips += int.Parse(this.textboxPot.Text) / winners;
                         this.AI1.PlayerChips.Text = AI1.Chips.ToString();
                         //b1Panel.Visible = true;
                     }
-                    if (CheckWinners.Contains("Bot 2"))
+                    if (Winners.Contains("Bot 2"))
                     {
                         AI2.Chips += int.Parse(this.textboxPot.Text) / winners;
                         this.AI2.PlayerChips.Text = AI2.Chips.ToString();
                         //b2Panel.Visible = true;
                     }
-                    if (CheckWinners.Contains("Bot 3"))
+                    if (Winners.Contains("Bot 3"))
                     {
                         AI3.Chips += int.Parse(this.textboxPot.Text) / winners;
                         this.AI3.PlayerChips.Text = AI3.Chips.ToString();
                         //b3Panel.Visible = true;
                     }
-                    if (CheckWinners.Contains("Bot 4"))
+                    if (Winners.Contains("Bot 4"))
                     {
                         AI4.Chips += int.Parse(this.textboxPot.Text) / winners;
                         this.AI4.PlayerChips.Text = AI4.Chips.ToString();
                         //b4Panel.Visible = true;
                     }
-                    if (CheckWinners.Contains("Bot 5"))
+                    if (Winners.Contains("Bot 5"))
                     {
                         AI5.Chips += int.Parse(this.textboxPot.Text) / winners;
                         this.AI5.PlayerChips.Text = AI5.Chips.ToString();
@@ -795,38 +795,38 @@ namespace Poker
                 }
                 if (winners == 1)
                 {
-                    if (CheckWinners.Contains("Player"))
+                    if (Winners.Contains("Player"))
                     {
                         human.Chips += int.Parse(this.textboxPot.Text);
                         //await Finish(1);
                         //pPanel.Visible = true;
                     }
-                    if (CheckWinners.Contains("Bot 1"))
+                    if (Winners.Contains("Bot 1"))
                     {
                         AI1.Chips += int.Parse(this.textboxPot.Text);
                         //await Finish(1);
                         //b1Panel.Visible = true;
                     }
-                    if (CheckWinners.Contains("Bot 2"))
+                    if (Winners.Contains("Bot 2"))
                     {
                         AI2.Chips += int.Parse(this.textboxPot.Text);
                         //await Finish(1);
                         //b2Panel.Visible = true;
 
                     }
-                    if (CheckWinners.Contains("Bot 3"))
+                    if (Winners.Contains("Bot 3"))
                     {
                         AI3.Chips += int.Parse(this.textboxPot.Text);
                         //await Finish(1);
                         //b3Panel.Visible = true;
                     }
-                    if (CheckWinners.Contains("Bot 4"))
+                    if (Winners.Contains("Bot 4"))
                     {
                         AI4.Chips += int.Parse(this.textboxPot.Text);
                         //await Finish(1);
                         //b4Panel.Visible = true;
                     }
-                    if (CheckWinners.Contains("Bot 5"))
+                    if (Winners.Contains("Bot 5"))
                     {
                         AI5.Chips += int.Parse(this.textboxPot.Text);
                         //await Finish(1);
@@ -998,17 +998,18 @@ namespace Poker
                 AI3.Call = 0; AI3.Raise = 0;
                 AI4.Call = 0; AI4.Raise = 0;
                 AI5.Call = 0; AI5.Raise = 0;
-                last = 0;
+                //last = 0;
                 call = this.bigBlind;
                 Raise = 0;
                 ImgLocation = Directory.GetFiles("Assets\\Cards", "*.png", SearchOption.TopDirectoryOnly);
-                bools.Clear();
+                FoldedPlayers.Clear();
                 rounds = 0;
                 human.Type.Power = 0; human.Type.Current = -1;
-                type = 0; AI1.Type.Power = 0; AI2.Type.Power = 0; AI3.Type.Power = 0; AI4.Type.Power = 0; AI5.Type.Power = 0;
+                //type = 0; 
+                AI1.Type.Power = 0; AI2.Type.Power = 0; AI3.Type.Power = 0; AI4.Type.Power = 0; AI5.Type.Power = 0;
                 AI1.Type.Current = -1; AI2.Type.Current = -1; AI3.Type.Current = -1; AI4.Type.Current = -1; AI5.Type.Current = -1;
                 ints.Clear();
-                CheckWinners.Clear();
+                Winners.Clear();
                 winners = 0;
                 Win.Clear();
                 sorted.Current = 0;
@@ -1137,12 +1138,12 @@ namespace Poker
             }
             #endregion
 
-            var abc = bools.Count(x => x == false);
+            var notFoldedPlayersCount = FoldedPlayers.Count(x => x == false);
 
             #region LastManStanding
-            if (abc == 1)
+            if (notFoldedPlayersCount == 1)
             {
-                int index = bools.IndexOf(false);
+                int index = FoldedPlayers.IndexOf(false);
                 if (index == 0)
                 {
                     human.Chips += int.Parse(this.textboxPot.Text);
@@ -1195,7 +1196,7 @@ namespace Poker
             #endregion
 
             #region FiveOrLessLeft
-            if (abc < 6 && abc > 1 && rounds >= End)
+            if (notFoldedPlayersCount < 6 && notFoldedPlayersCount > 1 && rounds >= End)
             {
                 await Finish(2);
             }
@@ -1212,7 +1213,8 @@ namespace Poker
             human.Panel.Visible = false; AI1.Panel.Visible = false; AI2.Panel.Visible = false; AI3.Panel.Visible = false; AI4.Panel.Visible = false; AI5.Panel.Visible = false;
             call = this.bigBlind; Raise = 0;
             foldedPlayers = 5;
-            type = 0; rounds = 0;
+            //type = 0; 
+            rounds = 0;
             AI1.Type.Power = 0; 
             AI2.Type.Power = 0; 
             AI3.Type.Power = 0; 
@@ -1228,10 +1230,12 @@ namespace Poker
             human.FoldedTurn = false; human.IsInTurn = true; restart = false; raising = false;
             human.Call = 0; AI1.Call = 0; AI2.Call = 0; AI3.Call = 0; AI4.Call = 0; AI5.Call = 0; 
             human.Raise = 0; AI1.Raise = 0; AI2.Raise = 0; AI3.Raise = 0; AI4.Raise = 0; AI5.Raise = 0;
-            height = 0; width = 0; winners = 0; Flop = 1; Turn = 2; River = 3; End = 4; maxLeft = 6;
-            last = 123; raisedTurn = 1;
-            bools.Clear();
-            CheckWinners.Clear();
+            //height = 0; width = 0; 
+            winners = 0; Flop = 1; Turn = 2; River = 3; End = 4; maxLeft = 6;
+            //last = 123;
+            raisedTurn = 1;
+            FoldedPlayers.Clear();
+            Winners.Clear();
             ints.Clear();
             Win.Clear();
             sorted.Current = 0;
@@ -1555,7 +1559,7 @@ namespace Poker
                             this.buttonCall.Text = "Call";
                             human.Chips -= int.Parse(this.textboxRaise.Text);
                             raising = true;
-                            last = 0;
+                            //last = 0;
                             human.Raise = Convert.ToInt32(Raise);
                         }
                         else
@@ -1566,7 +1570,7 @@ namespace Poker
                             this.human.StatusLabel.Text = "Raise " + call.ToString();
                             human.Chips = 0;
                             raising = true;
-                            last = 0;
+                            //last = 0;
                             human.Raise = Convert.ToInt32(Raise);
                         }
                     }
@@ -1704,8 +1708,8 @@ namespace Poker
 
         private void Layout_Change(object sender, LayoutEventArgs e)
         {
-            width = this.Width;
-            height = this.Height;
+           // width = this.Width;
+            //height = this.Height;
         }
         #endregion
     }
