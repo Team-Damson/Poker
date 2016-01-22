@@ -18,3 +18,13 @@ C:\Users\vutov\Documents\GitHub\Poker\High-Quality-Code-Teamwork-Project-Poker\P
 C:\Users\vutov\Documents\GitHub\Poker\High-Quality-Code-Teamwork-Project-Poker\Poker\obj\Debug\Poker.Form1.resources
 C:\Users\vutov\Documents\GitHub\Poker\High-Quality-Code-Teamwork-Project-Poker\Poker\obj\Debug\Poker.Properties.Resources.resources
 C:\Users\vutov\Documents\GitHub\Poker\High-Quality-Code-Teamwork-Project-Poker\Poker\obj\Debug\Poker.csproj.GenerateResource.Cache
+E:\kpk\team\Poker\High-Quality-Code-Teamwork-Project-Poker\Poker\bin\Debug\Poker.exe.config
+E:\kpk\team\Poker\High-Quality-Code-Teamwork-Project-Poker\Poker\obj\Debug\Poker.exe
+E:\kpk\team\Poker\High-Quality-Code-Teamwork-Project-Poker\Poker\obj\Debug\Poker.pdb
+E:\kpk\team\Poker\High-Quality-Code-Teamwork-Project-Poker\Poker\bin\Debug\Poker.exe
+E:\kpk\team\Poker\High-Quality-Code-Teamwork-Project-Poker\Poker\bin\Debug\Poker.pdb
+E:\kpk\team\Poker\High-Quality-Code-Teamwork-Project-Poker\Poker\obj\Debug\Poker.csprojResolveAssemblyReference.cache
+E:\kpk\team\Poker\High-Quality-Code-Teamwork-Project-Poker\Poker\obj\Debug\Poker.AddChips.resources
+E:\kpk\team\Poker\High-Quality-Code-Teamwork-Project-Poker\Poker\obj\Debug\Poker.Form1.resources
+E:\kpk\team\Poker\High-Quality-Code-Teamwork-Project-Poker\Poker\obj\Debug\Poker.Properties.Resources.resources
+E:\kpk\team\Poker\High-Quality-Code-Teamwork-Project-Poker\Poker\obj\Debug\Poker.csproj.GenerateResource.Cache

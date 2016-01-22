@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Poker.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,37 +18,37 @@ namespace Poker
             return a;
         }
 
-        public void HP(ref int sChips, ref bool sTurn, ref bool sFTurn, Label sStatus, double botPower, int n, int n1, int call,TextBox textboxPot, ref double Raise, ref bool raising)
+        public void HP(IPlayer player, int n, int n1, int call,TextBox textboxPot, ref double Raise, ref bool raising)
         {
            
             Random rand = new Random();
             int rnd = rand.Next(1, 4);
             if (call <= 0)
             {
-                playerActions.Check(ref sTurn, sStatus, ref raising);
+                playerActions.Check(player, ref raising);
             }
             if (call > 0)
             {
                 if (rnd == 1)
                 {
-                    if (call <= RoundN(sChips, n))
+                    if (call <= RoundN(player.Chips, n))
                     {
-                        playerActions.Call(ref sChips, ref sTurn, sStatus, ref raising, ref call, textboxPot);
+                        playerActions.Call(player, ref raising, ref call, textboxPot);
                     }
                     else
                     {
-                        playerActions.Fold(ref sTurn, ref sFTurn, sStatus, ref raising);
+                        playerActions.Fold(player, ref raising);
                     }
                 }
                 if (rnd == 2)
                 {
-                    if (call <= RoundN(sChips, n1))
+                    if (call <= RoundN(player.Chips, n1))
                     {
-                        playerActions.Call(ref sChips, ref sTurn, sStatus, ref raising, ref call, textboxPot);
+                        playerActions.Call(player, ref raising, ref call, textboxPot);
                     }
                     else
                     {
-                        playerActions.Fold(ref sTurn, ref sFTurn, sStatus, ref raising);
+                        playerActions.Fold(player, ref raising);
                     }
                 }
             }
@@ -56,27 +57,27 @@ namespace Poker
                 if (Raise == 0)
                 {
                     Raise = call * 2;
-                    playerActions.Raised(ref sChips, ref sTurn, sStatus, ref raising, ref Raise, ref call, textboxPot);
+                    playerActions.Raised(player, ref raising, ref Raise, ref call, textboxPot);
                 }
                 else
                 {
-                    if (Raise <= RoundN(sChips, n))
+                    if (Raise <= RoundN(player.Chips, n))
                     {
                         Raise = call * 2;
-                        playerActions.Raised(ref sChips, ref sTurn, sStatus, ref raising, ref Raise, ref call, textboxPot);
+                        playerActions.Raised(player, ref raising, ref Raise, ref call, textboxPot);
                     }
                     else
                     {
-                        playerActions.Fold(ref sTurn, ref sFTurn, sStatus, ref raising);
+                        playerActions.Fold(player, ref raising);
                     }
                 }
             }
-            if (sChips <= 0)
+            if (player.Chips <= 0)
             {
-                sFTurn = true;
+                player.FoldedTurn = true;
             }
         }
-        public void PH(ref int sChips, ref bool sTurn, ref bool sFTurn, Label sStatus, int n, int n1, int r, int call, TextBox textboxPot, ref double Raise, ref bool raising,double rounds)
+        public void PH(IPlayer player, int n, int n1, int r, int call, TextBox textboxPot, ref double Raise, ref bool raising,double rounds)
         {
             Random rand = new Random();
             int rnd = rand.Next(1, 3);
@@ -84,40 +85,40 @@ namespace Poker
             {
                 if (call <= 0)
                 {
-                    playerActions.Check(ref sTurn, sStatus, ref raising);
+                    playerActions.Check(player, ref raising);
                 }
                 if (call > 0)
                 {
-                    if (call >= RoundN(sChips, n1))
+                    if (call >= RoundN(player.Chips, n1))
                     {
 
-                        playerActions.Fold(ref sTurn, ref sFTurn, sStatus, ref raising);
+                        playerActions.Fold(player, ref raising);
                     }
-                    if (Raise > RoundN(sChips, n))
+                    if (Raise > RoundN(player.Chips, n))
                     {
-                        playerActions.Fold(ref sTurn, ref sFTurn, sStatus, ref raising);
+                        playerActions.Fold(player, ref raising);
                     }
-                    if (!sFTurn)
+                    if (!player.FoldedTurn)
                     {
-                        if (call >= RoundN(sChips, n) && call <= RoundN(sChips, n1))
+                        if (call >= RoundN(player.Chips, n) && call <= RoundN(player.Chips, n1))
                         {
-                            playerActions.Call(ref sChips, ref sTurn, sStatus, ref raising, ref call, textboxPot);
+                            playerActions.Call(player, ref raising, ref call, textboxPot);
                         }
-                        if (Raise <= RoundN(sChips, n) && Raise >= (RoundN(sChips, n)) / 2)
+                        if (Raise <= RoundN(player.Chips, n) && Raise >= (RoundN(player.Chips, n)) / 2)
                         {
-                            playerActions.Call(ref sChips, ref sTurn, sStatus, ref raising, ref call, textboxPot);
+                            playerActions.Call(player, ref raising, ref call, textboxPot);
                         }
-                        if (Raise <= (RoundN(sChips, n)) / 2)
+                        if (Raise <= (RoundN(player.Chips, n)) / 2)
                         {
                             if (Raise > 0)
                             {
-                                Raise = RoundN(sChips, n);
-                                playerActions.Call(ref sChips, ref sTurn, sStatus, ref raising, ref call, textboxPot);
+                                Raise = RoundN(player.Chips, n);
+                                playerActions.Call(player, ref raising, ref call, textboxPot);
                             }
                             else
                             {
                                 Raise = call * 2;
-                                playerActions.Call(ref sChips, ref sTurn, sStatus, ref raising, ref call, textboxPot);
+                                playerActions.Call(player, ref raising, ref call, textboxPot);
                             }
                         }
 
@@ -128,101 +129,101 @@ namespace Poker
             {
                 if (call > 0)
                 {
-                    if (call >= RoundN(sChips, n1 - rnd))
+                    if (call >= RoundN(player.Chips, n1 - rnd))
                     {
-                        playerActions.Fold(ref sTurn, ref sFTurn, sStatus, ref raising);
+                        playerActions.Fold(player, ref raising);
                     }
-                    if (Raise > RoundN(sChips, n - rnd))
+                    if (Raise > RoundN(player.Chips, n - rnd))
                     {
-                        playerActions.Fold(ref sTurn, ref sFTurn, sStatus, ref raising);
+                        playerActions.Fold(player, ref raising);
                     }
-                    if (!sFTurn)
+                    if (!player.FoldedTurn)
                     {
-                        if (call >= RoundN(sChips, n - rnd) && call <= RoundN(sChips, n1 - rnd))
+                        if (call >= RoundN(player.Chips, n - rnd) && call <= RoundN(player.Chips, n1 - rnd))
                         {
-                            playerActions.Call(ref sChips, ref sTurn, sStatus, ref raising, ref call, textboxPot);
+                            playerActions.Call(player, ref raising, ref call, textboxPot);
                         }
-                        if (Raise <= RoundN(sChips, n - rnd) && Raise >= (RoundN(sChips, n - rnd)) / 2)
+                        if (Raise <= RoundN(player.Chips, n - rnd) && Raise >= (RoundN(player.Chips, n - rnd)) / 2)
                         {
-                            playerActions.Call(ref sChips, ref sTurn, sStatus, ref raising, ref call, textboxPot);
+                            playerActions.Call(player, ref raising, ref call, textboxPot);
                         }
-                        if (Raise <= (RoundN(sChips, n - rnd)) / 2)
+                        if (Raise <= (RoundN(player.Chips, n - rnd)) / 2)
                         {
                             if (Raise > 0)
                             {
-                                Raise = RoundN(sChips, n - rnd);
-                                playerActions.Raised(ref sChips, ref sTurn, sStatus, ref raising, ref Raise, ref call, textboxPot);
+                                Raise = RoundN(player.Chips, n - rnd);
+                                playerActions.Raised(player, ref raising, ref Raise, ref call, textboxPot);
                             }
                             else
                             {
                                 Raise = call * 2;
-                                playerActions.Raised(ref sChips, ref sTurn, sStatus, ref raising, ref Raise, ref call, textboxPot);
+                                playerActions.Raised(player, ref raising, ref Raise, ref call, textboxPot);
                             }
                         }
                     }
                 }
                 if (call <= 0)
                 {
-                    Raise = RoundN(sChips, r - rnd);
-                    playerActions.Raised(ref sChips, ref sTurn, sStatus, ref raising, ref Raise, ref call, textboxPot);
+                    Raise = RoundN(player.Chips, r - rnd);
+                    playerActions.Raised(player, ref raising, ref Raise, ref call, textboxPot);
                 }
             }
-            if (sChips <= 0)
+            if (player.Chips <= 0)
             {
-                sFTurn = true;
+                player.FoldedTurn = true;
             }
         }
-        public void Smooth(ref int botChips, ref bool botTurn, ref bool botFTurn, Label botStatus, int name, int n, int r, int call, TextBox textboxPot, ref double Raise, ref bool raising, ref double rounds)
+        public void Smooth(IPlayer player, int n, int r, int call, TextBox textboxPot, ref double Raise, ref bool raising, ref double rounds)
         {
             Random rand = new Random();
             int rnd = rand.Next(1, 3);
             if (call <= 0)
             {
-                playerActions.Check(ref botTurn, botStatus, ref raising);
+                playerActions.Check(player, ref raising);
             }
             else
             {
-                if (call >= RoundN(botChips, n))
+                if (call >= RoundN(player.Chips, n))
                 {
-                    if (botChips > call)
+                    if (player.Chips > call)
                     {
-                        playerActions.Call(ref botChips, ref botTurn, botStatus, ref raising, ref call, textboxPot);
+                        playerActions.Call(player, ref raising, ref call, textboxPot);
                     }
-                    else if (botChips <= call)
+                    else if (player.Chips <= call)
                     {
                         raising = false;
-                        botTurn = false;
-                        botChips = 0;
-                        botStatus.Text = "Call " + botChips;
-                        textboxPot.Text = (int.Parse(textboxPot.Text) + botChips).ToString();
+                        player.IsInTurn = false;
+                        player.Chips = 0;
+                        player.StatusLabel.Text = "Call " + player.Chips;
+                        textboxPot.Text = (int.Parse(textboxPot.Text) + player.Chips).ToString();
                     }
                 }
                 else
                 {
                     if (Raise > 0)
                     {
-                        if (botChips >= Raise * 2)
+                        if (player.Chips >= Raise * 2)
                         {
                             Raise *= 2;
-                            playerActions.Raised(ref botChips, ref botTurn, botStatus, ref raising, ref Raise, ref call, textboxPot);
+                            playerActions.Raised(player, ref raising, ref Raise, ref call, textboxPot);
 
                         }
                         else
                         {
-                            playerActions.Call(ref botChips, ref botTurn, botStatus, ref raising, ref call, textboxPot);
+                            playerActions.Call(player, ref raising, ref call, textboxPot);
                         }
                     }
                     else
                     {
                         Raise = call * 2;
-                        playerActions.Raised(ref botChips, ref botTurn, botStatus, ref raising, ref Raise, ref call, textboxPot);
+                        playerActions.Raised(player, ref raising, ref Raise, ref call, textboxPot);
 
                     }
                 }
             }
-            if (botChips <= 0)
+            if (player.Chips <= 0)
             {
-                botFTurn = true;
+                player.FoldedTurn = true;
             }
         }
     }
