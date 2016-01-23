@@ -13,10 +13,9 @@ namespace Poker
 
         public CheckHandType()
         {
-
         }
 
-        public void rStraightFlush(IPlayer player, int[] st1, int[] st2, int[] st3, int[] st4, ref List<Type> Win, ref Type sorted)
+        public void CheckStraightFlush(IPlayer player, int[] st1, int[] st2, int[] st3, int[] st4, ref List<Type> Win, ref Type sorted)
         {
             if (player.Type.Current >= -1)
             {
@@ -90,7 +89,8 @@ namespace Poker
                 }
             }
         }
-        public void rFourOfAKind(IPlayer player, int[] Straight, ref List<Type> Win, ref Type sorted)
+
+        public void CheckFourOfAKind(IPlayer player, int[] Straight, ref List<Type> Win, ref Type sorted)
         {
             if (player.Type.Current >= -1)
             {
@@ -114,7 +114,8 @@ namespace Poker
                 }
             }
         }
-        public void rFullHouse(IPlayer player, ref bool done, int[] Straight, ref List<Type> Win, ref Type sorted)
+
+        public void CheckFullHouse(IPlayer player, ref bool done, int[] Straight, ref List<Type> Win, ref Type sorted)
         {
             if (player.Type.Current >= -1)
             {
@@ -166,7 +167,8 @@ namespace Poker
                 }
             }
         }
-        public void rFlush(IPlayer player, ref bool vf, int[] Straight1, ref List<Type> Win, ref Type sorted, IList<Card> Reserve, int i)
+
+        public void CheckFlush(IPlayer player, ref bool vf, int[] Straight1, ref List<Type> Win, ref Type sorted, IList<Card> Reserve, int i)
         {
             if (player.Type.Current >= -1)
             {
@@ -640,7 +642,8 @@ namespace Poker
                 }
             }
         }
-        public void rStraight(IPlayer player, int[] Straight, ref List<Type> Win, ref Type sorted)
+
+        public void CheckStraight(IPlayer player, int[] Straight, ref List<Type> Win, ref Type sorted)
         {
             if (player.Type.Current >= -1)
             {
@@ -674,7 +677,8 @@ namespace Poker
                 }
             }
         }
-        public void rThreeOfAKind(IPlayer player, int[] Straight, ref List<Type> Win, ref Type sorted)
+
+        public void CheckThreeOfAKind(IPlayer player, int[] Straight, ref List<Type> Win, ref Type sorted)
         {
             if (player.Type.Current >= -1)
             {
@@ -701,7 +705,8 @@ namespace Poker
                 }
             }
         }
-        public void rTwoPair(IPlayer player, ref List<Type> Win, ref Type sorted, IList<Card> Reserve, int i)
+
+        public void CheckTwoPair(IPlayer player, ref List<Type> Win, ref Type sorted,  IList<Card> Reserve, int i)
         {
             if (player.Type.Current >= -1)
             {
@@ -754,7 +759,8 @@ namespace Poker
                 }
             }
         }
-        public void rPairTwoPair(IPlayer player, ref List<Type> Win, ref Type sorted, IList<Card> Reserve, int i)
+
+        public void CheckPairTwoPair(IPlayer player, ref List<Type> Win, ref Type sorted, IList<Card> Reserve, int i)
         {
             if (player.Type.Current >= -1)
             {
@@ -855,7 +861,8 @@ namespace Poker
                 }
             }
         }
-        public void rPairFromHand(IPlayer player, ref List<Type> Win, ref Type sorted, IList<Card> Reserve, int i)
+
+        public void CheckPairFromHand(IPlayer player, ref List<Type> Win, ref Type sorted, IList<Card> Reserve, int i)
         {
             if (player.Type.Current >= -1)
             {
@@ -928,7 +935,8 @@ namespace Poker
                 }
             }
         }
-        public void rHighCard(IPlayer player, ref List<Type> Win, ref Type sorted, IList<Card> Reserve, int i)
+
+        public void CheckHighCard(IPlayer player, ref List<Type> Win, ref Type sorted, IList<Card> Reserve, int i)
         {
             if (player.Type.Current == -1)
             {

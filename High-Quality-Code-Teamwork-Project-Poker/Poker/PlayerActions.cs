@@ -1,13 +1,9 @@
-﻿using Poker.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace Poker
+﻿namespace Poker
 {
+    using System;
+    using System.Windows.Forms;
+    using Poker.Interfaces;
+
     public class PlayerActions
     {
         public void Fold(IPlayer player, ref bool raising)
@@ -18,7 +14,7 @@ namespace Poker
             player.FoldedTurn = true;
         }
 
-        public void Call(IPlayer player, ref bool raising,ref int call, TextBox textboxPot)
+        public void Call(IPlayer player, ref bool raising, ref int call, TextBox textboxPot)
         {
             raising = false;
             player.IsInTurn = false;
@@ -27,7 +23,7 @@ namespace Poker
             textboxPot.Text = (int.Parse(textboxPot.Text) + call).ToString();
         }
 
-        public void Raised(IPlayer player, ref bool raising, ref double Raise, ref int call, TextBox textboxPot)
+        public void Raise(IPlayer player, ref bool raising, ref double Raise, ref int call, TextBox textboxPot)
         {
             player.Chips -= Convert.ToInt32(Raise);
             player.StatusLabel.Text = "Raise " + Raise;

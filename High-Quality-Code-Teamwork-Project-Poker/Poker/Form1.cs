@@ -15,11 +15,10 @@ using Poker.Models;
 
 namespace Poker
 {
-
     public partial class Form1 : Form
     {
         HandTypes handType = new HandTypes();
-        CheckHandType chHandType = new CheckHandType();
+        CheckHandType checkHandType = new CheckHandType();
 
         #region Variables
 
@@ -78,11 +77,13 @@ namespace Poker
 
         private IList<IPlayer> enemies; 
         #endregion
+
         public Form1()
         {
             InitializeComponent();
             this.sorted = new Type();
             this.realDeck = Models.Deck.Instance;
+
             //FoldedPlayers.Add(PFturn); FoldedPlayers.Add(B1Fturn); FoldedPlayers.Add(B2Fturn); FoldedPlayers.Add(B3Fturn); FoldedPlayers.Add(B4Fturn); FoldedPlayers.Add(B5Fturn);
             this.human = PlayerFactory.Create("Player", 10000, this.labelPlayerStatus, this.textboxPlayerChips, AppSettigns.FirstPlayerAnchorStyles, AppSettigns.FirstPlayerPictureBoxX, AppSettigns.FirstPlayerPictureBoxY, true);
             this.AI1 = PlayerFactory.Create("Bot 1", 10000, this.labelBot1Status, this.textboxBot1Chips, AppSettigns.SecondPlayerAnchorStyles, AppSettigns.SecondPlayerPictureBoxX, AppSettigns.SecondPlayerPictureBoxY, false);
@@ -91,7 +92,7 @@ namespace Poker
             this.AI4 = PlayerFactory.Create("Bot 4", 10000, this.labelBot4Status, this.textboxBot4Chips, AppSettigns.FifthPlayerAnchorStyles, AppSettigns.FifthPlayerPictureBoxX, AppSettigns.FifthPlayerPictureBoxY, false);
             this.AI5 = PlayerFactory.Create("Bot 5", 10000, this.labelBot5Status, this.textboxBot5Chips, AppSettigns.SixthPlayerAnchorStyles, AppSettigns.SixthPlayerPictureBoxX, AppSettigns.SixthPlayerPictureBoxY, false);
 
-            this.enemies = new List<IPlayer>() {AI1, AI2, AI3, AI4, AI5};
+            this.enemies = new List<IPlayer>() { this.AI1, this.AI2, this.AI3, this.AI4, this.AI5 };
 
             this.AddPlayerUIComponents(human);
             foreach (var enemy in this.enemies)
@@ -124,9 +125,9 @@ namespace Poker
             this.textboxBot4Chips.Text = "Chips : " + AI4.Chips.ToString();
             this.textboxBot5Chips.Text = "Chips : " + AI5.Chips.ToString();
             timer.Interval = (1 * 1 * 1000);
-            timer.Tick += timer_Tick;
+            timer.Tick += this.TimerTick;
             Updates.Interval = (1 * 1 * 100);
-            Updates.Tick += Update_Tick;
+            Updates.Tick += this.UpdateTick;
             this.textboxBigBlind.Visible = true;
             this.textboxSmallBlind.Visible = true;
             this.buttonBigBlind.Visible = true;
@@ -155,7 +156,6 @@ namespace Poker
                 this.Controls.Add(pictureBox);
             }
         }
-
         async Task Shuffle()
         {
             FoldedPlayers.Add(human.FoldedTurn); FoldedPlayers.Add(AI1.FoldedTurn); FoldedPlayers.Add(AI2.FoldedTurn); FoldedPlayers.Add(AI3.FoldedTurn); FoldedPlayers.Add(AI4.FoldedTurn); FoldedPlayers.Add(AI5.FoldedTurn);
@@ -684,6 +684,7 @@ namespace Poker
                     }
                 }
             #endregion
+
                 await AllIn();
                 if (!restart)
                 {
@@ -718,48 +719,48 @@ namespace Poker
                 var st4 = d.Select(o => o / 4).Distinct().ToArray();
                 Array.Sort(Straight); Array.Sort(st1); Array.Sort(st2); Array.Sort(st3); Array.Sort(st4);
                 #endregion
+
                 for (i = 0; i < 16; i++)
                 {
                     if (this.realDeck.GetCardAtIndex(i).Power == player.Cards.First().Power && this.realDeck.GetCardAtIndex(i + 1).Power == player.Cards.Last().Power)
                     {
                         //Pair from Hand current = 1
 
-                        chHandType.rPairFromHand(player, ref Win, ref sorted, this.realDeck.GetCards(), i);
+                        this.checkHandType.CheckPairFromHand(player, ref Win, ref sorted, this.realDeck.GetCards(), i);
 
                         #region Pair or Two Pair from Table current = 2 || 0
-                        chHandType.rPairTwoPair(player, ref Win, ref sorted, this.realDeck.GetCards(), i);
+                        this.checkHandType.CheckPairTwoPair(player, ref Win, ref sorted, this.realDeck.GetCards(), i);
                         #endregion
 
                         #region Two Pair current = 2
-                        chHandType.rTwoPair(player, ref Win, ref sorted, this.realDeck.GetCards(), i);
                         #endregion
 
                         #region Three of a kind current = 3
-                        chHandType.rThreeOfAKind(player, Straight, ref Win, ref sorted);
+                        this.checkHandType.CheckThreeOfAKind(player, Straight, ref Win, ref sorted);
                         #endregion
 
                         #region Straight current = 4
-                        chHandType.rStraight(player, Straight, ref Win, ref sorted);
+                        this.checkHandType.CheckStraight(player, Straight, ref Win, ref sorted);
                         #endregion
 
                         #region Flush current = 5 || 5.5
-                        chHandType.rFlush(player, ref vf, Straight1, ref Win, ref sorted, this.realDeck.GetCards(), i);
+                        this.checkHandType.CheckFlush(player, ref vf, Straight1, ref Win, ref sorted, this.realDeck.GetCards(), i);
                         #endregion
 
                         #region Full House current = 6
-                        chHandType.rFullHouse(player, ref done, Straight, ref Win, ref sorted);
+                        this.checkHandType.CheckFullHouse(player, ref done, Straight, ref Win, ref sorted);
                         #endregion
 
                         #region Four of a Kind current = 7
-                        chHandType.rFourOfAKind(player, Straight, ref Win, ref sorted);
+                        this.checkHandType.CheckFourOfAKind(player, Straight, ref Win, ref sorted);
                         #endregion
 
                         #region Straight Flush current = 8 || 9
-                        chHandType.rStraightFlush(player, st1, st2, st3, st4, ref Win, ref sorted);
+                        this.checkHandType.CheckStraightFlush(player, st1, st2, st3, st4, ref Win, ref sorted);
                         #endregion
 
                         #region High Card current = -1
-                        chHandType.rHighCard(player, ref Win, ref sorted, this.realDeck.GetCards(), i);
+                        this.checkHandType.CheckHighCard(player, ref Win, ref sorted, this.realDeck.GetCards(), i);
                         #endregion
                     }
                 }
@@ -925,6 +926,7 @@ namespace Poker
                 }
             }
         }
+
         async Task CheckRaise(int currentTurn, int raiseTurn)
         {
             if (raising)
@@ -1185,6 +1187,7 @@ namespace Poker
                 }
             }
         }
+
         async Task AllIn()
         {
             #region All in
@@ -1335,9 +1338,8 @@ namespace Poker
                 await Finish(2);
             }
             #endregion
-
-
         }
+
         async Task Finish(int n)
         {
             if (n == 2)
@@ -1407,6 +1409,7 @@ namespace Poker
             await Shuffle();
             //await Turns();
         }
+
         void FixWinners()
         {
             Win.Clear();
@@ -1450,6 +1453,7 @@ namespace Poker
             Winner(AI4, fixedLast);
             Winner(AI5, fixedLast);
         }
+
         void AI(IPlayer player)
         {
             if (!player.FoldedTurn)
@@ -1495,108 +1499,117 @@ namespace Poker
                     handType.StraightFlush(player, call, textboxPot, ref Raise, ref raising, ref rounds);
                 }
             }
+
             if (player.FoldedTurn)
             {
                 player.PictureBoxHolder[0].Visible = false;
                 player.PictureBoxHolder[1].Visible = false;
             }
         }
-     
-
-      
-             
-        
-     
-
-        
+  
 
         #region UI
-        private async void timer_Tick(object sender, object e)
+        private async void TimerTick(object sender, object e)
         {
             if (this.progressbarTimer.Value <= 0)
             {
-                human.FoldedTurn = true;
-                await Turns();
+                this.human.FoldedTurn = true;
+                await this.Turns();
             }
+
             if (t > 0)
             {
                 t--;
                 this.progressbarTimer.Value = (t / 6) * 100;
             }
         }
-        private void Update_Tick(object sender, object e)
+
+        private void UpdateTick(object sender, object e)
         {
-            if (human.Chips <= 0)
+            if (this.human.Chips <= 0)
             {
                 this.textboxChipsAmount.Text = "Chips : 0";
             }
-            if (AI1.Chips <= 0)
+
+            if (this.AI1.Chips <= 0)
             {
                 this.textboxBot1Chips.Text = "Chips : 0";
             }
-            if (AI2.Chips <= 0)
+
+            if (this.AI2.Chips <= 0)
             {
                 this.textboxBot2Chips.Text = "Chips : 0";
             }
-            if (AI3.Chips <= 0)
+
+            if (this.AI3.Chips <= 0)
             {
                 this.textboxBot3Chips.Text = "Chips : 0";
             }
-            if (AI4.Chips <= 0)
+
+            if (this.AI4.Chips <= 0)
             {
                 this.textboxBot4Chips.Text = "Chips : 0";
             }
-            if (AI5.Chips <= 0)
+
+            if (this.AI5.Chips <= 0)
             {
                 this.textboxBot5Chips.Text = "Chips : 0";
             }
-            this.textboxChipsAmount.Text = "Chips : " + human.Chips.ToString();
-            this.textboxBot1Chips.Text = "Chips : " + AI1.Chips.ToString();
-            this.textboxBot2Chips.Text = "Chips : " + AI2.Chips.ToString();
-            this.textboxBot3Chips.Text = "Chips : " + AI3.Chips.ToString();
-            this.textboxBot4Chips.Text = "Chips : " + AI4.Chips.ToString();
-            this.textboxBot5Chips.Text = "Chips : " + AI5.Chips.ToString();
-            if (human.Chips <= 0)
+
+            this.textboxChipsAmount.Text = "Chips : " + this.human.Chips;
+            this.textboxBot1Chips.Text = "Chips : " + this.AI1.Chips;
+            this.textboxBot2Chips.Text = "Chips : " + this.AI2.Chips;
+            this.textboxBot3Chips.Text = "Chips : " + this.AI3.Chips;
+            this.textboxBot4Chips.Text = "Chips : " + this.AI4.Chips;
+            this.textboxBot5Chips.Text = "Chips : " + this.AI5.Chips;
+
+            if (this.human.Chips <= 0)
             {
-                human.IsInTurn = false;
-                human.FoldedTurn = true;
+                this.human.IsInTurn = false;
+                this.human.FoldedTurn = true;
                 this.buttonCall.Enabled = false;
                 this.buttonRaise.Enabled = false;
                 this.buttonFold.Enabled = false;
                 this.buttonCheck.Enabled = false;
             }
+
             if (up > 0)
             {
                 up--;
             }
-            if (human.Chips >= call)
+
+            if (this.human.Chips >= call)
             {
-                this.buttonCall.Text = "Call " + call.ToString();
+                this.buttonCall.Text = "Call " + call;
             }
             else
             {
                 this.buttonCall.Text = "All in";
                 this.buttonRaise.Enabled = false;
             }
+
             if (call > 0)
             {
                 this.buttonCheck.Enabled = false;
             }
+
             if (call <= 0)
             {
                 this.buttonCheck.Enabled = true;
                 this.buttonCall.Text = "Call";
                 this.buttonCall.Enabled = false;
             }
-            if (human.Chips <= 0)
+
+            if (this.human.Chips <= 0)
             {
                 this.buttonRaise.Enabled = false;
             }
+
             int parsedValue;
 
             if (this.textboxRaise.Text != "" && int.TryParse(this.textboxRaise.Text, out parsedValue))
             {
-                if (human.Chips <= int.Parse(this.textboxRaise.Text))
+                if (this.human.Chips <= int.Parse(this.textboxRaise.Text))
                 {
                     this.buttonRaise.Text = "All in";
                 }
@@ -1605,23 +1618,26 @@ namespace Poker
                     this.buttonRaise.Text = "Raise";
                 }
             }
-            if (human.Chips < call)
+
+            if (this.human.Chips < call)
             {
                 this.buttonRaise.Enabled = false;
             }
         }
-        private async void bFold_Click(object sender, EventArgs e)
+
+        private async void OnFoldClick(object sender, EventArgs e)
         {
             this.human.StatusLabel.Text = "Fold";
-            human.IsInTurn = false;
-            human.FoldedTurn = true;
-            await Turns();
+            this.human.IsInTurn = false;
+            this.human.FoldedTurn = true;
+            await this.Turns();
         }
-        private async void bCheck_Click(object sender, EventArgs e)
+
+        private async void OnCheckClick(object sender, EventArgs e)
         {
             if (call <= 0)
             {
-                human.IsInTurn = false;
+                this.human.IsInTurn = false;
                 this.human.StatusLabel.Text = "Check";
             }
             else
@@ -1630,15 +1646,18 @@ namespace Poker
 
                 this.buttonCheck.Enabled = false;
             }
-            await Turns();
+
+            await this.Turns();
         }
-        private async void bCall_Click(object sender, EventArgs e)
+
+        private async void OnCallClick(object sender, EventArgs e)
         {
-            Rules(human);
-            if (human.Chips >= call)
+            this.Rules(this.human);
+
+            if (this.human.Chips >= call)
             {
-                human.Chips -= call;
-                this.textboxChipsAmount.Text = "Chips : " + human.Chips.ToString();
+                this.human.Chips -= call;
+                this.textboxChipsAmount.Text = "Chips : " + this.human.Chips.ToString();
                 if (this.textboxPot.Text != "")
                 {
                     this.textboxPot.Text = (int.Parse(this.textboxPot.Text) + call).ToString();
@@ -1647,29 +1666,33 @@ namespace Poker
                 {
                     this.textboxPot.Text = call.ToString();
                 }
-                human.IsInTurn = false;
+
+                this.human.IsInTurn = false;
                 this.human.StatusLabel.Text = "Call " + call;
-                human.Call = call;
+                this.human.Call = call;
             }
-            else if (human.Chips <= call && call > 0)
+            else if (this.human.Chips <= call && call > 0)
             {
-                this.textboxPot.Text = (int.Parse(this.textboxPot.Text) + human.Chips).ToString();
-                this.human.StatusLabel.Text = "All in " + human.Chips;
-                human.Chips = 0;
-                this.textboxChipsAmount.Text = "Chips : " + human.Chips.ToString();
-                human.IsInTurn = false;
+                this.textboxPot.Text = (int.Parse(this.textboxPot.Text) + this.human.Chips).ToString();
+                this.human.StatusLabel.Text = "All in " + this.human.Chips;
+                this.human.Chips = 0;
+                this.textboxChipsAmount.Text = "Chips : " + this.human.Chips.ToString();
+                this.human.IsInTurn = false;
                 this.buttonFold.Enabled = false;
-                human.Call = human.Chips;
+                this.human.Call = this.human.Chips;
             }
-            await Turns();
+
+            await this.Turns();
         }
-        private async void bRaise_Click(object sender, EventArgs e)
+
+        private async void OnRaiseClick(object sender, EventArgs e)
         {
-            Rules(human);
+            this.Rules(this.human);
             int parsedValue;
+
             if (this.textboxRaise.Text != "" && int.TryParse(this.textboxRaise.Text, out parsedValue))
             {
-                if (human.Chips > call)
+                if (this.human.Chips > call)
                 {
                     if (Raise * 2 > int.Parse(this.textboxRaise.Text))
                     {
@@ -1679,28 +1702,28 @@ namespace Poker
                     }
                     else
                     {
-                        if (human.Chips >= int.Parse(this.textboxRaise.Text))
+                        if (this.human.Chips >= int.Parse(this.textboxRaise.Text))
                         {
                             call = int.Parse(this.textboxRaise.Text);
                             Raise = int.Parse(this.textboxRaise.Text);
-                            this.human.StatusLabel.Text = "Raise " + call.ToString();
+                            this.human.StatusLabel.Text = "Raise " + call;
                             this.textboxPot.Text = (int.Parse(this.textboxPot.Text) + call).ToString();
                             this.buttonCall.Text = "Call";
-                            human.Chips -= int.Parse(this.textboxRaise.Text);
+                            this.human.Chips -= int.Parse(this.textboxRaise.Text);
                             raising = true;
                             //last = 0;
-                            human.Raise = Convert.ToInt32(Raise);
+                            this.human.Raise = Convert.ToInt32(Raise);
                         }
                         else
                         {
-                            call = human.Chips;
-                            Raise = human.Chips;
-                            this.textboxPot.Text = (int.Parse(this.textboxPot.Text) + human.Chips).ToString();
-                            this.human.StatusLabel.Text = "Raise " + call.ToString();
-                            human.Chips = 0;
+                            call = this.human.Chips;
+                            Raise = this.human.Chips;
+                            this.textboxPot.Text = (int.Parse(this.textboxPot.Text) + this.human.Chips).ToString();
+                            this.human.StatusLabel.Text = "Raise " + call;
+                            this.human.Chips = 0;
                             raising = true;
                             //last = 0;
-                            human.Raise = Convert.ToInt32(Raise);
+                            this.human.Raise = Convert.ToInt32(Raise);
                         }
                     }
                 }
@@ -1710,22 +1733,27 @@ namespace Poker
                 MessageBox.Show("This is a number only field");
                 return;
             }
-            human.IsInTurn = false;
-            await Turns();
+
+            this.human.IsInTurn = false;
+            await this.Turns();
         }
-        private void bAdd_Click(object sender, EventArgs e)
+
+        private void OnAddClick(object sender, EventArgs e)
         {
-            if (this.human.PlayerChips.Text == "") { }
+            if (this.human.PlayerChips.Text == "")
+            {
+            }
             else
             {
-                human.Chips += int.Parse(this.human.PlayerChips.Text);
-                AI1.Chips += int.Parse(this.human.PlayerChips.Text);
-                AI2.Chips += int.Parse(this.human.PlayerChips.Text);
-                AI3.Chips += int.Parse(this.human.PlayerChips.Text);
-                AI4.Chips += int.Parse(this.human.PlayerChips.Text);
-                AI5.Chips += int.Parse(this.human.PlayerChips.Text);
+                this.human.Chips += int.Parse(this.human.PlayerChips.Text);
+                this.AI1.Chips += int.Parse(this.human.PlayerChips.Text);
+                this.AI2.Chips += int.Parse(this.human.PlayerChips.Text);
+                this.AI3.Chips += int.Parse(this.human.PlayerChips.Text);
+                this.AI4.Chips += int.Parse(this.human.PlayerChips.Text);
+                this.AI5.Chips += int.Parse(this.human.PlayerChips.Text);
             }
-            this.textboxChipsAmount.Text = "Chips : " + human.Chips.ToString();
+
+            this.textboxChipsAmount.Text = "Chips : " + this.human.Chips;
         }
 
         private void OnBlindOptionsClick(object sender, EventArgs e)
@@ -1835,11 +1863,12 @@ namespace Poker
             }
         }
 
-        private void Layout_Change(object sender, LayoutEventArgs e)
+        private void LayoutChange(object sender, LayoutEventArgs e)
         {
-           // width = this.Width;
-            //height = this.Height;
+            // width = this.Width;
+            // height = this.Height;
         }
+
         #endregion
     }
 }
