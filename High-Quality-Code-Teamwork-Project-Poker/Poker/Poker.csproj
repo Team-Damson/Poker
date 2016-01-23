@@ -50,6 +50,7 @@
     <Compile Include="AddChips.Designer.cs">
       <DependentUpon>AddChips.cs</DependentUpon>
     </Compile>
+    <Compile Include="AppSettigns.cs" />
     <Compile Include="CheckHandType.cs" />
     <Compile Include="Dunno.cs" />
     <Compile Include="Enums\HandPower.cs" />
@@ -63,9 +64,13 @@
     </Compile>
     <Compile Include="HandTypes.cs" />
     <Compile Include="Interfaces\ICard.cs" />
+    <Compile Include="Interfaces\ICardHolder.cs" />
     <Compile Include="Interfaces\IPlayer.cs" />
     <Compile Include="Models\Card.cs" />
+    <Compile Include="Models\Dealer.cs" />
+    <Compile Include="Models\Deck.cs" />
     <Compile Include="Models\Hand.cs" />
+    <Compile Include="Models\AI.cs" />
     <Compile Include="Models\Player.cs" />
     <Compile Include="Models\PlayerFactory.cs" />
     <Compile Include="PlayerActions.cs" />

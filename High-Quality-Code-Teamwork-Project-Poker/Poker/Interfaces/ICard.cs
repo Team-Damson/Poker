@@ -1,11 +1,17 @@
 ﻿namespace Poker.Interfaces
 {
     using Poker.Enums;
+    using System.Drawing;
+    using System.Windows.Forms;
 
     public interface ICard
     {
-        Face CardFace { get; }
+        int Power { get; }
 
-        Suit CardSuit { get; }
+        Image Image { get; }
+
+        // CardFace { get; }
+
+        //Suit CardSuit { get; }
     }
 }

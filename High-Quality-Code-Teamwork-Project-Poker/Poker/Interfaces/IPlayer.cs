@@ -8,7 +8,7 @@ using Poker.Models;
 
 namespace Poker.Interfaces
 {
-    public interface IPlayer
+    public interface IPlayer : ICardHolder
     {
         int Id { get; set; }
 
@@ -17,6 +17,10 @@ namespace Poker.Interfaces
         Panel Panel { get; set; }
 
         Type Type { get; set; }
+
+        ICollection<Card> Cards { get; set; }
+
+        IList<PictureBox> PictureBoxHolder { get; set; }
 
         int[] CardIndexes { get; set; }
 
@@ -37,5 +41,7 @@ namespace Poker.Interfaces
         bool IsInTurn { get; set; }
 
         bool FoldedTurn { get; set; }
+
+        bool CanPlay();
     }
 }

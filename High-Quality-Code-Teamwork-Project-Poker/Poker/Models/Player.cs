@@ -1,11 +1,12 @@
-﻿using System.Windows.Forms;
+﻿using System.Collections.Generic;
+using System.Windows.Forms;
 using Poker.Interfaces;
 
 namespace Poker.Models
 {
     public class Player : IPlayer
     {
-        public Player(int id, string name, Label statusLabel, TextBox chipsTextBox, int[] cardIndexes, int chips, int call, int raise, bool hasFolded)
+        public Player(int id, string name, Label statusLabel, TextBox chipsTextBox, int[] cardIndexes, int chips, IList<PictureBox> pictureBoxHolder, Panel panel)
         {
             this.Id = id;
             this.Name = name;
@@ -13,12 +14,15 @@ namespace Poker.Models
             this.PlayerChips = chipsTextBox;
             this.Chips = chips;
             this.CardIndexes = cardIndexes;
-            this.Call = call;
-            this.Raise = raise;
-            this.HasFolded = hasFolded;
-            this.Panel = new Panel();
+            this.PictureBoxHolder = pictureBoxHolder ?? new List<PictureBox>();
+            this.Panel = panel ?? new Panel();
             this.Type = new Type();
+            this.Cards = new List<Card>();
         }
+
+        public ICollection<Card> Cards { get; set; }
+
+        public IList<PictureBox> PictureBoxHolder { get; set; }
 
         public string Name { get; set; }
 
@@ -40,12 +44,59 @@ namespace Poker.Models
 
         public bool IsInTurn { get; set; }
 
-        public System.Windows.Forms.Panel Panel { get; set; }
+        public Panel Panel { get; set; }
 
         public Type Type { get; set; }
 
         public bool FoldedTurn { get; set; }
 
         public int Id { get; set; }
+
+        public void SetCard(Card card)
+        {
+            this.Cards.Add(card);
+        }
+
+        public void SetCards(IList<Card> cards)
+        {
+            for (int i = 0; i < cards.Count; i++)
+            {
+                this.Cards.Add(cards[i]);
+                this.PictureBoxHolder[i].Tag = cards[i].Power;
+                this.SetCardImage(cards[i], this.PictureBoxHolder[i]);
+            }
+
+            if (this.CanPlay())
+            {
+                this.FoldedTurn = false;
+                foreach (var pictureBox in this.PictureBoxHolder)
+                {
+                    pictureBox.Visible = true;
+                }
+            }
+            else
+            {
+                this.FoldedTurn = true;
+                foreach (var pictureBox in this.PictureBoxHolder)
+                {
+                    pictureBox.Visible = false;
+                }
+            }
+        }
+
+        public void SetCardsVisible()
+        {
+            
+        }
+
+        public bool CanPlay()
+        {
+            return this.Chips > 0;
+        }
+
+        protected virtual void SetCardImage(Card card, PictureBox pictureBox)
+        {
+            pictureBox.Image = card.Image;
+        }
     }
 }

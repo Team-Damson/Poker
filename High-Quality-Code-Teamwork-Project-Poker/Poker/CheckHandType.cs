@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Poker.Interfaces;
+using Poker.Models;
 
 namespace Poker
 {
@@ -165,7 +166,7 @@ namespace Poker
                 }
             }
         }
-        public void rFlush(IPlayer player, ref bool vf, int[] Straight1, ref List<Type> Win, ref Type sorted, ref int[] Reserve, int i)
+        public void rFlush(IPlayer player, ref bool vf, int[] Straight1, ref List<Type> Win, ref Type sorted, IList<Card> Reserve, int i)
         {
             if (player.Type.Current >= -1)
             {
@@ -175,25 +176,25 @@ namespace Poker
                 var f4 = Straight1.Where(o => o % 4 == 3).ToArray();
                 if (f1.Length == 3 || f1.Length == 4)
                 {
-                    if (Reserve[i] % 4 == Reserve[i + 1] % 4 && Reserve[i] % 4 == f1[0] % 4)
+                    if (Reserve[i].Power % 4 == Reserve[i + 1].Power % 4 && Reserve[i].Power % 4 == f1[0] % 4)
                     {
-                        if (Reserve[i] / 4 > f1.Max() / 4)
+                        if (Reserve[i].Power / 4 > f1.Max() / 4)
                         {
                             player.Type.Current = 5;
-                            player.Type.Power = Reserve[i] + player.Type.Current * 100;
+                            player.Type.Power = Reserve[i].Power + player.Type.Current * 100;
                             Win.Add(new Type() { Power = player.Type.Power, Current = 5 });
                             sorted = Win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                             vf = true;
                         }
-                        if (Reserve[i + 1] / 4 > f1.Max() / 4)
+                        if (Reserve[i + 1].Power / 4 > f1.Max() / 4)
                         {
                             player.Type.Current = 5;
-                            player.Type.Power = Reserve[i + 1] + player.Type.Current * 100;
+                            player.Type.Power = Reserve[i + 1].Power + player.Type.Current * 100;
                             Win.Add(new Type() { Power = player.Type.Power, Current = 5 });
                             sorted = Win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                             vf = true;
                         }
-                        else if (Reserve[i] / 4 < f1.Max() / 4 && Reserve[i + 1] / 4 < f1.Max() / 4)
+                        else if (Reserve[i].Power / 4 < f1.Max() / 4 && Reserve[i + 1].Power / 4 < f1.Max() / 4)
                         {
                             player.Type.Current = 5;
                             player.Type.Power = f1.Max() + player.Type.Current * 100;
@@ -205,12 +206,12 @@ namespace Poker
                 }
                 if (f1.Length == 4)//different cards in hand
                 {
-                    if (Reserve[i] % 4 != Reserve[i + 1] % 4 && Reserve[i] % 4 == f1[0] % 4)
+                    if (Reserve[i].Power % 4 != Reserve[i + 1].Power % 4 && Reserve[i].Power % 4 == f1[0] % 4)
                     {
-                        if (Reserve[i] / 4 > f1.Max() / 4)
+                        if (Reserve[i].Power / 4 > f1.Max() / 4)
                         {
                             player.Type.Current = 5;
-                            player.Type.Power = Reserve[i] + player.Type.Current * 100;
+                            player.Type.Power = Reserve[i].Power + player.Type.Current * 100;
                             Win.Add(new Type() { Power = player.Type.Power, Current = 5 });
                             sorted = Win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                             vf = true;
@@ -224,12 +225,12 @@ namespace Poker
                             vf = true;
                         }
                     }
-                    if (Reserve[i + 1] % 4 != Reserve[i] % 4 && Reserve[i + 1] % 4 == f1[0] % 4)
+                    if (Reserve[i + 1].Power % 4 != Reserve[i].Power % 4 && Reserve[i + 1].Power % 4 == f1[0] % 4)
                     {
-                        if (Reserve[i + 1] / 4 > f1.Max() / 4)
+                        if (Reserve[i + 1].Power / 4 > f1.Max() / 4)
                         {
                             player.Type.Current = 5;
-                            player.Type.Power = Reserve[i + 1] + player.Type.Current * 100;
+                            player.Type.Power = Reserve[i + 1].Power + player.Type.Current * 100;
                             Win.Add(new Type() { Power = player.Type.Power, Current = 5 });
                             sorted = Win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                             vf = true;
@@ -246,23 +247,23 @@ namespace Poker
                 }
                 if (f1.Length == 5)
                 {
-                    if (Reserve[i] % 4 == f1[0] % 4 && Reserve[i] / 4 > f1.Min() / 4)
+                    if (Reserve[i].Power % 4 == f1[0] % 4 && Reserve[i].Power / 4 > f1.Min() / 4)
                     {
                         player.Type.Current = 5;
-                        player.Type.Power = Reserve[i] + player.Type.Current * 100;
+                        player.Type.Power = Reserve[i].Power + player.Type.Current * 100;
                         Win.Add(new Type() { Power = player.Type.Power, Current = 5 });
                         sorted = Win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                         vf = true;
                     }
-                    if (Reserve[i + 1] % 4 == f1[0] % 4 && Reserve[i + 1] / 4 > f1.Min() / 4)
+                    if (Reserve[i + 1].Power % 4 == f1[0] % 4 && Reserve[i + 1].Power / 4 > f1.Min() / 4)
                     {
                         player.Type.Current = 5;
-                        player.Type.Power = Reserve[i + 1] + player.Type.Current * 100;
+                        player.Type.Power = Reserve[i + 1].Power + player.Type.Current * 100;
                         Win.Add(new Type() { Power = player.Type.Power, Current = 5 });
                         sorted = Win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                         vf = true;
                     }
-                    else if (Reserve[i] / 4 < f1.Min() / 4 && Reserve[i + 1] / 4 < f1.Min())
+                    else if (Reserve[i].Power / 4 < f1.Min() / 4 && Reserve[i + 1].Power / 4 < f1.Min())
                     {
                         player.Type.Current = 5;
                         player.Type.Power = f1.Max() + player.Type.Current * 100;
@@ -274,25 +275,25 @@ namespace Poker
 
                 if (f2.Length == 3 || f2.Length == 4)
                 {
-                    if (Reserve[i] % 4 == Reserve[i + 1] % 4 && Reserve[i] % 4 == f2[0] % 4)
+                    if (Reserve[i].Power % 4 == Reserve[i + 1].Power % 4 && Reserve[i].Power % 4 == f2[0] % 4)
                     {
-                        if (Reserve[i] / 4 > f2.Max() / 4)
+                        if (Reserve[i].Power / 4 > f2.Max() / 4)
                         {
                             player.Type.Current = 5;
-                            player.Type.Power = Reserve[i] + player.Type.Current * 100;
+                            player.Type.Power = Reserve[i].Power + player.Type.Current * 100;
                             Win.Add(new Type() { Power = player.Type.Power, Current = 5 });
                             sorted = Win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                             vf = true;
                         }
-                        if (Reserve[i + 1] / 4 > f2.Max() / 4)
+                        if (Reserve[i + 1].Power / 4 > f2.Max() / 4)
                         {
                             player.Type.Current = 5;
-                            player.Type.Power = Reserve[i + 1] + player.Type.Current * 100;
+                            player.Type.Power = Reserve[i + 1].Power + player.Type.Current * 100;
                             Win.Add(new Type() { Power = player.Type.Power, Current = 5 });
                             sorted = Win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                             vf = true;
                         }
-                        else if (Reserve[i] / 4 < f2.Max() / 4 && Reserve[i + 1] / 4 < f2.Max() / 4)
+                        else if (Reserve[i].Power / 4 < f2.Max() / 4 && Reserve[i + 1].Power / 4 < f2.Max() / 4)
                         {
                             player.Type.Current = 5;
                             player.Type.Power = f2.Max() + player.Type.Current * 100;
@@ -304,12 +305,12 @@ namespace Poker
                 }
                 if (f2.Length == 4)//different cards in hand
                 {
-                    if (Reserve[i] % 4 != Reserve[i + 1] % 4 && Reserve[i] % 4 == f2[0] % 4)
+                    if (Reserve[i].Power % 4 != Reserve[i + 1].Power % 4 && Reserve[i].Power % 4 == f2[0] % 4)
                     {
-                        if (Reserve[i] / 4 > f2.Max() / 4)
+                        if (Reserve[i].Power / 4 > f2.Max() / 4)
                         {
                             player.Type.Current = 5;
-                            player.Type.Power = Reserve[i] + player.Type.Current * 100;
+                            player.Type.Power = Reserve[i].Power + player.Type.Current * 100;
                             Win.Add(new Type() { Power = player.Type.Power, Current = 5 });
                             sorted = Win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                             vf = true;
@@ -323,12 +324,12 @@ namespace Poker
                             vf = true;
                         }
                     }
-                    if (Reserve[i + 1] % 4 != Reserve[i] % 4 && Reserve[i + 1] % 4 == f2[0] % 4)
+                    if (Reserve[i + 1].Power % 4 != Reserve[i].Power % 4 && Reserve[i + 1].Power % 4 == f2[0] % 4)
                     {
-                        if (Reserve[i + 1] / 4 > f2.Max() / 4)
+                        if (Reserve[i + 1].Power / 4 > f2.Max() / 4)
                         {
                             player.Type.Current = 5;
-                            player.Type.Power = Reserve[i + 1] + player.Type.Current * 100;
+                            player.Type.Power = Reserve[i + 1].Power + player.Type.Current * 100;
                             Win.Add(new Type() { Power = player.Type.Power, Current = 5 });
                             sorted = Win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                             vf = true;
@@ -345,23 +346,23 @@ namespace Poker
                 }
                 if (f2.Length == 5)
                 {
-                    if (Reserve[i] % 4 == f2[0] % 4 && Reserve[i] / 4 > f2.Min() / 4)
+                    if (Reserve[i].Power % 4 == f2[0] % 4 && Reserve[i].Power / 4 > f2.Min() / 4)
                     {
                         player.Type.Current = 5;
-                        player.Type.Power = Reserve[i] + player.Type.Current * 100;
+                        player.Type.Power = Reserve[i].Power + player.Type.Current * 100;
                         Win.Add(new Type() { Power = player.Type.Power, Current = 5 });
                         sorted = Win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                         vf = true;
                     }
-                    if (Reserve[i + 1] % 4 == f2[0] % 4 && Reserve[i + 1] / 4 > f2.Min() / 4)
+                    if (Reserve[i + 1].Power % 4 == f2[0] % 4 && Reserve[i + 1].Power / 4 > f2.Min() / 4)
                     {
                         player.Type.Current = 5;
-                        player.Type.Power = Reserve[i + 1] + player.Type.Current * 100;
+                        player.Type.Power = Reserve[i + 1].Power + player.Type.Current * 100;
                         Win.Add(new Type() { Power = player.Type.Power, Current = 5 });
                         sorted = Win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                         vf = true;
                     }
-                    else if (Reserve[i] / 4 < f2.Min() / 4 && Reserve[i + 1] / 4 < f2.Min())
+                    else if (Reserve[i].Power / 4 < f2.Min() / 4 && Reserve[i + 1].Power / 4 < f2.Min())
                     {
                         player.Type.Current = 5;
                         player.Type.Power = f2.Max() + player.Type.Current * 100;
@@ -373,25 +374,25 @@ namespace Poker
 
                 if (f3.Length == 3 || f3.Length == 4)
                 {
-                    if (Reserve[i] % 4 == Reserve[i + 1] % 4 && Reserve[i] % 4 == f3[0] % 4)
+                    if (Reserve[i].Power % 4 == Reserve[i + 1].Power % 4 && Reserve[i].Power % 4 == f3[0] % 4)
                     {
-                        if (Reserve[i] / 4 > f3.Max() / 4)
+                        if (Reserve[i].Power / 4 > f3.Max() / 4)
                         {
                             player.Type.Current = 5;
-                            player.Type.Power = Reserve[i] + player.Type.Current * 100;
+                            player.Type.Power = Reserve[i].Power + player.Type.Current * 100;
                             Win.Add(new Type() { Power = player.Type.Power, Current = 5 });
                             sorted = Win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                             vf = true;
                         }
-                        if (Reserve[i + 1] / 4 > f3.Max() / 4)
+                        if (Reserve[i + 1].Power / 4 > f3.Max() / 4)
                         {
                             player.Type.Current = 5;
-                            player.Type.Power = Reserve[i + 1] + player.Type.Current * 100;
+                            player.Type.Power = Reserve[i + 1].Power + player.Type.Current * 100;
                             Win.Add(new Type() { Power = player.Type.Power, Current = 5 });
                             sorted = Win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                             vf = true;
                         }
-                        else if (Reserve[i] / 4 < f3.Max() / 4 && Reserve[i + 1] / 4 < f3.Max() / 4)
+                        else if (Reserve[i].Power / 4 < f3.Max() / 4 && Reserve[i + 1].Power / 4 < f3.Max() / 4)
                         {
                             player.Type.Current = 5;
                             player.Type.Power = f3.Max() + player.Type.Current * 100;
@@ -403,12 +404,12 @@ namespace Poker
                 }
                 if (f3.Length == 4)//different cards in hand
                 {
-                    if (Reserve[i] % 4 != Reserve[i + 1] % 4 && Reserve[i] % 4 == f3[0] % 4)
+                    if (Reserve[i].Power % 4 != Reserve[i + 1].Power % 4 && Reserve[i].Power % 4 == f3[0] % 4)
                     {
-                        if (Reserve[i] / 4 > f3.Max() / 4)
+                        if (Reserve[i].Power / 4 > f3.Max() / 4)
                         {
                             player.Type.Current = 5;
-                            player.Type.Power = Reserve[i] + player.Type.Current * 100;
+                            player.Type.Power = Reserve[i].Power + player.Type.Current * 100;
                             Win.Add(new Type() { Power = player.Type.Power, Current = 5 });
                             sorted = Win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                             vf = true;
@@ -422,12 +423,12 @@ namespace Poker
                             vf = true;
                         }
                     }
-                    if (Reserve[i + 1] % 4 != Reserve[i] % 4 && Reserve[i + 1] % 4 == f3[0] % 4)
+                    if (Reserve[i + 1].Power % 4 != Reserve[i].Power % 4 && Reserve[i + 1].Power % 4 == f3[0] % 4)
                     {
-                        if (Reserve[i + 1] / 4 > f3.Max() / 4)
+                        if (Reserve[i + 1].Power / 4 > f3.Max() / 4)
                         {
                             player.Type.Current = 5;
-                            player.Type.Power = Reserve[i + 1] + player.Type.Current * 100;
+                            player.Type.Power = Reserve[i + 1].Power + player.Type.Current * 100;
                             Win.Add(new Type() { Power = player.Type.Power, Current = 5 });
                             sorted = Win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                             vf = true;
@@ -444,23 +445,23 @@ namespace Poker
                 }
                 if (f3.Length == 5)
                 {
-                    if (Reserve[i] % 4 == f3[0] % 4 && Reserve[i] / 4 > f3.Min() / 4)
+                    if (Reserve[i].Power % 4 == f3[0] % 4 && Reserve[i].Power / 4 > f3.Min() / 4)
                     {
                         player.Type.Current = 5;
-                        player.Type.Power = Reserve[i] + player.Type.Current * 100;
+                        player.Type.Power = Reserve[i].Power + player.Type.Current * 100;
                         Win.Add(new Type() { Power = player.Type.Power, Current = 5 });
                         sorted = Win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                         vf = true;
                     }
-                    if (Reserve[i + 1] % 4 == f3[0] % 4 && Reserve[i + 1] / 4 > f3.Min() / 4)
+                    if (Reserve[i + 1].Power % 4 == f3[0] % 4 && Reserve[i + 1].Power / 4 > f3.Min() / 4)
                     {
                         player.Type.Current = 5;
-                        player.Type.Power = Reserve[i + 1] + player.Type.Current * 100;
+                        player.Type.Power = Reserve[i + 1].Power + player.Type.Current * 100;
                         Win.Add(new Type() { Power = player.Type.Power, Current = 5 });
                         sorted = Win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                         vf = true;
                     }
-                    else if (Reserve[i] / 4 < f3.Min() / 4 && Reserve[i + 1] / 4 < f3.Min())
+                    else if (Reserve[i].Power / 4 < f3.Min() / 4 && Reserve[i + 1].Power / 4 < f3.Min())
                     {
                         player.Type.Current = 5;
                         player.Type.Power = f3.Max() + player.Type.Current * 100;
@@ -472,25 +473,25 @@ namespace Poker
 
                 if (f4.Length == 3 || f4.Length == 4)
                 {
-                    if (Reserve[i] % 4 == Reserve[i + 1] % 4 && Reserve[i] % 4 == f4[0] % 4)
+                    if (Reserve[i].Power % 4 == Reserve[i + 1].Power % 4 && Reserve[i].Power % 4 == f4[0] % 4)
                     {
-                        if (Reserve[i] / 4 > f4.Max() / 4)
+                        if (Reserve[i].Power / 4 > f4.Max() / 4)
                         {
                             player.Type.Current = 5;
-                            player.Type.Power = Reserve[i] + player.Type.Current * 100;
+                            player.Type.Power = Reserve[i].Power + player.Type.Current * 100;
                             Win.Add(new Type() { Power = player.Type.Power, Current = 5 });
                             sorted = Win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                             vf = true;
                         }
-                        if (Reserve[i + 1] / 4 > f4.Max() / 4)
+                        if (Reserve[i + 1].Power / 4 > f4.Max() / 4)
                         {
                             player.Type.Current = 5;
-                            player.Type.Power = Reserve[i + 1] + player.Type.Current * 100;
+                            player.Type.Power = Reserve[i + 1].Power + player.Type.Current * 100;
                             Win.Add(new Type() { Power = player.Type.Power, Current = 5 });
                             sorted = Win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                             vf = true;
                         }
-                        else if (Reserve[i] / 4 < f4.Max() / 4 && Reserve[i + 1] / 4 < f4.Max() / 4)
+                        else if (Reserve[i].Power / 4 < f4.Max() / 4 && Reserve[i + 1].Power / 4 < f4.Max() / 4)
                         {
                             player.Type.Current = 5;
                             player.Type.Power = f4.Max() + player.Type.Current * 100;
@@ -502,12 +503,12 @@ namespace Poker
                 }
                 if (f4.Length == 4)//different cards in hand
                 {
-                    if (Reserve[i] % 4 != Reserve[i + 1] % 4 && Reserve[i] % 4 == f4[0] % 4)
+                    if (Reserve[i].Power % 4 != Reserve[i + 1].Power % 4 && Reserve[i].Power % 4 == f4[0] % 4)
                     {
-                        if (Reserve[i] / 4 > f4.Max() / 4)
+                        if (Reserve[i].Power / 4 > f4.Max() / 4)
                         {
                             player.Type.Current = 5;
-                            player.Type.Power = Reserve[i] + player.Type.Current * 100;
+                            player.Type.Power = Reserve[i].Power + player.Type.Current * 100;
                             Win.Add(new Type() { Power = player.Type.Power, Current = 5 });
                             sorted = Win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                             vf = true;
@@ -521,12 +522,12 @@ namespace Poker
                             vf = true;
                         }
                     }
-                    if (Reserve[i + 1] % 4 != Reserve[i] % 4 && Reserve[i + 1] % 4 == f4[0] % 4)
+                    if (Reserve[i + 1].Power % 4 != Reserve[i].Power % 4 && Reserve[i + 1].Power % 4 == f4[0] % 4)
                     {
-                        if (Reserve[i + 1] / 4 > f4.Max() / 4)
+                        if (Reserve[i + 1].Power / 4 > f4.Max() / 4)
                         {
                             player.Type.Current = 5;
-                            player.Type.Power = Reserve[i + 1] + player.Type.Current * 100;
+                            player.Type.Power = Reserve[i + 1].Power + player.Type.Current * 100;
                             Win.Add(new Type() { Power = player.Type.Power, Current = 5 });
                             sorted = Win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                             vf = true;
@@ -543,23 +544,23 @@ namespace Poker
                 }
                 if (f4.Length == 5)
                 {
-                    if (Reserve[i] % 4 == f4[0] % 4 && Reserve[i] / 4 > f4.Min() / 4)
+                    if (Reserve[i].Power % 4 == f4[0] % 4 && Reserve[i].Power / 4 > f4.Min() / 4)
                     {
                         player.Type.Current = 5;
-                        player.Type.Power = Reserve[i] + player.Type.Current * 100;
+                        player.Type.Power = Reserve[i].Power + player.Type.Current * 100;
                         Win.Add(new Type() { Power = player.Type.Power, Current = 5 });
                         sorted = Win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                         vf = true;
                     }
-                    if (Reserve[i + 1] % 4 == f4[0] % 4 && Reserve[i + 1] / 4 > f4.Min() / 4)
+                    if (Reserve[i + 1].Power % 4 == f4[0] % 4 && Reserve[i + 1].Power / 4 > f4.Min() / 4)
                     {
                         player.Type.Current = 5;
-                        player.Type.Power = Reserve[i + 1] + player.Type.Current * 100;
+                        player.Type.Power = Reserve[i + 1].Power + player.Type.Current * 100;
                         Win.Add(new Type() { Power = player.Type.Power, Current = 5 });
                         sorted = Win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                         vf = true;
                     }
-                    else if (Reserve[i] / 4 < f4.Min() / 4 && Reserve[i + 1] / 4 < f4.Min())
+                    else if (Reserve[i].Power / 4 < f4.Min() / 4 && Reserve[i + 1].Power / 4 < f4.Min())
                     {
                         player.Type.Current = 5;
                         player.Type.Power = f4.Max() + player.Type.Current * 100;
@@ -571,14 +572,14 @@ namespace Poker
                 //ace
                 if (f1.Length > 0)
                 {
-                    if (Reserve[i] / 4 == 0 && Reserve[i] % 4 == f1[0] % 4 && vf && f1.Length > 0)
+                    if (Reserve[i].Power / 4 == 0 && Reserve[i].Power % 4 == f1[0] % 4 && vf && f1.Length > 0)
                     {
                         player.Type.Current = 5.5;
                         player.Type.Power = 13 + player.Type.Current * 100;
                         Win.Add(new Type() { Power = player.Type.Power, Current = 5.5 });
                         sorted = Win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                     }
-                    if (Reserve[i + 1] / 4 == 0 && Reserve[i + 1] % 4 == f1[0] % 4 && vf && f1.Length > 0)
+                    if (Reserve[i + 1].Power / 4 == 0 && Reserve[i + 1].Power % 4 == f1[0] % 4 && vf && f1.Length > 0)
                     {
                         player.Type.Current = 5.5;
                         player.Type.Power = 13 + player.Type.Current * 100;
@@ -588,14 +589,14 @@ namespace Poker
                 }
                 if (f2.Length > 0)
                 {
-                    if (Reserve[i] / 4 == 0 && Reserve[i] % 4 == f2[0] % 4 && vf && f2.Length > 0)
+                    if (Reserve[i].Power / 4 == 0 && Reserve[i].Power % 4 == f2[0] % 4 && vf && f2.Length > 0)
                     {
                         player.Type.Current = 5.5;
                         player.Type.Power = 13 + player.Type.Current * 100;
                         Win.Add(new Type() { Power = player.Type.Power, Current = 5.5 });
                         sorted = Win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                     }
-                    if (Reserve[i + 1] / 4 == 0 && Reserve[i + 1] % 4 == f2[0] % 4 && vf && f2.Length > 0)
+                    if (Reserve[i + 1].Power / 4 == 0 && Reserve[i + 1].Power % 4 == f2[0] % 4 && vf && f2.Length > 0)
                     {
                         player.Type.Current = 5.5;
                         player.Type.Power = 13 + player.Type.Current * 100;
@@ -605,14 +606,14 @@ namespace Poker
                 }
                 if (f3.Length > 0)
                 {
-                    if (Reserve[i] / 4 == 0 && Reserve[i] % 4 == f3[0] % 4 && vf && f3.Length > 0)
+                    if (Reserve[i].Power / 4 == 0 && Reserve[i].Power % 4 == f3[0] % 4 && vf && f3.Length > 0)
                     {
                         player.Type.Current = 5.5;
                         player.Type.Power = 13 + player.Type.Current * 100;
                         Win.Add(new Type() { Power = player.Type.Power, Current = 5.5 });
                         sorted = Win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                     }
-                    if (Reserve[i + 1] / 4 == 0 && Reserve[i + 1] % 4 == f3[0] % 4 && vf && f3.Length > 0)
+                    if (Reserve[i + 1].Power / 4 == 0 && Reserve[i + 1].Power % 4 == f3[0] % 4 && vf && f3.Length > 0)
                     {
                         player.Type.Current = 5.5;
                         player.Type.Power = 13 + player.Type.Current * 100;
@@ -622,14 +623,14 @@ namespace Poker
                 }
                 if (f4.Length > 0)
                 {
-                    if (Reserve[i] / 4 == 0 && Reserve[i] % 4 == f4[0] % 4 && vf && f4.Length > 0)
+                    if (Reserve[i].Power / 4 == 0 && Reserve[i].Power % 4 == f4[0] % 4 && vf && f4.Length > 0)
                     {
                         player.Type.Current = 5.5;
                         player.Type.Power = 13 + player.Type.Current * 100;
                         Win.Add(new Type() { Power = player.Type.Power, Current = 5.5 });
                         sorted = Win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                     }
-                    if (Reserve[i + 1] / 4 == 0 && Reserve[i + 1] % 4 == f4[0] % 4 && vf)
+                    if (Reserve[i + 1].Power / 4 == 0 && Reserve[i + 1].Power % 4 == f4[0] % 4 && vf)
                     {
                         player.Type.Current = 5.5;
                         player.Type.Power = 13 + player.Type.Current * 100;
@@ -700,7 +701,7 @@ namespace Poker
                 }
             }
         }
-        public void rTwoPair(IPlayer player, ref List<Type> Win, ref Type sorted, ref int[] Reserve, int i)
+        public void rTwoPair(IPlayer player, ref List<Type> Win, ref Type sorted, IList<Card> Reserve, int i)
         {
             if (player.Type.Current >= -1)
             {
@@ -708,7 +709,7 @@ namespace Poker
                 for (int tc = 16; tc >= 12; tc--)
                 {
                     int max = tc - 12;
-                    if (Reserve[i] / 4 != Reserve[i + 1] / 4)
+                    if (Reserve[i].Power / 4 != Reserve[i + 1].Power / 4)
                     {
                         for (int k = 1; k <= max; k++)
                         {
@@ -718,29 +719,29 @@ namespace Poker
                             }
                             if (tc - k >= 12)
                             {
-                                if (Reserve[i] / 4 == Reserve[tc] / 4 && Reserve[i + 1] / 4 == Reserve[tc - k] / 4 ||
-                                    Reserve[i + 1] / 4 == Reserve[tc] / 4 && Reserve[i] / 4 == Reserve[tc - k] / 4)
+                                if (Reserve[i].Power / 4 == Reserve[tc].Power / 4 && Reserve[i + 1].Power / 4 == Reserve[tc - k].Power / 4 ||
+                                    Reserve[i + 1].Power / 4 == Reserve[tc].Power / 4 && Reserve[i].Power / 4 == Reserve[tc - k].Power / 4)
                                 {
                                     if (!msgbox)
                                     {
-                                        if (Reserve[i] / 4 == 0)
+                                        if (Reserve[i].Power / 4 == 0)
                                         {
                                             player.Type.Current = 2;
-                                            player.Type.Power = 13 * 4 + (Reserve[i + 1] / 4) * 2 + player.Type.Current * 100;
+                                            player.Type.Power = 13 * 4 + (Reserve[i + 1].Power / 4) * 2 + player.Type.Current * 100;
                                             Win.Add(new Type() { Power = player.Type.Power, Current = 2 });
                                             sorted = Win.OrderByDescending(op => op.Current).ThenByDescending(op => op.Power).First();
                                         }
-                                        if (Reserve[i + 1] / 4 == 0)
+                                        if (Reserve[i + 1].Power / 4 == 0)
                                         {
                                             player.Type.Current = 2;
-                                            player.Type.Power = 13 * 4 + (Reserve[i] / 4) * 2 + player.Type.Current * 100;
+                                            player.Type.Power = 13 * 4 + (Reserve[i].Power / 4) * 2 + player.Type.Current * 100;
                                             Win.Add(new Type() { Power = player.Type.Power, Current = 2 });
                                             sorted = Win.OrderByDescending(op => op.Current).ThenByDescending(op => op.Power).First();
                                         }
-                                        if (Reserve[i + 1] / 4 != 0 && Reserve[i] / 4 != 0)
+                                        if (Reserve[i + 1].Power / 4 != 0 && Reserve[i].Power / 4 != 0)
                                         {
                                             player.Type.Current = 2;
-                                            player.Type.Power = (Reserve[i] / 4) * 2 + (Reserve[i + 1] / 4) * 2 + player.Type.Current * 100;
+                                            player.Type.Power = (Reserve[i].Power / 4) * 2 + (Reserve[i + 1].Power / 4) * 2 + player.Type.Current * 100;
                                             Win.Add(new Type() { Power = player.Type.Power, Current = 2 });
                                             sorted = Win.OrderByDescending(op => op.Current).ThenByDescending(op => op.Power).First();
                                         }
@@ -753,7 +754,7 @@ namespace Poker
                 }
             }
         }
-        public void rPairTwoPair(IPlayer player, ref List<Type> Win, ref Type sorted, ref int[] Reserve, int i)
+        public void rPairTwoPair(IPlayer player, ref List<Type> Win, ref Type sorted, IList<Card> Reserve, int i)
         {
             if (player.Type.Current >= -1)
             {
@@ -770,37 +771,37 @@ namespace Poker
                         }
                         if (tc - k >= 12)
                         {
-                            if (Reserve[tc] / 4 == Reserve[tc - k] / 4)
+                            if (Reserve[tc].Power / 4 == Reserve[tc - k].Power / 4)
                             {
-                                if (Reserve[tc] / 4 != Reserve[i] / 4 && Reserve[tc] / 4 != Reserve[i + 1] / 4 && player.Type.Current == 1)
+                                if (Reserve[tc].Power / 4 != Reserve[i].Power / 4 && Reserve[tc].Power / 4 != Reserve[i + 1].Power / 4 && player.Type.Current == 1)
                                 {
                                     if (!msgbox)
                                     {
-                                        if (Reserve[i + 1] / 4 == 0)
+                                        if (Reserve[i + 1].Power / 4 == 0)
                                         {
                                             player.Type.Current = 2;
-                                            player.Type.Power = (Reserve[i] / 4) * 2 + 13 * 4 + player.Type.Current * 100;
+                                            player.Type.Power = (Reserve[i].Power / 4) * 2 + 13 * 4 + player.Type.Current * 100;
                                             Win.Add(new Type() { Power = player.Type.Power, Current = 2 });
                                             sorted = Win.OrderByDescending(op => op.Current).ThenByDescending(op => op.Power).First();
                                         }
-                                        if (Reserve[i] / 4 == 0)
+                                        if (Reserve[i].Power / 4 == 0)
                                         {
                                             player.Type.Current = 2;
-                                            player.Type.Power = (Reserve[i + 1] / 4) * 2 + 13 * 4 + player.Type.Current * 100;
+                                            player.Type.Power = (Reserve[i + 1].Power / 4) * 2 + 13 * 4 + player.Type.Current * 100;
                                             Win.Add(new Type() { Power = player.Type.Power, Current = 2 });
                                             sorted = Win.OrderByDescending(op => op.Current).ThenByDescending(op => op.Power).First();
                                         }
-                                        if (Reserve[i + 1] / 4 != 0)
+                                        if (Reserve[i + 1].Power / 4 != 0)
                                         {
                                             player.Type.Current = 2;
-                                            player.Type.Power = (Reserve[tc] / 4) * 2 + (Reserve[i + 1] / 4) * 2 + player.Type.Current * 100;
+                                            player.Type.Power = (Reserve[tc].Power / 4) * 2 + (Reserve[i + 1].Power / 4) * 2 + player.Type.Current * 100;
                                             Win.Add(new Type() { Power = player.Type.Power, Current = 2 });
                                             sorted = Win.OrderByDescending(op => op.Current).ThenByDescending(op => op.Power).First();
                                         }
-                                        if (Reserve[i] / 4 != 0)
+                                        if (Reserve[i].Power / 4 != 0)
                                         {
                                             player.Type.Current = 2;
-                                            player.Type.Power = (Reserve[tc] / 4) * 2 + (Reserve[i] / 4) * 2 + player.Type.Current * 100;
+                                            player.Type.Power = (Reserve[tc].Power / 4) * 2 + (Reserve[i].Power / 4) * 2 + player.Type.Current * 100;
                                             Win.Add(new Type() { Power = player.Type.Power, Current = 2 });
                                             sorted = Win.OrderByDescending(op => op.Current).ThenByDescending(op => op.Power).First();
                                         }
@@ -811,36 +812,36 @@ namespace Poker
                                 {
                                     if (!msgbox1)
                                     {
-                                        if (Reserve[i] / 4 > Reserve[i + 1] / 4)
+                                        if (Reserve[i].Power / 4 > Reserve[i + 1].Power / 4)
                                         {
-                                            if (Reserve[tc] / 4 == 0)
+                                            if (Reserve[tc].Power / 4 == 0)
                                             {
                                                 player.Type.Current = 0;
-                                                player.Type.Power = 13 + Reserve[i] / 4 + player.Type.Current * 100;
+                                                player.Type.Power = 13 + Reserve[i].Power / 4 + player.Type.Current * 100;
                                                 Win.Add(new Type() { Power = player.Type.Power, Current = 1 });
                                                 sorted = Win.OrderByDescending(op => op.Current).ThenByDescending(op => op.Power).First();
                                             }
                                             else
                                             {
                                                 player.Type.Current = 0;
-                                                player.Type.Power = Reserve[tc] / 4 + Reserve[i] / 4 + player.Type.Current * 100;
+                                                player.Type.Power = Reserve[tc].Power / 4 + Reserve[i].Power / 4 + player.Type.Current * 100;
                                                 Win.Add(new Type() { Power = player.Type.Power, Current = 1 });
                                                 sorted = Win.OrderByDescending(op => op.Current).ThenByDescending(op => op.Power).First();
                                             }
                                         }
                                         else
                                         {
-                                            if (Reserve[tc] / 4 == 0)
+                                            if (Reserve[tc].Power / 4 == 0)
                                             {
                                                 player.Type.Current = 0;
-                                                player.Type.Power = 13 + Reserve[i + 1] + player.Type.Current * 100;
+                                                player.Type.Power = 13 + Reserve[i + 1].Power + player.Type.Current * 100;
                                                 Win.Add(new Type() { Power = player.Type.Power, Current = 1 });
                                                 sorted = Win.OrderByDescending(op => op.Current).ThenByDescending(op => op.Power).First();
                                             }
                                             else
                                             {
                                                 player.Type.Current = 0;
-                                                player.Type.Power = Reserve[tc] / 4 + Reserve[i + 1] / 4 + player.Type.Current * 100;
+                                                player.Type.Power = Reserve[tc].Power / 4 + Reserve[i + 1].Power / 4 + player.Type.Current * 100;
                                                 Win.Add(new Type() { Power = player.Type.Power, Current = 1 });
                                                 sorted = Win.OrderByDescending(op => op.Current).ThenByDescending(op => op.Power).First();
                                             }
@@ -854,16 +855,16 @@ namespace Poker
                 }
             }
         }
-        public void rPairFromHand(IPlayer player, ref List<Type> Win, ref Type sorted, ref int[] Reserve, int i)
+        public void rPairFromHand(IPlayer player, ref List<Type> Win, ref Type sorted, IList<Card> Reserve, int i)
         {
             if (player.Type.Current >= -1)
             {
                 bool msgbox = false;
-                if (Reserve[i] / 4 == Reserve[i + 1] / 4)
+                if (Reserve[i].Power / 4 == Reserve[i + 1].Power / 4)
                 {
                     if (!msgbox)
                     {
-                        if (Reserve[i] / 4 == 0)
+                        if (Reserve[i].Power / 4 == 0)
                         {
                             player.Type.Current = 1;
                             player.Type.Power = 13 * 4 + player.Type.Current * 100;
@@ -873,7 +874,7 @@ namespace Poker
                         else
                         {
                             player.Type.Current = 1;
-                            player.Type.Power = (Reserve[i + 1] / 4) * 4 + player.Type.Current * 100;
+                            player.Type.Power = (Reserve[i + 1].Power / 4) * 4 + player.Type.Current * 100;
                             Win.Add(new Type() { Power = player.Type.Power, Current = 1 });
                             sorted = Win.OrderByDescending(op => op.Current).ThenByDescending(op => op.Power).First();
                         }
@@ -882,42 +883,42 @@ namespace Poker
                 }
                 for (int tc = 16; tc >= 12; tc--)
                 {
-                    if (Reserve[i + 1] / 4 == Reserve[tc] / 4)
+                    if (Reserve[i + 1].Power / 4 == Reserve[tc].Power / 4)
                     {
                         if (!msgbox)
                         {
-                            if (Reserve[i + 1] / 4 == 0)
+                            if (Reserve[i + 1].Power / 4 == 0)
                             {
                                 player.Type.Current = 1;
-                                player.Type.Power = 13 * 4 + Reserve[i] / 4 + player.Type.Current * 100;
+                                player.Type.Power = 13 * 4 + Reserve[i].Power / 4 + player.Type.Current * 100;
                                 Win.Add(new Type() { Power = player.Type.Power, Current = 1 });
                                 sorted = Win.OrderByDescending(op => op.Current).ThenByDescending(op => op.Power).First();
                             }
                             else
                             {
                                 player.Type.Current = 1;
-                                player.Type.Power = (Reserve[i + 1] / 4) * 4 + Reserve[i] / 4 + player.Type.Current * 100;
+                                player.Type.Power = (Reserve[i + 1].Power / 4) * 4 + Reserve[i].Power / 4 + player.Type.Current * 100;
                                 Win.Add(new Type() { Power = player.Type.Power, Current = 1 });
                                 sorted = Win.OrderByDescending(op => op.Current).ThenByDescending(op => op.Power).First();
                             }
                         }
                         msgbox = true;
                     }
-                    if (Reserve[i] / 4 == Reserve[tc] / 4)
+                    if (Reserve[i].Power / 4 == Reserve[tc].Power / 4)
                     {
                         if (!msgbox)
                         {
-                            if (Reserve[i] / 4 == 0)
+                            if (Reserve[i].Power / 4 == 0)
                             {
                                 player.Type.Current = 1;
-                                player.Type.Power = 13 * 4 + Reserve[i + 1] / 4 + player.Type.Current * 100;
+                                player.Type.Power = 13 * 4 + Reserve[i + 1].Power / 4 + player.Type.Current * 100;
                                 Win.Add(new Type() { Power = player.Type.Power, Current = 1 });
                                 sorted = Win.OrderByDescending(op => op.Current).ThenByDescending(op => op.Power).First();
                             }
                             else
                             {
                                 player.Type.Current = 1;
-                                player.Type.Power = (Reserve[tc] / 4) * 4 + Reserve[i + 1] / 4 + player.Type.Current * 100;
+                                player.Type.Power = (Reserve[tc].Power / 4) * 4 + Reserve[i + 1].Power / 4 + player.Type.Current * 100;
                                 Win.Add(new Type() { Power = player.Type.Power, Current = 1 });
                                 sorted = Win.OrderByDescending(op => op.Current).ThenByDescending(op => op.Power).First();
                             }
@@ -927,25 +928,25 @@ namespace Poker
                 }
             }
         }
-        public void rHighCard(IPlayer player, ref List<Type> Win, ref Type sorted, ref int[] Reserve, int i)
+        public void rHighCard(IPlayer player, ref List<Type> Win, ref Type sorted, IList<Card> Reserve, int i)
         {
             if (player.Type.Current == -1)
             {
-                if (Reserve[i] / 4 > Reserve[i + 1] / 4)
+                if (Reserve[i].Power / 4 > Reserve[i + 1].Power / 4)
                 {
                     player.Type.Current = -1;
-                    player.Type.Power = Reserve[i] / 4;
+                    player.Type.Power = Reserve[i].Power / 4;
                     Win.Add(new Type() { Power = player.Type.Power, Current = -1 });
                     sorted = Win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                 }
                 else
                 {
                     player.Type.Current = -1;
-                    player.Type.Power = Reserve[i + 1] / 4;
+                    player.Type.Power = Reserve[i + 1].Power / 4;
                     Win.Add(new Type() { Power = player.Type.Power, Current = -1 });
                     sorted = Win.OrderByDescending(op1 => op1.Current).ThenByDescending(op1 => op1.Power).First();
                 }
-                if (Reserve[i] / 4 == 0 || Reserve[i + 1] / 4 == 0)
+                if (Reserve[i].Power / 4 == 0 || Reserve[i + 1].Power / 4 == 0)
                 {
                     player.Type.Current = -1;
                     player.Type.Power = 13;
