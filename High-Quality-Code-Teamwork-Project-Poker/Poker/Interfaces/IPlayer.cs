@@ -16,6 +16,8 @@ namespace Poker.Interfaces
 
         Panel Panel { get; set; }
 
+        bool WinCurrentHand { get; set; }
+
         Type Type { get; set; }
 
         ICollection<Card> Cards { get; set; }

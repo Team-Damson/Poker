@@ -1,4 +1,6 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using Poker.Interfaces;
 
@@ -23,6 +25,8 @@ namespace Poker.Models
         public ICollection<Card> Cards { get; set; }
 
         public IList<PictureBox> PictureBoxHolder { get; set; }
+
+        public bool WinCurrentHand { get; set; }
 
         public string Name { get; set; }
 
@@ -57,29 +61,23 @@ namespace Poker.Models
             this.Cards.Add(card);
         }
 
-        public void SetCards(IList<Card> cards)
+        public async Task SetCards(IList<Card> cards)
         {
             for (int i = 0; i < cards.Count; i++)
             {
+                await Task.Delay(200);
                 this.Cards.Add(cards[i]);
                 this.PictureBoxHolder[i].Tag = cards[i].Power;
                 this.SetCardImage(cards[i], this.PictureBoxHolder[i]);
-            }
-
-            if (this.CanPlay())
-            {
-                this.FoldedTurn = false;
-                foreach (var pictureBox in this.PictureBoxHolder)
+                if (this.CanPlay())
                 {
-                    pictureBox.Visible = true;
+                    this.FoldedTurn = false;
+                    this.PictureBoxHolder[i].Visible = true;
                 }
-            }
-            else
-            {
-                this.FoldedTurn = true;
-                foreach (var pictureBox in this.PictureBoxHolder)
+                else
                 {
-                    pictureBox.Visible = false;
+                    this.FoldedTurn = true;
+                    this.PictureBoxHolder[i].Visible = false;
                 }
             }
         }
@@ -97,6 +95,12 @@ namespace Poker.Models
         protected virtual void SetCardImage(Card card, PictureBox pictureBox)
         {
             pictureBox.Image = card.Image;
+        }
+
+
+        public void RevealCardAtIndex(int index)
+        {
+            this.PictureBoxHolder[index].Image = this.Cards.ElementAt(index).Image;
         }
     }
 }

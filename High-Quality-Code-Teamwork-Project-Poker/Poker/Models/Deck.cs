@@ -57,19 +57,19 @@ namespace Poker.Models
             return this.cards[index];
         }
 
-        public void SetCards(IList<IPlayer> players, Dealer dealer)
+        public async Task SetCards(IList<IPlayer> players, Dealer dealer)
         {
             this.Shuffle();
             int playersCount;
             for (playersCount = 0; playersCount < players.Count; playersCount++)
             {
-                this.SetCardToPlayers(players[playersCount], playersCount, 2);
+                await this.SetCardToPlayers(players[playersCount], playersCount, 2);
             }
 
-            this.SetCardToDealer(dealer, 5, playersCount * 2);
+            await this.SetCardToDealer(dealer, 5, playersCount * 2);
         }
 
-        private  void SetCardToPlayers(ICardHolder cardHandler, int cardHandlerIndex, int cardsCountToSet)
+        private async Task SetCardToPlayers(ICardHolder cardHandler, int cardHandlerIndex, int cardsCountToSet)
         {
             IList<Card> cards = new List<Card>();
             for (int i = 0; i < cardsCountToSet; i++)
@@ -79,10 +79,10 @@ namespace Poker.Models
                 cards.Add(this.cards[cardHandlerIndex * cardsCountToSet + i]);
             }
 
-            cardHandler.SetCards(cards);
+            await cardHandler.SetCards(cards);
         }
 
-        private  void SetCardToDealer(ICardHolder cardHandler, int cardsCountToSet, int allPlayersCardsCount)
+        private async Task SetCardToDealer(ICardHolder cardHandler, int cardsCountToSet, int allPlayersCardsCount)
         {
             IList<Card> cards = new List<Card>();
             for (int i = 0; i < cardsCountToSet; i++)
@@ -91,7 +91,7 @@ namespace Poker.Models
                 cards.Add(this.cards[allPlayersCardsCount + i]);
             }
 
-            cardHandler.SetCards(cards);
+            await cardHandler.SetCards(cards);
         }
 
         private void Shuffle()

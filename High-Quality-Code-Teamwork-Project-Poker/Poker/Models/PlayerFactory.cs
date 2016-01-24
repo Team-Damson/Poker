@@ -74,6 +74,7 @@ namespace Poker.Models
             cardHolder.SizeMode = PictureBoxSizeMode.StretchImage;
             cardHolder.Height = 130;
             cardHolder.Width = 80;
+            cardHolder.Visible = false;
             cardHolder.Name = "pb" + PlayerFactory.cardHoldersCount++.ToString();
             cardHolder.Anchor = cardHoldersPictureBoxesAnchorStyles;
             cardHolder.Location = new Point(cardHoldersPictureBoxesX, cardHoldersPictureBoxesY);

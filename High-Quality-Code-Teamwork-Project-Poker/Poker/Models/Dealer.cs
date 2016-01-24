@@ -24,6 +24,7 @@ namespace Poker.Models
                 cardHolder.SizeMode = PictureBoxSizeMode.StretchImage;
                 cardHolder.Height = 130;
                 cardHolder.Width = 80;
+                cardHolder.Visible = false;
                 cardHolder.Location = new Point(horizontal, vertical);
                 horizontal += 110;
                 this.PictureBoxHolder.Add(cardHolder);
@@ -35,10 +36,11 @@ namespace Poker.Models
         public IList<PictureBox> PictureBoxHolder { get;set; }
 
 
-        public void SetCards(IList<Card> cards)
+        public async Task SetCards(IList<Card> cards)
         {
             for (int i = 0; i < cards.Count; i++)
             {
+                await Task.Delay(200);
                 this.Cards.Add(cards[i]);
                 this.PictureBoxHolder[i].Tag = cards[i].Power;
                 this.PictureBoxHolder[i].Image = new Bitmap("Assets\\Back\\Back.png");
@@ -46,10 +48,15 @@ namespace Poker.Models
             }
         }
 
-
         public void SetCard(Card card)
         {
             throw new NotImplementedException();
+        }
+
+
+        public void RevealCardAtIndex(int index)
+        {
+            this.PictureBoxHolder[index].Image = this.Cards.ElementAt(index).Image;
         }
     }
 }

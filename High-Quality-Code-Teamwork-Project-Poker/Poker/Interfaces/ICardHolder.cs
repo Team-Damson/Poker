@@ -14,7 +14,8 @@ namespace Poker.Interfaces
 
         IList<PictureBox> PictureBoxHolder { get; set; }
 
-        void SetCards(IList<Card> cards);
+        Task SetCards(IList<Card> cards);
         void SetCard(Card card);
+        void RevealCardAtIndex(int index);
     }
 }
