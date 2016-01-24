@@ -15,6 +15,8 @@ using Poker.Models;
 
 namespace Poker
 {
+    using Poker.Enums;
+
     public partial class Form1 : Form
     {
         HandTypes handType = new HandTypes();
@@ -39,13 +41,15 @@ namespace Poker
         int call = 500, foldedPlayers = 5;
         //public int Chips = 10000, bot1Chips = 10000, bot2Chips = 10000, bot3Chips = 10000, bot4Chips = 10000, bot5Chips = 10000;
         //private double type;
-        double rounds = 0, /*b1Power, b2Power, b3Power, b4Power, b5Power, pPower = 0, pType = -1,*/ Raise = 0;
+        double  /*rounds = 0, b1Power, b2Power, b3Power, b4Power, b5Power, pPower = 0, pType = -1,*/ Raise = 0;
+
+        CommunityCardBoard rounds = CommunityCardBoard.Undeal;
         // b1Type = -1, b2Type = -1, b3Type = -1, b4Type = -1, b5Type = -1;
         //bool B1turn = false, B2turn = false, B3turn = false, B4turn = false, B5turn = false;
         //bool B1Fturn = false, B2Fturn = false, B3Fturn = false, B4Fturn = false, B5Fturn = false;
         bool /*pFolded, b1Folded, b2Folded, b3Folded, b4Folded, b5Folded,*/ intsadded, changed;
         //int pCall = 0, b1Call = 0, b2Call = 0, b3Call = 0, b4Call = 0, b5Call = 0, pRaise = 0, b1Raise = 0, b2Raise = 0, b3Raise = 0, b4Raise = 0, b5Raise = 0;
-        int /*height, width,*/ winners = 0, Flop = 1, Turn = 2, River = 3, End = 4, maxLeft = 6;
+        int /*height, width, Flop = 1, Turn = 2, River = 3, End = 4,*/ winners = 0, maxLeft = 6;
         int /*last = 123,*/ raisedTurn = 1;
         List<bool?> FoldedPlayers = new List<bool?>();
         List<Type> Win = new List<Type>();
@@ -1043,7 +1047,7 @@ namespace Poker
                     }
                 }
             }
-            if (rounds == Flop)
+            if (rounds == CommunityCardBoard.Flop)
             {
                 for (int j = 0; j <= 2; j++)
                 {
@@ -1059,7 +1063,7 @@ namespace Poker
                     }
                 }
             }
-            if (rounds == Turn)
+            if (rounds == CommunityCardBoard.Turn)
             {
                 for (int j = 2; j <= 3; j++)
                 {
@@ -1075,7 +1079,7 @@ namespace Poker
                     }
                 }
             }
-            if (rounds == River)
+            if (rounds == CommunityCardBoard.River)
             {
                 for (int j = 3; j <= 4; j++)
                 {
@@ -1091,7 +1095,7 @@ namespace Poker
                     }
                 }
             }
-            if (rounds == End && maxLeft == 6)
+            if (rounds == CommunityCardBoard.End && maxLeft == 6)
             {
                 /*string fixedLast = "qwerty";
                 if (!this.human.StatusLabel.Text.Contains("Fold"))
@@ -1227,7 +1231,7 @@ namespace Poker
 
         void FixCall(IPlayer player, int options)
         {
-            if (rounds != 4)
+            if (rounds != CommunityCardBoard.End)
             {
                 if (options == 1)
                 {
@@ -1412,7 +1416,7 @@ namespace Poker
             #endregion
 
             #region FiveOrLessLeft
-            if (notFoldedPlayersCount < 6 && notFoldedPlayersCount > 1 && rounds >= End)
+            if (notFoldedPlayersCount < 6 && notFoldedPlayersCount > 1 && rounds >= CommunityCardBoard.End)
             {
                 await Finish(2);
             }
@@ -1446,7 +1450,9 @@ namespace Poker
             human.Call = 0; AI1.Call = 0; AI2.Call = 0; AI3.Call = 0; AI4.Call = 0; AI5.Call = 0; 
             human.Raise = 0; AI1.Raise = 0; AI2.Raise = 0; AI3.Raise = 0; AI4.Raise = 0; AI5.Raise = 0;
             //height = 0; width = 0; 
-            winners = 0; Flop = 1; Turn = 2; River = 3; End = 4; maxLeft = 6;
+            winners = 0;
+            //Flop = 1; Turn = 2; River = 3; End = 4;
+            maxLeft = 6;
             //last = 123;
             raisedTurn = 1;
             FoldedPlayers.Clear();
@@ -1555,27 +1561,27 @@ namespace Poker
                 }
                 if (player.Type.Current == 3)
                 {
-                    handType.ThreeOfAKind(player, call, textboxPot, ref Raise, ref raising, ref rounds);
+                    handType.ThreeOfAKind(player, call, textboxPot, ref Raise, ref raising);
                 }
                 if (player.Type.Current == 4)
                 {
-                    handType.Straight(player, call, textboxPot, ref Raise, ref raising, ref rounds);
+                    handType.Straight(player, call, textboxPot, ref Raise, ref raising);
                 }
                 if (player.Type.Current == 5 || player.Type.Current == 5.5)
                 {
-                    handType.Flush(player, call, textboxPot, ref Raise, ref raising, ref rounds);
+                    handType.Flush(player, call, textboxPot, ref Raise, ref raising);
                 }
                 if (player.Type.Current == 6)
                 {
-                    handType.FullHouse(player, call, textboxPot, ref Raise, ref raising, ref rounds);
+                    handType.FullHouse(player, call, textboxPot, ref Raise, ref raising);
                 }
                 if (player.Type.Current == 7)
                 {
-                    handType.FourOfAKind(player, call, textboxPot, ref Raise, ref raising, ref rounds);
+                    handType.FourOfAKind(player, call, textboxPot, ref Raise, ref raising);
                 }
                 if (player.Type.Current == 8 || player.Type.Current == 9)
                 {
-                    handType.StraightFlush(player, call, textboxPot, ref Raise, ref raising, ref rounds);
+                    handType.StraightFlush(player, call, textboxPot, ref Raise, ref raising);
                 }
             }
 

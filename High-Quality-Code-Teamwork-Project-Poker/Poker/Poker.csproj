@@ -53,6 +53,7 @@
     <Compile Include="AppSettigns.cs" />
     <Compile Include="CheckHandType.cs" />
     <Compile Include="Dunno.cs" />
+    <Compile Include="Enums\CommunityCardBoard.cs" />
     <Compile Include="Enums\HandPower.cs" />
     <Compile Include="Enums\Suit.cs" />
     <Compile Include="Enums\Face.cs" />
