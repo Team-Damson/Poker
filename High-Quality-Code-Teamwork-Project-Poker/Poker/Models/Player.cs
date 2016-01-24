@@ -1,11 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Poker.Interfaces;
-
-namespace Poker.Models
+﻿namespace Poker.Models
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using System.Windows.Forms;
+    using Poker.Interfaces;
+
     public class Player : IPlayer
     {
         public Player(int id, string name, Label statusLabel, TextBox chipsTextBox, int[] cardIndexes, int chips, IList<PictureBox> pictureBoxHolder, Panel panel)
@@ -84,7 +84,6 @@ namespace Poker.Models
 
         public void SetCardsVisible()
         {
-            
         }
 
         public bool CanPlay()
@@ -92,15 +91,14 @@ namespace Poker.Models
             return this.Chips > 0;
         }
 
-        protected virtual void SetCardImage(Card card, PictureBox pictureBox)
-        {
-            pictureBox.Image = card.Image;
-        }
-
-
         public void RevealCardAtIndex(int index)
         {
             this.PictureBoxHolder[index].Image = this.Cards.ElementAt(index).Image;
+        }
+
+        protected virtual void SetCardImage(Card card, PictureBox pictureBox)
+        {
+            pictureBox.Image = card.Image;
         }
     }
 }

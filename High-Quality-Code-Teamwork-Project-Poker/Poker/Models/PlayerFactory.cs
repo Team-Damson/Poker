@@ -1,14 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Poker.Interfaces;
-
-namespace Poker.Models
+﻿namespace Poker.Models
 {
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.Linq;
+    using System.Windows.Forms;
+    using Poker.Interfaces;
+
     public class PlayerFactory
     {
         private static int cardsIndexCounter = 0;
@@ -44,7 +41,7 @@ namespace Poker.Models
                     name,
                     statusLabel,
                     chipsTextBox,
-                    new int[] {cardsIndexCounter++, cardsIndexCounter++},
+                    new int[] { cardsIndexCounter++, cardsIndexCounter++ },
                     chips,
                     cardHolders,
                     panel);

@@ -6,8 +6,8 @@
 
     public class HandTypes
     {
-        private Dunno type = new Dunno();
-        private Random rnd = new Random();
+        private readonly Dunno type = new Dunno();
+        private readonly Random rnd = new Random();
 
         public void HighCard(IPlayer player, int call, TextBox textboxPot, ref double Raise, ref bool raising)
         {

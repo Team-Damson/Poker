@@ -1,19 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Poker.Interfaces;
-
-namespace Poker.Models
+﻿namespace Poker.Models
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.IO;
+    using System.Threading.Tasks;
+    using Poker.Interfaces;
+
     public class Deck
     {
-        private IList<Card> cards;
         private static Deck instance;
+        private readonly IList<Card> cards;
 
         private Deck()
         {

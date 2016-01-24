@@ -1,13 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Poker.Models;
-
-namespace Poker.Interfaces
+﻿namespace Poker.Interfaces
 {
+    using System.Collections.Generic;
+    using System.Windows.Forms;
+    using Poker.Models;
+
     public interface IPlayer : ICardHolder
     {
         int Id { get; set; }
