@@ -48,11 +48,11 @@ namespace Poker
         int /*height, width,*/ winners = 0, Flop = 1, Turn = 2, River = 3, End = 4, maxLeft = 6;
         int /*last = 123,*/ raisedTurn = 1;
         List<bool?> FoldedPlayers = new List<bool?>();
-        List<Type> Win = new List<Type>();
+        List<Type> curremtHandTypes = new List<Type>();
         List<IPlayer> Winners = new List<IPlayer>();
         List<int> ints = new List<int>();
         bool /*PFturn = false, Pturn = true,*/ restart = false, raising = false;
-        Poker.Type sorted;
+        Poker.Type winingHandType;
         //string[] ImgLocation = Directory.GetFiles("Assets\\Cards", "*.png", SearchOption.TopDirectoryOnly);
         /*string[] ImgLocation ={
                    "Assets\\Cards\\33.png","Assets\\Cards\\22.png",
@@ -81,7 +81,7 @@ namespace Poker
         public Form1()
         {
             InitializeComponent();
-            this.sorted = new Type();
+            this.winingHandType = new Type();
             this.realDeck = Models.Deck.Instance;
 
             //FoldedPlayers.Add(PFturn); FoldedPlayers.Add(B1Fturn); FoldedPlayers.Add(B2Fturn); FoldedPlayers.Add(B3Fturn); FoldedPlayers.Add(B4Fturn); FoldedPlayers.Add(B5Fturn);
@@ -726,41 +726,41 @@ namespace Poker
                     {
                         //Pair from Hand current = 1
 
-                        this.checkHandType.CheckPairFromHand(player, ref Win, ref sorted, this.realDeck.GetCards(), i);
+                        this.checkHandType.CheckPairFromHand(player, ref curremtHandTypes, ref winingHandType, this.realDeck.GetCards(), i);
 
                         #region Pair or Two Pair from Table current = 2 || 0
-                        this.checkHandType.CheckPairTwoPair(player, ref Win, ref sorted, this.realDeck.GetCards(), i);
+                        this.checkHandType.CheckPairTwoPair(player, ref curremtHandTypes, ref winingHandType, this.realDeck.GetCards(), i);
                         #endregion
 
                         #region Two Pair current = 2
                         #endregion
 
                         #region Three of a kind current = 3
-                        this.checkHandType.CheckThreeOfAKind(player, Straight, ref Win, ref sorted);
+                        this.checkHandType.CheckThreeOfAKind(player, Straight, ref curremtHandTypes, ref winingHandType);
                         #endregion
 
                         #region Straight current = 4
-                        this.checkHandType.CheckStraight(player, Straight, ref Win, ref sorted);
+                        this.checkHandType.CheckStraight(player, Straight, ref curremtHandTypes, ref winingHandType);
                         #endregion
 
                         #region Flush current = 5 || 5.5
-                        this.checkHandType.CheckFlush(player, ref vf, Straight1, ref Win, ref sorted, this.realDeck.GetCards(), i);
+                        this.checkHandType.CheckFlush(player, ref vf, Straight1, ref curremtHandTypes, ref winingHandType, this.realDeck.GetCards(), i);
                         #endregion
 
                         #region Full House current = 6
-                        this.checkHandType.CheckFullHouse(player, ref done, Straight, ref Win, ref sorted);
+                        this.checkHandType.CheckFullHouse(player, ref done, Straight, ref curremtHandTypes, ref winingHandType);
                         #endregion
 
                         #region Four of a Kind current = 7
-                        this.checkHandType.CheckFourOfAKind(player, Straight, ref Win, ref sorted);
+                        this.checkHandType.CheckFourOfAKind(player, Straight, ref curremtHandTypes, ref winingHandType);
                         #endregion
 
                         #region Straight Flush current = 8 || 9
-                        this.checkHandType.CheckStraightFlush(player, st1, st2, st3, st4, ref Win, ref sorted);
+                        this.checkHandType.CheckStraightFlush(player, st1, st2, st3, st4, ref curremtHandTypes, ref winingHandType);
                         #endregion
 
                         #region High Card current = -1
-                        this.checkHandType.CheckHighCard(player, ref Win, ref sorted, this.realDeck.GetCards(), i);
+                        this.checkHandType.CheckHighCard(player, ref curremtHandTypes, ref winingHandType, this.realDeck.GetCards(), i);
                         #endregion
                     }
                 }
@@ -769,9 +769,9 @@ namespace Poker
 
         private void CheckWinner(IPlayer player)
         {
-            if (player.Type.Current == sorted.Current)
+            if (player.Type.Current == winingHandType.Current)
             {
-                if (player.Type.Power == sorted.Power)
+                if (player.Type.Power == winingHandType.Power)
                 {
                     Winners.Add(player);
                     if (player.Type.Current == -1)
@@ -872,9 +872,9 @@ namespace Poker
 
             //this.CheckWinner(player);
             /*
-            if (player.Type.Current == sorted.Current)
+            if (player.Type.Current == winingHandType.Current)
             {
-                if (player.Type.Power == sorted.Power)
+                if (player.Type.Power == winingHandType.Power)
                 {
                     winners++;
                     Winners.Add(player);
@@ -1182,9 +1182,9 @@ namespace Poker
                 ints.Clear();
                 Winners.Clear();
                 winners = 0;
-                Win.Clear();
-                sorted.Current = 0;
-                sorted.Power = 0;
+                curremtHandTypes.Clear();
+                winingHandType.Current = 0;
+                winingHandType.Power = 0;
                 this.ClearCards();
                 this.textboxPot.Text = "0";
                 this.human.StatusLabel.Text = "";
@@ -1452,9 +1452,9 @@ namespace Poker
             FoldedPlayers.Clear();
             Winners.Clear();
             ints.Clear();
-            Win.Clear();
-            sorted.Current = 0;
-            sorted.Power = 0;
+            curremtHandTypes.Clear();
+            winingHandType.Current = 0;
+            winingHandType.Power = 0;
             this.textboxPot.Text = "0";
             t = 60; up = 10000000; turnCount = 0;
             this.human.StatusLabel.Text = "";
@@ -1491,9 +1491,9 @@ namespace Poker
 
         void FixWinners()
         {
-            Win.Clear();
-            sorted.Current = 0;
-            sorted.Power = 0;
+            curremtHandTypes.Clear();
+            winingHandType.Current = 0;
+            winingHandType.Power = 0;
             /*string fixedLast = "qwerty";
             if (!this.human.StatusLabel.Text.Contains("Fold"))
             {
