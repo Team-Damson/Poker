@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace Poker
+﻿namespace Poker
 {
+    using System.Windows.Forms;
+
     public static class AppSettigns
     {
         // First player PictureBox settings
@@ -42,5 +37,7 @@ namespace Poker
         // Dealer settings
         public const int DealerPictureBoxX = 410;
         public const int DealerPictureBoxY = 265;
+
+        public const string PlayerChipsTextBoxText = "Cjips : ";
     }
 }

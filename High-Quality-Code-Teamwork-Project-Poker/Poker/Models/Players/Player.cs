@@ -1,19 +1,21 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Poker.Interfaces;
-
-namespace Poker.Models
+﻿namespace Poker.Models
 {
-    public class Player : IPlayer
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using System.Windows.Forms;
+    using Poker.Interfaces;
+
+    public abstract class Player : IPlayer
     {
-        public Player(int id, string name, Label statusLabel, TextBox chipsTextBox, int[] cardIndexes, int chips, IList<PictureBox> pictureBoxHolder, Panel panel)
+        private int chips;
+
+        public Player(int id, string name, Label statusLabel, TextBox chipsTextBoxTextBox, int[] cardIndexes, int chips, IList<PictureBox> pictureBoxHolder, Panel panel)
         {
             this.Id = id;
             this.Name = name;
             this.StatusLabel = statusLabel;
-            this.PlayerChips = chipsTextBox;
+            this.ChipsTextBox = chipsTextBoxTextBox;
             this.Chips = chips;
             this.CardIndexes = cardIndexes;
             this.PictureBoxHolder = pictureBoxHolder ?? new List<PictureBox>();
@@ -30,13 +32,23 @@ namespace Poker.Models
 
         public string Name { get; set; }
 
-        public int Chips { get; set; }
+        public int Chips
+        {
+            get
+            {
+                return this.chips;
+            }
+            set
+            {
+                this.chips = value < 0 ? 0 : value;
+            }
+        }
 
         public int[] CardIndexes { get; set; }
 
         public Label StatusLabel { get; set; }
 
-        public TextBox PlayerChips { get; set; }
+        public TextBox ChipsTextBox { get; set; }
 
         public int Call { get; set; }
 
@@ -84,7 +96,6 @@ namespace Poker.Models
 
         public void SetCardsVisible()
         {
-            
         }
 
         public bool CanPlay()
@@ -92,15 +103,11 @@ namespace Poker.Models
             return this.Chips > 0;
         }
 
-        protected virtual void SetCardImage(Card card, PictureBox pictureBox)
-        {
-            pictureBox.Image = card.Image;
-        }
-
-
         public void RevealCardAtIndex(int index)
         {
             this.PictureBoxHolder[index].Image = this.Cards.ElementAt(index).Image;
         }
+
+        protected abstract void SetCardImage(Card card, PictureBox pictureBox);
     }
 }

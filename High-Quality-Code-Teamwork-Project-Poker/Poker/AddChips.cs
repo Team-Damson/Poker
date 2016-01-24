@@ -1,7 +1,7 @@
 ﻿namespace Poker
 {
     using System;
-    using System.Drawing;
+    //using System.Drawing;
     using System.Windows.Forms;
 
     public partial class AddChips : Form
@@ -12,7 +12,7 @@
 
         public AddChips()
         {
-            var fontFamily = new FontFamily("Arial");
+            //var fontFamily = new FontFamily("Arial");
             this.InitializeComponent();
             this.ControlBox = false;
             this.labelRunOutOfChips.BorderStyle = BorderStyle.FixedSingle;
@@ -29,7 +29,7 @@
             {
                 if (value < 0 || value > MaxAllowedChips)
                 {
-                    throw new ArgumentOutOfRangeException("Amount of chips cannot be negative.");
+                    throw new ArgumentOutOfRangeException(string.Format("Amount of chips should be in range [0...{0}].", MaxAllowedChips));
                 }
 
                 this.amount = value;

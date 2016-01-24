@@ -1,14 +1,15 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using Poker.Interfaces;
+using Poker.Enums;
 
 namespace Poker.Models
 {
+    using System.Collections.Generic;
+    using System.Drawing;
+    using System.Linq;
+    using System.Windows.Forms;
+    using Poker.Interfaces;
+    using Poker.Models.Players;
+
     public class PlayerFactory
     {
         private static int cardsIndexCounter = 0;
@@ -16,14 +17,14 @@ namespace Poker.Models
         private static int cardHoldersCount = 0;
 
         public static IPlayer Create(
+            PlayerType playerType,
             string name,
             int chips, 
             Label statusLabel, 
             TextBox chipsTextBox,
             AnchorStyles cardHoldersPictureBoxesAnchorStyles,
             int cardHoldersPictureBoxesX,
-            int cardHoldersPictureBoxesY,
-            bool isHuman)
+            int cardHoldersPictureBoxesY)
         {
             IList<PictureBox> cardHolders = new List<PictureBox>();
             cardHolders.Add(CreatePictureBox(cardHoldersPictureBoxesAnchorStyles, cardHoldersPictureBoxesX, cardHoldersPictureBoxesY));
@@ -36,33 +37,36 @@ namespace Poker.Models
             panel.Height = 150;
             panel.Width = 180;
             panel.Visible = false;
-            IPlayer player;
-            if (isHuman)
-            {
-                player = new Player(
-                    currentPlayerId,
-                    name,
-                    statusLabel,
-                    chipsTextBox,
-                    new int[] {cardsIndexCounter++, cardsIndexCounter++},
-                    chips,
-                    cardHolders,
-                    panel);
-            }
-            else
-            {
-                player = new AI(
-                    currentPlayerId,
-                    name,
-                    statusLabel,
-                    chipsTextBox,
-                    new int[] { cardsIndexCounter++, cardsIndexCounter++ },
-                    chips,
-                    cardHolders,
-                    panel);
-            }
 
-            return player;
+            chipsTextBox.Enabled = false;
+
+            switch (playerType)
+            {
+                case(PlayerType.Human):
+                    return new Human(
+                        currentPlayerId,
+                        name,
+                        statusLabel,
+                        chipsTextBox,
+                        new int[] { cardsIndexCounter++, cardsIndexCounter++ },
+                        chips,
+                        cardHolders,
+                        panel);
+                    break;
+                case (PlayerType.AI):
+                    return new AI(
+                        currentPlayerId,
+                        name,
+                        statusLabel,
+                        chipsTextBox,
+                        new int[] { cardsIndexCounter++, cardsIndexCounter++ },
+                        chips,
+                        cardHolders,
+                        panel);
+                    break;
+                default:
+                    throw new NotImplementedException("This player type is not implemented.");
+            }
         }
 
         private static PictureBox CreatePictureBox(

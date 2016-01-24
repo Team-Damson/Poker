@@ -2,6 +2,8 @@
 {
     using System;
     using System.Windows.Forms;
+
+    using Poker.Enums;
     using Poker.Interfaces;
 
     public class Dunno
@@ -78,11 +80,11 @@
             }
         }
 
-        public void PH(IPlayer player, int n, int n1, int r, int call, TextBox textboxPot, ref double Raise, ref bool raising, double rounds)
+        public void PH(IPlayer player, int n, int n1, int r, int call, TextBox textboxPot, ref double Raise, ref bool raising, CommunityCardBoard rounds)
         {
             int rnd = this.random.Next(1, 3);
 
-            if (rounds < 2)
+            if (rounds < CommunityCardBoard.Turn)
             {
                 if (call <= 0)
                 {
@@ -130,7 +132,7 @@
                 }
             }
 
-            if (rounds >= 2)
+            if (rounds >= CommunityCardBoard.Turn)
             {
                 if (call > 0)
                 {
@@ -185,7 +187,7 @@
             }
         }
 
-        public void Smooth(IPlayer player, int n, int r, int call, TextBox textboxPot, ref double Raise, ref bool raising, ref double rounds)
+        public void Smooth(IPlayer player, int n, int r, int call, TextBox textboxPot, ref double Raise, ref bool raising)
         {
             if (call <= 0)
             {
