@@ -54,7 +54,7 @@
     <Compile Include="CheckHandType.cs" />
     <Compile Include="Dunno.cs" />
     <Compile Include="Enums\CommunityCardBoard.cs" />
-    <Compile Include="Enums\HandPower.cs" />
+    <Compile Include="Enums\PokerHand.cs" />
     <Compile Include="Enums\Suit.cs" />
     <Compile Include="Enums\Face.cs" />
     <Compile Include="Form1.cs">

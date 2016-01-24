@@ -6,13 +6,13 @@
 
     public class Hand
     {
-        public Hand(HandPower power, IList<ICard> cards)
+        public Hand(PokerHand power, IList<ICard> cards)
         {
             this.Power = power;
             this.Cards = cards;
         }
 
-        public HandPower Power { get; set; }
+        public PokerHand Power { get; set; }
 
         public IList<ICard> Cards { get; set; }
     }

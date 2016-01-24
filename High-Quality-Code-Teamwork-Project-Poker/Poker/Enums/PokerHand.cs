@@ -1,14 +1,14 @@
 ﻿namespace Poker.Enums
 {
-    public struct HandPower
+    public struct PokerHand
     {
         public const double HighCard = -1;
 
-        public const double Undefined = 0;
+        public const double PairTable = 0;
 
         public const double PairFromHand = 1;
 
-        public const double Pair = 2;
+        public const double TwoPair = 2;
 
         public const double ThreeOfAKind = 3;
 
