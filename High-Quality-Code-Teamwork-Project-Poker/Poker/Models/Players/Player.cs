@@ -8,7 +8,7 @@ namespace Poker.Models
     using System.Windows.Forms;
     using Poker.Interfaces;
 
-    public abstract class Player : IPlayer
+    public abstract class Player : CardHolder, IPlayer
     {
         private int chips;
 
@@ -25,10 +25,6 @@ namespace Poker.Models
             this.Type = new Type();
             this.Cards = new List<Card>();
         }
-
-        public ICollection<Card> Cards { get; set; }
-
-        public IList<PictureBox> PictureBoxHolder { get; set; }
 
         public string Name { get; set; }
 
@@ -68,9 +64,8 @@ namespace Poker.Models
 
         public int Id { get; set; }
 
-        public async Task SetCards(IList<Card> cards)
+        public override async Task SetCards(IList<Card> cards)
         {
-            //await base.SetCards(cards);
             for (int i = 0; i < cards.Count; i++)
             {
                 await Task.Delay(200);
@@ -89,14 +84,6 @@ namespace Poker.Models
                 }
             }
         }
-
-        public void RevealCardAtIndex(int index)
-        {
-            this.PictureBoxHolder[index].Image = this.Cards.ElementAt(index).Image;
-        }
-
-        protected abstract void SetCardImage(Card card, PictureBox pictureBox);
-
         public bool CanPlay()
         {
             return this.Chips > 0;

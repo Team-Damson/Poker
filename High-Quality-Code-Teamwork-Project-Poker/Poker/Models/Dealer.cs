@@ -10,7 +10,7 @@
     using Poker.Models.Players;
     using Poker.Enums;
 
-    public class Dealer : IDealer
+    public class Dealer : CardHolder, IDealer
     {
         private const int DealedCards = 5;
 
@@ -34,11 +34,7 @@
             }
         }
 
-        public ICollection<Card> Cards { get; set; }
-
-        public IList<PictureBox> PictureBoxHolder { get; set; }
-
-        public virtual async Task SetCards(IList<Card> cards)
+        public override async Task SetCards(IList<Card> cards)
         {
             for (int i = 0; i < cards.Count; i++)
             {
@@ -50,16 +46,11 @@
             }
         }
 
-        public void RevealCardAtIndex(int index)
-        {
-            this.PictureBoxHolder[index].Image = this.Cards.ElementAt(index).Image;
-        }
+        public CommunityCardBoard CurrentRound { get; set; }
 
-        protected void SetCardImage(Card card, PictureBox pictureBox)
+        protected override void SetCardImage(Card card, PictureBox pictureBox)
         {
             pictureBox.Image = Card.BackImage;
         }
-
-        public CommunityCardBoard CurrentRound { get; set; }
     }
 }

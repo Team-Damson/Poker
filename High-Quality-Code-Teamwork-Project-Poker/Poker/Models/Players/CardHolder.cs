@@ -14,17 +14,7 @@ namespace Poker.Models.Players
 
         public IList<PictureBox> PictureBoxHolder { get; set; }
 
-        public virtual async Task SetCards(IList<Card> cards)
-        {
-            for (int i = 0; i < cards.Count; i++)
-            {
-                await Task.Delay(200);
-                this.Cards.Add(cards[i]);
-                this.PictureBoxHolder[i].Tag = cards[i].Power;
-                this.SetCardImage(cards[i], this.PictureBoxHolder[i]);
-                //this.PictureBoxHolder[i].Visible = true;
-            }
-        }
+        public abstract Task SetCards(IList<Card> cards);
 
         public void RevealCardAtIndex(int index)
         {

@@ -487,7 +487,11 @@ namespace Poker
             }
 
             var winners = this.GetWinners(players);
-            this.ShowWinnersMessages(winners);
+            if (this.GetNotFoldedPlayersCount(this.GetAllPlayers()) != 1)
+            {
+                this.ShowWinnersMessages(winners);
+            }
+            
             this.SetWinnersChips(winners);
         }
 
@@ -649,28 +653,32 @@ namespace Poker
                     }
                     if (player.StatusLabel.Text.Contains("Check"))
                     {
-                        player.Raise = 0;
-                        player.Call = 0;
+                        //player.Raise = 0;
+                        this.ResetCall(new List<IPlayer>() { player });
+                        this.ResetRaise(new List<IPlayer>() { player });
+                        //player.Call = 0;
                     }
                 }
 
                 if (options == 2)
                 {
-                    if (player.Raise != Raise && player.Raise <= Raise)
+                    if (player.Raise < this.Raise)//!= Raise && player.Raise <= Raise)
                     {
+                        //player.Call = Convert.ToInt32(Raise) - player.Raise;
                         call = Convert.ToInt32(Raise) - player.Raise;
                     }
 
-                    if (player.Call != call || player.Call <= call)
+                    if (player.Call < call)//!= call || player.Call <= call)
                     {
                         call = call - player.Call;
                     }
 
                     if (player.Raise == Raise && Raise > 0)
                     {
+                        //call = (int)Raise;
                         call = 0;
                         this.buttonCall.Enabled = false;
-                        this.buttonCall.Text = "Callisfuckedup";
+                        //this.buttonCall.Text = "Callisfuckedup";
                     }
                 }
             }
@@ -754,13 +762,16 @@ namespace Poker
                 player.Panel.Visible = false;
                 player.Type.Power = 0;
                 player.Type.Current = -1;
-                player.Call = 0;
-                player.Raise = 0;
+                //player.Call = 0;
+                //player.Raise = 0;
                 player.FoldedTurn = false;
                 player.HasFolded = false;
                 player.IsInTurn = false;
                 player.StatusLabel.Text = string.Empty;
             }
+
+            this.ResetCall(allPlayers);
+            this.ResetRaise(allPlayers);
 
             human.IsInTurn = true;
         }
@@ -856,7 +867,10 @@ namespace Poker
             //this.winningHand.Power = 0;
             foreach (var player in this.GetAllPlayers())
             {
-                Rules(player);
+                if (!player.HasFolded)
+                {
+                    Rules(player);
+                }
             }
 
             this.CheckWinners(this.GetAllPlayers(), this.Dealer);
@@ -958,8 +972,12 @@ namespace Poker
             
             if (player.FoldedTurn)
             {
-                player.PictureBoxHolder[0].Visible = false;
-                player.PictureBoxHolder[1].Visible = false;
+                foreach (var pictureBox in player.PictureBoxHolder)
+                {
+                    pictureBox.Visible = false;
+                }
+                //player.PictureBoxHolder[0].Visible = false;
+                //player.PictureBoxHolder[1].Visible = false;
             }
         }
   
@@ -1098,7 +1116,7 @@ namespace Poker
             this.Rules(this.human);
             int parsedValue;
 
-            if (this.textboxRaise.Text != "" && int.TryParse(this.textboxRaise.Text, out parsedValue))
+            if (this.textboxRaise.Text != string.Empty && int.TryParse(this.textboxRaise.Text, out parsedValue))
             {
                 if (this.human.Chips > call)
                 {
