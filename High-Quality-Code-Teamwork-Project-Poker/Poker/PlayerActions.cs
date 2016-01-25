@@ -27,14 +27,14 @@
             //textboxPot.Text = (int.Parse(textboxPot.Text) + call).ToString();
         }
 
-        public void Raise(IPlayer player, ref bool raising, ref double Raise, ref int call, IPot pot)
+        public void Raise(IPlayer player, ref bool raising, ref double raise, ref int call, IPot pot)
         {
             //player.Chips -= Convert.ToInt32(Raise);
             //player.StatusLabel.Text = "Raise " + Raise;
-            player.Raise(Convert.ToInt32(Raise));
-            pot.Add(Convert.ToInt32(Raise));
+            player.Raise(Convert.ToInt32(raise));
+            pot.Add(Convert.ToInt32(raise));
             //textboxPot.Text = (int.Parse(textboxPot.Text) + Convert.ToInt32(RaiseAmount)).ToString();
-            call = Convert.ToInt32(Raise);
+            call = Convert.ToInt32(raise);
             raising = true;
             //player.IsInTurn = false;
         }

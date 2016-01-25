@@ -1,13 +1,8 @@
-﻿using Poker.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace Poker.Models
+﻿namespace Poker.Models
 {
+    using System.Windows.Forms;
+    using Poker.Interfaces;
+
     public class Pot : IPot
     {
         public Pot(TextBox textBox)
@@ -19,6 +14,7 @@ namespace Poker.Models
         }
 
         public TextBox TextBox { get; private set; }
+
         public int Amount { get; private set; }
 
         public void Set(int amount)

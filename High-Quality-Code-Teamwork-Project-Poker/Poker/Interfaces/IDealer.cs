@@ -1,12 +1,7 @@
-﻿using Poker.Enums;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Poker.Interfaces
+﻿namespace Poker.Interfaces
 {
+    using Poker.Enums;
+
     public interface IDealer : ICardHolder
     {
         CommunityCardBoard CurrentRound { get; set; }

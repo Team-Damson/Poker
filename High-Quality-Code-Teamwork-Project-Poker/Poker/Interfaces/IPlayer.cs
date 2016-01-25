@@ -37,9 +37,13 @@
         bool CanPlay();
 
         void Raise(int amount);
+
         void Call(int amount);
+
         void Fold();
+
         void Check();
+
         void AllIn();
     }
 }

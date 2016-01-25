@@ -1,13 +1,11 @@
-﻿using Poker.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace Poker.Models.Players
+﻿namespace Poker.Models.Players
 {
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+    using System.Windows.Forms;
+    using Poker.Interfaces;
+
     public abstract class CardHolder : ICardHolder
     {
         public ICollection<Card> Cards { get; set; }

@@ -1,12 +1,11 @@
-﻿using System;
-using Poker.Enums;
-
-namespace Poker.Models
+﻿namespace Poker.Models
 {
+    using System;
     using System.Collections.Generic;
     using System.Drawing;
     using System.Linq;
     using System.Windows.Forms;
+    using Poker.Enums;
     using Poker.Interfaces;
     using Poker.Models.Players;
 
@@ -42,7 +41,7 @@ namespace Poker.Models
 
             switch (playerType)
             {
-                case(PlayerType.Human):
+                case PlayerType.Human:
                     return new Human(
                         currentPlayerId,
                         name,
@@ -53,7 +52,7 @@ namespace Poker.Models
                         cardHolders,
                         panel);
                     break;
-                case (PlayerType.AI):
+                case PlayerType.AI:
                     return new AI(
                         currentPlayerId,
                         name,

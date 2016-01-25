@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-
-namespace Poker.Models.Players
+﻿namespace Poker.Models.Players
 {
+    using System.Collections.Generic;
+    using System.Windows.Forms;
+
     public class Human : Player
     {
         public Human(

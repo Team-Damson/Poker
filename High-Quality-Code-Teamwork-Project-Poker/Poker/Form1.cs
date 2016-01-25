@@ -38,7 +38,7 @@ namespace Poker
 
         ProgressBar asd = new ProgressBar();
         private int call;
-        double Raise = 0;
+        double raise = 0;
 
         //CommunityCardBoard currentRound = CommunityCardBoard.Undeal;
         bool changed;
@@ -505,10 +505,13 @@ namespace Poker
             }
 
             var winners = this.GetWinners(players);
-            if (this.GetNotFoldedPlayersCount(this.GetAllPlayers()) != 1)
-            {
-                this.ShowWinnersMessages(winners);
-            }
+
+            //if (this.GetNotFoldedPlayersCount(this.GetAllPlayers()) != 1)
+            //{
+            //    this.ShowWinnersMessages(winners);
+            //}
+
+            this.ShowWinnersMessages(winners);
             
             this.SetWinnersChips(winners);
         }
@@ -551,7 +554,7 @@ namespace Poker
                     {
                         changed = false;
                         turnCount = 0;
-                        Raise = 0;
+                        raise = 0;
                         call = 0;
                         raisedTurn = 123;
                         this.Dealer.CurrentRound++;
@@ -680,10 +683,10 @@ namespace Poker
 
                 if (options == 2)
                 {
-                    if (player.RaiseAmount < this.Raise)//!= RaiseAmount && player.RaiseAmount <= RaiseAmount)
+                    if (player.RaiseAmount < this.raise)//!= RaiseAmount && player.RaiseAmount <= RaiseAmount)
                     {
                         //player.CallAmount = Convert.ToInt32(RaiseAmount) - player.RaiseAmount;
-                        call = Convert.ToInt32(Raise) - player.RaiseAmount;
+                        call = Convert.ToInt32(raise) - player.RaiseAmount;
                     }
 
                     if (player.CallAmount < call)//!= call || player.CallAmount <= call)
@@ -691,7 +694,7 @@ namespace Poker
                         call = call - player.CallAmount;
                     }
 
-                    if (player.RaiseAmount == Raise && Raise > 0)
+                    if (player.RaiseAmount == raise && raise > 0)
                     {
                         //call = (int)RaiseAmount;
                         call = 0;
@@ -877,7 +880,7 @@ namespace Poker
             this.pot.Clear();
             this.SetDefaultCall();
             this.Dealer.CurrentRound = 0;
-            Raise = 0;
+            raise = 0;
             //restart = false;
             isAnyPlayerRaise = false;
             //winners = 0;
@@ -950,52 +953,52 @@ namespace Poker
 
                 if (player.Type.Current == PokerHand.HighCard)
                 {
-                    handType.HighCard(player, call, this.pot, ref Raise, ref isAnyPlayerRaise);
+                    handType.HighCard(player, call, this.pot, ref raise, ref isAnyPlayerRaise);
                 }
 
                 if (player.Type.Current == PokerHand.PairTable)
                 {
-                    handType.PairTable(player, call, this.pot, ref Raise, ref isAnyPlayerRaise);
+                    handType.PairTable(player, call, this.pot, ref raise, ref isAnyPlayerRaise);
                 }
 
                 if (player.Type.Current == PokerHand.PairFromHand)
                 {
-                    handType.PairHand(player, call, this.pot, ref Raise, ref isAnyPlayerRaise, this.Dealer.CurrentRound);
+                    handType.PairHand(player, call, this.pot, ref raise, ref isAnyPlayerRaise, this.Dealer.CurrentRound);
                 }
 
                 if (player.Type.Current == PokerHand.TwoPair)
                 {
-                    handType.TwoPair(player, call, this.pot, ref Raise, ref isAnyPlayerRaise, this.Dealer.CurrentRound);
+                    handType.TwoPair(player, call, this.pot, ref raise, ref isAnyPlayerRaise, this.Dealer.CurrentRound);
                 }
 
                 if (player.Type.Current == PokerHand.ThreeOfAKind)
                 {
-                    handType.ThreeOfAKind(player, call, this.pot, ref Raise, ref isAnyPlayerRaise);
+                    handType.ThreeOfAKind(player, call, this.pot, ref raise, ref isAnyPlayerRaise);
                 }
 
                 if (player.Type.Current == PokerHand.Straigth)
                 {
-                    handType.Straight(player, call, this.pot, ref Raise, ref isAnyPlayerRaise);
+                    handType.Straight(player, call, this.pot, ref raise, ref isAnyPlayerRaise);
                 }
 
                 if (player.Type.Current == PokerHand.Flush || player.Type.Current == PokerHand.FlushWithAce)
                 {
-                    handType.Flush(player, call, this.pot, ref Raise, ref isAnyPlayerRaise);
+                    handType.Flush(player, call, this.pot, ref raise, ref isAnyPlayerRaise);
                 }
 
                 if (player.Type.Current == PokerHand.FullHouse)
                 {
-                    handType.FullHouse(player, call, this.pot, ref Raise, ref isAnyPlayerRaise);
+                    handType.FullHouse(player, call, this.pot, ref raise, ref isAnyPlayerRaise);
                 }
 
                 if (player.Type.Current == PokerHand.FourOfAKind)
                 {
-                    handType.FourOfAKind(player, call, this.pot, ref Raise, ref isAnyPlayerRaise);
+                    handType.FourOfAKind(player, call, this.pot, ref raise, ref isAnyPlayerRaise);
                 }
 
                 if (player.Type.Current == PokerHand.StraightFlush || player.Type.Current == PokerHand.RoyalFlush)
                 {
-                    handType.StraightFlush(player, call, this.pot, ref Raise, ref isAnyPlayerRaise);
+                    handType.StraightFlush(player, call, this.pot, ref raise, ref isAnyPlayerRaise);
                 }
             }
             
@@ -1153,9 +1156,9 @@ namespace Poker
             {
                 if (this.human.Chips > call)
                 {
-                    if (Raise * 2 > int.Parse(this.textboxRaise.Text))
+                    if (raise * 2 > int.Parse(this.textboxRaise.Text))
                     {
-                        this.textboxRaise.Text = (Raise * 2).ToString();
+                        this.textboxRaise.Text = (raise * 2).ToString();
                         MessageBox.Show("You must raise atleast twice as the current raise !");
                         return;
                     }
@@ -1164,11 +1167,11 @@ namespace Poker
                         if (this.human.Chips >= int.Parse(this.textboxRaise.Text))
                         {
                             call = int.Parse(this.textboxRaise.Text);
-                            Raise = int.Parse(this.textboxRaise.Text);
+                            raise = int.Parse(this.textboxRaise.Text);
                             //this.human.StatusLabel.Text = "Raise " + call;
                             this.pot.Add(call);
                             this.buttonCall.Text = "Call";
-                            this.human.Raise((int)Raise);
+                            this.human.Raise((int)raise);
                             //this.human.Chips -= int.Parse(this.textboxRaise.Text);
                             isAnyPlayerRaise = true;
                             //this.human.Raise = Convert.ToInt32(Raise);
@@ -1176,7 +1179,7 @@ namespace Poker
                         else
                         {
                             call = this.human.Chips;
-                            Raise = this.human.Chips;
+                            raise = this.human.Chips;
                             this.pot.Add(this.human.Chips);
                             this.human.Raise(this.human.Chips);
                             //this.human.StatusLabel.Text = "Raise " + call;
