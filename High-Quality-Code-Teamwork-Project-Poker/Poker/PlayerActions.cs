@@ -21,10 +21,10 @@
             raising = false;
             player.Call(call);
             //player.IsInTurn = false;
-            //player.Chips -= call;
-            //player.StatusLabel.Text = "Call " + call;
+            //player.Chips -= Call;
+            //player.StatusLabel.Text = "Call " + Call;
             pot.Add(call);
-            //textboxPot.Text = (int.Parse(textboxPot.Text) + call).ToString();
+            //textboxPot.Text = (int.Parse(textboxPot.Text) + Call).ToString();
         }
 
         public void Raise(IPlayer player, ref bool raising, ref double Raise, ref int call, IPot pot)
