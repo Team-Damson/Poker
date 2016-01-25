@@ -1,4 +1,4 @@
-﻿namespace Poker.Models
+﻿namespace Poker.Models.Players
 {
     using System.Collections.Generic;
     using System.Drawing;

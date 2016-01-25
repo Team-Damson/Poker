@@ -1,12 +1,9 @@
-﻿using Poker.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace Poker.Interfaces
+﻿namespace Poker.Interfaces
 {
+    using Poker.Models;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+
     public interface IDeck
     {
         IList<Card> GetCards();

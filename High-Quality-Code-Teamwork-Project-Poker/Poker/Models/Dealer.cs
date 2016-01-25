@@ -6,9 +6,9 @@
     using System.Linq;
     using System.Threading.Tasks;
     using System.Windows.Forms;
+    using Poker.Enums;
     using Poker.Interfaces;
     using Poker.Models.Players;
-    using Poker.Enums;
 
     public class Dealer : CardHolder, IDealer
     {
@@ -34,6 +34,8 @@
             }
         }
 
+        public CommunityCardBoard CurrentRound { get; set; }
+
         public override async Task SetCards(IList<Card> cards)
         {
             for (int i = 0; i < cards.Count; i++)
@@ -45,9 +47,7 @@
                 this.PictureBoxHolder[i].Visible = true;
             }
         }
-
-        public CommunityCardBoard CurrentRound { get; set; }
-
+        
         protected override void SetCardImage(Card card, PictureBox pictureBox)
         {
             pictureBox.Image = Card.BackImage;

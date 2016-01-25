@@ -1,12 +1,9 @@
 ﻿namespace Poker
 {
     using System;
-    using System.Windows.Forms;
-
     using Poker.Enums;
     using Poker.Interfaces;
-    using Poker.Models;
-
+    
     public class Dunno
     {
         private readonly PlayerActions playerActions = new PlayerActions();
@@ -18,7 +15,7 @@
             return a;
         }
 
-        public void HP(IPlayer player, int n, int n1, int call, IPot pot, ref double Raise, ref bool raising)
+        public void HP(IPlayer player, int n, int n1, int call, IPot pot, ref double raise, ref bool raising)
         {
             int randomInteger = this.random.Next(1, 4);
 
@@ -56,17 +53,17 @@
 
             if (randomInteger == 3)
             {
-                if (Raise == 0)
+                if (raise == 0)
                 {
-                    Raise = call * 2;
-                    this.playerActions.Raise(player, ref raising, ref Raise, ref call, pot);
+                    raise = call * 2;
+                    this.playerActions.Raise(player, ref raising, ref raise, ref call, pot);
                 }
                 else
                 {
-                    if (Raise <= RoundN(player.Chips, n))
+                    if (raise <= RoundN(player.Chips, n))
                     {
-                        Raise = call * 2;
-                        this.playerActions.Raise(player, ref raising, ref Raise, ref call, pot);
+                        raise = call * 2;
+                        this.playerActions.Raise(player, ref raising, ref raise, ref call, pot);
                     }
                     else
                     {
@@ -81,7 +78,7 @@
             }
         }
 
-        public void PH(IPlayer player, int n, int n1, int r, int call, IPot pot, ref double Raise, ref bool raising, CommunityCardBoard rounds)
+        public void PH(IPlayer player, int n, int n1, int r, int call, IPot pot, ref double raise, ref bool raising, CommunityCardBoard rounds)
         {
             int rnd = this.random.Next(1, 3);
 
@@ -99,7 +96,7 @@
                         this.playerActions.Fold(player, ref raising);
                     }
 
-                    if (Raise > RoundN(player.Chips, n))
+                    if (raise > RoundN(player.Chips, n))
                     {
                         this.playerActions.Fold(player, ref raising);
                     }
@@ -111,21 +108,21 @@
                             this.playerActions.Call(player, ref raising, call, pot);
                         }
 
-                        if (Raise <= RoundN(player.Chips, n) && Raise >= RoundN(player.Chips, n) / 2)
+                        if (raise <= RoundN(player.Chips, n) && raise >= RoundN(player.Chips, n) / 2)
                         {
                             this.playerActions.Call(player, ref raising, call, pot);
                         }
 
-                        if (Raise <= RoundN(player.Chips, n) / 2)
+                        if (raise <= RoundN(player.Chips, n) / 2)
                         {
-                            if (Raise > 0)
+                            if (raise > 0)
                             {
-                                Raise = RoundN(player.Chips, n);
+                                raise = RoundN(player.Chips, n);
                                 this.playerActions.Call(player, ref raising, call, pot);
                             }
                             else
                             {
-                                Raise = call * 2;
+                                raise = call * 2;
                                 this.playerActions.Call(player, ref raising, call, pot);
                             }
                         }
@@ -142,7 +139,7 @@
                         this.playerActions.Fold(player, ref raising);
                     }
 
-                    if (Raise > RoundN(player.Chips, n - rnd))
+                    if (raise > RoundN(player.Chips, n - rnd))
                     {
                         this.playerActions.Fold(player, ref raising);
                     }
@@ -154,22 +151,22 @@
                             this.playerActions.Call(player, ref raising, call, pot);
                         }
 
-                        if (Raise <= RoundN(player.Chips, n - rnd) && Raise >= RoundN(player.Chips, n - rnd) / 2)
+                        if (raise <= RoundN(player.Chips, n - rnd) && raise >= RoundN(player.Chips, n - rnd) / 2)
                         {
                             this.playerActions.Call(player, ref raising, call, pot);
                         }
 
-                        if (Raise <= RoundN(player.Chips, n - rnd) / 2)
+                        if (raise <= RoundN(player.Chips, n - rnd) / 2)
                         {
-                            if (Raise > 0)
+                            if (raise > 0)
                             {
-                                Raise = RoundN(player.Chips, n - rnd);
-                                this.playerActions.Raise(player, ref raising, ref Raise, ref call, pot);
+                                raise = RoundN(player.Chips, n - rnd);
+                                this.playerActions.Raise(player, ref raising, ref raise, ref call, pot);
                             }
                             else
                             {
-                                Raise = call * 2;
-                                this.playerActions.Raise(player, ref raising, ref Raise, ref call, pot);
+                                raise = call * 2;
+                                this.playerActions.Raise(player, ref raising, ref raise, ref call, pot);
                             }
                         }
                     }
@@ -177,8 +174,8 @@
 
                 if (call <= 0)
                 {
-                    Raise = RoundN(player.Chips, r - rnd);
-                    this.playerActions.Raise(player, ref raising, ref Raise, ref call, pot);
+                    raise = RoundN(player.Chips, r - rnd);
+                    this.playerActions.Raise(player, ref raising, ref raise, ref call, pot);
                 }
             }
 

@@ -1,6 +1,4 @@
-﻿using Poker.Models.Players;
-
-namespace Poker.Models
+﻿namespace Poker.Models.Players
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -34,6 +32,7 @@ namespace Poker.Models
             {
                 return this.chips;
             }
+
             set
             {
                 this.chips = value < 0 ? 0 : value;
@@ -90,6 +89,7 @@ namespace Poker.Models
                 }
             }
         }
+
         public bool CanPlay()
         {
             return this.Chips > 0;
@@ -136,7 +136,7 @@ namespace Poker.Models
 
         private void UpdateChipsTetxBox(int value)
         {
-            this.ChipsTextBox.Text = AppSettigns.PlayerChipsTextBoxText + value.ToString();
+            this.ChipsTextBox.Text = AppSettigns.PlayerChipsTextBoxText + value;
         }
     }
 }

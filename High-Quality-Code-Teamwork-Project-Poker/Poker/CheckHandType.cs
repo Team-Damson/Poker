@@ -8,10 +8,6 @@
 
     public class CheckHandType
     {
-        //public CheckHandType()
-        //{
-        //}
-
         public void CheckStraightFlush(IPlayer player, int[] spades, int[] hearts, int[] diamonds, int[] clubs, ref List<Type> strongestHands, ref Type winningHand)
         {
             if (player.Type.Current >= PokerHand.HighCard)
@@ -131,7 +127,7 @@
                     if (clubs[0] == 0 && clubs[1] == 9 && clubs[2] == 10 && clubs[3] == 11 && clubs[0] + 12 == clubs[4])
                     {
                         player.Type.Current = PokerHand.RoyalFlush;
-                        player.Type.Power = (clubs.Max()) / 4 + player.Type.Current * 100;
+                        player.Type.Power = clubs.Max() / 4 + player.Type.Current * 100;
 
                         strongestHands.Add(new Type()
                                     {
