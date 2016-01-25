@@ -67,15 +67,20 @@
     <Compile Include="HandTypes.cs" />
     <Compile Include="Interfaces\ICard.cs" />
     <Compile Include="Interfaces\ICardHolder.cs" />
+    <Compile Include="Interfaces\IDealer.cs" />
+    <Compile Include="Interfaces\IDeck.cs" />
     <Compile Include="Interfaces\IPlayer.cs" />
+    <Compile Include="Interfaces\IPot.cs" />
     <Compile Include="Models\Card.cs" />
     <Compile Include="Models\Dealer.cs" />
     <Compile Include="Models\Deck.cs" />
     <Compile Include="Models\Hand.cs" />
     <Compile Include="Models\Players\AI.cs" />
+    <Compile Include="Models\Players\CardHolder.cs" />
     <Compile Include="Models\Players\Human.cs" />
     <Compile Include="Models\Players\Player.cs" />
     <Compile Include="Models\PlayerFactory.cs" />
+    <Compile Include="Models\Pot.cs" />
     <Compile Include="PlayerActions.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="ProgressBars.cs" />
@@ -97,6 +102,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

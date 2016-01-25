@@ -7,7 +7,7 @@
     using System.Threading.Tasks;
     using Poker.Interfaces;
 
-    public class Deck
+    public class Deck : IDeck
     {
         private static Deck instance;
         private readonly IList<Card> cards;
@@ -54,7 +54,7 @@
             return this.cards[index];
         }
 
-        public async Task SetCards(IList<IPlayer> players, Dealer dealer)
+        public async Task SetCards(IList<IPlayer> players, IDealer dealer)
         {
             this.Shuffle();
             int playersCount;

@@ -423,7 +423,7 @@
             this.DoubleBuffered = true;
             this.Name = "Form1";
             this.Text = "GLS Texas Poker";
-            this.Layout += new LayoutEventHandler(this.LayoutChange);
+            //this.Layout += new LayoutEventHandler(this.LayoutChange);
             this.ResumeLayout(false);
             this.PerformLayout();
         }

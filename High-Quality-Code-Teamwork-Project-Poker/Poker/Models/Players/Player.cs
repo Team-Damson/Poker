@@ -1,4 +1,6 @@
-﻿namespace Poker.Models
+﻿using Poker.Models.Players;
+
+namespace Poker.Models
 {
     using System.Collections.Generic;
     using System.Linq;
@@ -10,14 +12,14 @@
     {
         private int chips;
 
-        public Player(int id, string name, Label statusLabel, TextBox chipsTextBoxTextBox, int[] cardIndexes, int chips, IList<PictureBox> pictureBoxHolder, Panel panel)
+        protected Player(int id, string name, Label statusLabel, TextBox chipsTextBoxTextBox, /*int[] cardIndexes,*/ int chips, IList<PictureBox> pictureBoxHolder, Panel panel)
         {
             this.Id = id;
             this.Name = name;
             this.StatusLabel = statusLabel;
             this.ChipsTextBox = chipsTextBoxTextBox;
             this.Chips = chips;
-            this.CardIndexes = cardIndexes;
+            //this.CardIndexes = cardIndexes;
             this.PictureBoxHolder = pictureBoxHolder ?? new List<PictureBox>();
             this.Panel = panel ?? new Panel();
             this.Type = new Type();
@@ -27,8 +29,6 @@
         public ICollection<Card> Cards { get; set; }
 
         public IList<PictureBox> PictureBoxHolder { get; set; }
-
-        public bool WinCurrentHand { get; set; }
 
         public string Name { get; set; }
 
@@ -44,7 +44,7 @@
             }
         }
 
-        public int[] CardIndexes { get; set; }
+        //public int[] CardIndexes { get; set; }
 
         public Label StatusLabel { get; set; }
 
@@ -54,7 +54,7 @@
 
         public int Raise { get; set; }
 
-        public Hand Hand { get; set; }
+        //public Hand Hand { get; set; }
 
         public bool HasFolded { get; set; }
 
@@ -68,13 +68,9 @@
 
         public int Id { get; set; }
 
-        public void SetCard(Card card)
-        {
-            this.Cards.Add(card);
-        }
-
         public async Task SetCards(IList<Card> cards)
         {
+            //await base.SetCards(cards);
             for (int i = 0; i < cards.Count; i++)
             {
                 await Task.Delay(200);
@@ -94,20 +90,16 @@
             }
         }
 
-        public void SetCardsVisible()
-        {
-        }
-
-        public bool CanPlay()
-        {
-            return this.Chips > 0;
-        }
-
         public void RevealCardAtIndex(int index)
         {
             this.PictureBoxHolder[index].Image = this.Cards.ElementAt(index).Image;
         }
 
         protected abstract void SetCardImage(Card card, PictureBox pictureBox);
+
+        public bool CanPlay()
+        {
+            return this.Chips > 0;
+        }
     }
 }

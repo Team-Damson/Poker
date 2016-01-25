@@ -13,7 +13,7 @@
 
         Task SetCards(IList<Card> cards);
 
-        void SetCard(Card card);
+        //void SetCard(Card card);
 
         void RevealCardAtIndex(int index);
     }

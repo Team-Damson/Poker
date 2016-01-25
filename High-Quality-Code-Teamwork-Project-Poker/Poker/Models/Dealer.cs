@@ -7,8 +7,10 @@
     using System.Threading.Tasks;
     using System.Windows.Forms;
     using Poker.Interfaces;
+    using Poker.Models.Players;
+    using Poker.Enums;
 
-    public class Dealer : ICardHolder
+    public class Dealer : IDealer
     {
         private const int DealedCards = 5;
 
@@ -36,26 +38,28 @@
 
         public IList<PictureBox> PictureBoxHolder { get; set; }
 
-        public async Task SetCards(IList<Card> cards)
+        public virtual async Task SetCards(IList<Card> cards)
         {
             for (int i = 0; i < cards.Count; i++)
             {
                 await Task.Delay(200);
                 this.Cards.Add(cards[i]);
                 this.PictureBoxHolder[i].Tag = cards[i].Power;
-                this.PictureBoxHolder[i].Image = new Bitmap("Assets\\Back\\Back.png");
+                this.SetCardImage(cards[i], this.PictureBoxHolder[i]);
                 this.PictureBoxHolder[i].Visible = true;
             }
         }
 
-        public void SetCard(Card card)
-        {
-            throw new NotImplementedException();
-        }
-        
         public void RevealCardAtIndex(int index)
         {
             this.PictureBoxHolder[index].Image = this.Cards.ElementAt(index).Image;
         }
+
+        protected void SetCardImage(Card card, PictureBox pictureBox)
+        {
+            pictureBox.Image = Card.BackImage;
+        }
+
+        public CommunityCardBoard CurrentRound { get; set; }
     }
 }

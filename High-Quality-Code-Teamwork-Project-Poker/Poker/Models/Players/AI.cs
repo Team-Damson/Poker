@@ -11,17 +11,17 @@
                   string name,
                   Label statusLabel,
                   TextBox chipsTextBoxTextBox,
-                  int[] cardIndexes,
+                  //int[] cardIndexes,
                   int chips,
                   IList<PictureBox> pictureBoxHolder,
                   Panel panel)
-            : base(id, name, statusLabel, chipsTextBoxTextBox, cardIndexes, chips, pictureBoxHolder, panel)
+            : base(id, name, statusLabel, chipsTextBoxTextBox, /*cardIndexes,*/ chips, pictureBoxHolder, panel)
         {
         }
 
         protected override void SetCardImage(Card card, PictureBox pictureBox)
         {
-            pictureBox.Image = new Bitmap("Assets\\Back\\Back.png");
+            pictureBox.Image = Card.BackImage;
         }
     }
 }

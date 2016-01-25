@@ -3,6 +3,7 @@
     using System;
     using System.Windows.Forms;
     using Poker.Interfaces;
+    using Poker.Models;
 
     public class PlayerActions
     {
@@ -14,20 +15,22 @@
             player.FoldedTurn = true;
         }
 
-        public void Call(IPlayer player, ref bool raising, ref int call, TextBox textboxPot)
+        public void Call(IPlayer player, ref bool raising, int call, IPot pot)
         {
             raising = false;
             player.IsInTurn = false;
             player.Chips -= call;
             player.StatusLabel.Text = "Call " + call;
-            textboxPot.Text = (int.Parse(textboxPot.Text) + call).ToString();
+            pot.Add(call);
+            //textboxPot.Text = (int.Parse(textboxPot.Text) + call).ToString();
         }
 
-        public void Raise(IPlayer player, ref bool raising, ref double Raise, ref int call, TextBox textboxPot)
+        public void Raise(IPlayer player, ref bool raising, ref double Raise, ref int call, IPot pot)
         {
             player.Chips -= Convert.ToInt32(Raise);
             player.StatusLabel.Text = "Raise " + Raise;
-            textboxPot.Text = (int.Parse(textboxPot.Text) + Convert.ToInt32(Raise)).ToString();
+            pot.Add(Convert.ToInt32(Raise));
+            //textboxPot.Text = (int.Parse(textboxPot.Text) + Convert.ToInt32(Raise)).ToString();
             call = Convert.ToInt32(Raise);
             raising = true;
             player.IsInTurn = false;

@@ -14,11 +14,11 @@ namespace Poker.Models.Players
                   string name,
                   Label statusLabel,
                   TextBox chipsTextBoxTextBox,
-                  int[] cardIndexes,
+                  //int[] cardIndexes,
                   int chips,
                   IList<PictureBox> pictureBoxHolder,
                   Panel panel)
-            : base(id, name, statusLabel, chipsTextBoxTextBox, cardIndexes, chips, pictureBoxHolder, panel)
+            : base(id, name, statusLabel, chipsTextBoxTextBox, /*cardIndexes,*/ chips, pictureBoxHolder, panel)
         {
         }
 

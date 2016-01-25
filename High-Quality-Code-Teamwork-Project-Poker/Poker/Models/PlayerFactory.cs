@@ -12,7 +12,7 @@ namespace Poker.Models
 
     public class PlayerFactory
     {
-        private static int cardsIndexCounter = 0;
+        //private static int cardsIndexCounter = 0;
         private static int currentPlayerId = 0;
         private static int cardHoldersCount = 0;
 
@@ -48,7 +48,7 @@ namespace Poker.Models
                         name,
                         statusLabel,
                         chipsTextBox,
-                        new int[] { cardsIndexCounter++, cardsIndexCounter++ },
+                        //new int[] { cardsIndexCounter++, cardsIndexCounter++ },
                         chips,
                         cardHolders,
                         panel);
@@ -59,7 +59,7 @@ namespace Poker.Models
                         name,
                         statusLabel,
                         chipsTextBox,
-                        new int[] { cardsIndexCounter++, cardsIndexCounter++ },
+                        //new int[] { cardsIndexCounter++, cardsIndexCounter++ },
                         chips,
                         cardHolders,
                         panel);

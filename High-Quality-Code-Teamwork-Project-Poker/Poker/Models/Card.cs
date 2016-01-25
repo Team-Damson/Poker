@@ -7,7 +7,7 @@
 
     public class Card : ICard
     {
-        //public static readonly Bitmap backImage = new Bitmap("Assets\\Back\\Back.png");
+        public static readonly Bitmap BackImage = new Bitmap("Assets\\Back\\Back.png");
 
         public Card(int power, Image image)//Face cardFace, Suit cardSuit)
         {

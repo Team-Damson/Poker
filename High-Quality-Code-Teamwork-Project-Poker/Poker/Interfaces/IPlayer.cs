@@ -12,15 +12,9 @@
 
         Panel Panel { get; set; }
 
-        bool WinCurrentHand { get; set; }
-
         Type Type { get; set; }
 
-        ICollection<Card> Cards { get; set; }
-
-        IList<PictureBox> PictureBoxHolder { get; set; }
-
-        int[] CardIndexes { get; set; }
+        //int[] CardIndexes { get; set; }
 
         Label StatusLabel { get; set; }
 
@@ -32,7 +26,7 @@
 
         int Raise { get; set; }
 
-        Hand Hand { get; set; }
+        //Hand Hand { get; set; }
 
         bool HasFolded { get; set; }
 
