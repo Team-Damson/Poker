@@ -22,9 +22,9 @@
 
         int Chips { get; set; }
 
-        int Call { get; set; }
+        int CallAmount { get; set; }
 
-        int Raise { get; set; }
+        int RaiseAmount { get; set; }
 
         //Hand Hand { get; set; }
 
@@ -35,5 +35,11 @@
         bool FoldedTurn { get; set; }
 
         bool CanPlay();
+
+        void Raise(int amount);
+        void Call(int amount);
+        void Fold();
+        void Check();
+        void AllIn();
     }
 }

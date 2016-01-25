@@ -37,6 +37,12 @@ namespace Poker.Models
             set
             {
                 this.chips = value < 0 ? 0 : value;
+                this.UpdateChipsTetxBox(this.chips);
+                if (this.chips == 0)
+                {
+                    this.IsInTurn = false;
+                    this.FoldedTurn = true;
+                }
             }
         }
 
@@ -46,9 +52,9 @@ namespace Poker.Models
 
         public TextBox ChipsTextBox { get; set; }
 
-        public int Call { get; set; }
+        public int CallAmount { get; set; }
 
-        public int Raise { get; set; }
+        public int RaiseAmount { get; set; }
 
         //public Hand Hand { get; set; }
 
@@ -87,6 +93,50 @@ namespace Poker.Models
         public bool CanPlay()
         {
             return this.Chips > 0;
+        }
+
+
+        public void Raise(int amount)
+        {
+            this.StatusLabel.Text = "Raise " + amount;
+            this.Chips -= amount;
+            this.RaiseAmount = amount;
+            this.IsInTurn = false;
+        }
+
+        public void Call(int amount)
+        {
+            this.IsInTurn = false;
+            this.Chips -= amount;
+            this.CallAmount = amount;
+            this.StatusLabel.Text = "Call " + amount;
+        }
+
+        public void Fold()
+        {
+            this.StatusLabel.Text = "Fold";
+            this.IsInTurn = false;
+            this.FoldedTurn = true;
+            this.HasFolded = true;
+        }
+
+        public void Check()
+        {
+            this.StatusLabel.Text = "Check";
+            this.IsInTurn = false;
+        }
+
+        public void AllIn()
+        {
+            this.StatusLabel.Text = "All in " + this.Chips;
+            this.CallAmount = this.Chips;
+            this.Chips = 0;
+            this.IsInTurn = false;
+        }
+
+        private void UpdateChipsTetxBox(int value)
+        {
+            this.ChipsTextBox.Text = AppSettigns.PlayerChipsTextBoxText + value.ToString();
         }
     }
 }

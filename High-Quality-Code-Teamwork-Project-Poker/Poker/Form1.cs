@@ -10,6 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Runtime.InteropServices;
+using Poker.Events;
 using Poker.Interfaces;
 using Poker.Models;
 
@@ -24,6 +25,8 @@ namespace Poker
 
         HandTypes handType = new HandTypes();
         CheckHandType checkHandType = new CheckHandType();
+
+        public event GameEngineStateEvent GameEngineStateEvent;
 
         private IPot pot;
         #region Variables
@@ -81,7 +84,7 @@ namespace Poker
             
             this.Shuffle();
 
-            this.UpdatePlayersChipsTextBoxes(this.GetAllPlayers());
+            //this.UpdatePlayersChipsTextBoxes(this.GetAllPlayers());
 
             timer.Interval = (1000);
             timer.Tick += this.TimerTick;
@@ -96,14 +99,14 @@ namespace Poker
             this.textboxRaise.Text = (this.bigBlind * 2).ToString();
         }
 
-        private void UpdatePlayersChipsTextBoxes(ICollection<IPlayer> players)
+        /*private void UpdatePlayersChipsTextBoxes(ICollection<IPlayer> players)
         {
             foreach (var player in players)
             {
                 player.ChipsTextBox.Enabled = false;
                 player.ChipsTextBox.Text = AppSettigns.PlayerChipsTextBoxText + player.Chips.ToString();
             }
-        }
+        }*/
 
         private void InitDealer()
         {
@@ -152,6 +155,14 @@ namespace Poker
             }
         }
 
+        private void InvokeGameEngineStateEvent(GameEngineEventArgs args)
+        {
+            if (this.GameEngineStateEvent != null)
+            {
+                this.GameEngineStateEvent(this, args);
+            }
+        }
+
         private IList<IPlayer> GetAllPlayers()
         {
             IList<IPlayer> allPlayers = new List<IPlayer>();
@@ -173,9 +184,11 @@ namespace Poker
             MaximizeBox = false;
             MinimizeBox = false;
 
+            this.InvokeGameEngineStateEvent(new GameEngineEventArgs(GameEngineState.BeginShuffling));
+
             await this.Deck.SetCards(this.GetAllPlayers(), this.Dealer);
 
-            this.Run();
+            
             if (this.enemies.Count(e => !e.CanPlay()) == 5)
             {
                 DialogResult dialogResult = MessageBox.Show(AppSettigns.PlayAgainMessage, AppSettigns.WinningMessage, MessageBoxButtons.YesNo);
@@ -188,6 +201,9 @@ namespace Poker
                     Application.Exit();
                 }
             }
+
+            this.InvokeGameEngineStateEvent(new GameEngineEventArgs(GameEngineState.EndShuffling));
+            this.Run();
             this.buttonRaise.Enabled = true;
             this.buttonCall.Enabled = true;
             this.buttonFold.Enabled = true;
@@ -243,6 +259,7 @@ namespace Poker
                 if (human.IsInTurn)
                 {
                     FixCall(human, 1);
+                    this.InvokeGameEngineStateEvent(new GameEngineEventArgs(GameEngineState.HumanTurn));
                     this.progressbarTimer.Visible = true;
                     this.progressbarTimer.Value = 1000;
                     secondsForHumanToPlay = 60;
@@ -264,10 +281,11 @@ namespace Poker
                 {
                     if (this.buttonCall.Text.Contains("All in") == false || this.buttonRaise.Text.Contains("All in") == false)
                     {
-                        human.HasFolded = true;
+                        //human.HasFolded = true;
                     }
                 }
                 await CheckRaise(0);//, 0);
+                this.InvokeGameEngineStateEvent(new GameEngineEventArgs(GameEngineState.AITurn));
                 this.progressbarTimer.Visible = false;
                 this.buttonRaise.Enabled = false;
                 this.buttonCall.Enabled = false;
@@ -292,7 +310,7 @@ namespace Poker
                 {
                     if (this.buttonCall.Text.Contains("All in") == false || this.buttonRaise.Text.Contains("All in") == false)
                     {
-                        human.HasFolded = true;
+                        //human.HasFolded = true;
                     }
                 }
             #endregion
@@ -400,12 +418,12 @@ namespace Poker
             {
                 if (!player.HasFolded)
                 {
-                    if (player.Type.Current == this.winningHand.Current)
+                    if ((player.Type.Current == this.winningHand.Current && player.Type.Power == this.winningHand.Power) || this.GetNotFoldedPlayersCount(this.GetAllPlayers()) == 1)
                     {
-                        if (player.Type.Power == this.winningHand.Power)
-                        {
+                        //if (player.Type.Power == this.winningHand.Power)
+                        //{
                             winners.Add(player);
-                        }
+                        //}
                     }
                 }
             }
@@ -504,7 +522,7 @@ namespace Poker
         {
             foreach (var player in players)
             {
-                player.Call = 0;
+                player.CallAmount = 0;
             }
         }
 
@@ -512,7 +530,7 @@ namespace Poker
         {
             foreach (var player in players)
             {
-                player.Raise = 0;
+                player.RaiseAmount = 0;
             }
         }
 
@@ -596,7 +614,7 @@ namespace Poker
                 this.ResetForNextGame(this.human, this.enemies);
                 this.CheckPlayerChipsAmount(this.human);
                 this.SetDefaultCall();
-                Raise = 0;
+                RaiseAmount = 0;
                 currentRound = 0;
                 //Winners.Clear();
                 //winners = 0;
@@ -644,40 +662,40 @@ namespace Poker
                     if (player.StatusLabel.Text.Contains("Raise"))
                     {
                         var changeRaise = player.StatusLabel.Text.Substring(6);
-                        player.Raise = int.Parse(changeRaise);
+                        player.RaiseAmount = int.Parse(changeRaise);
                     }
                     if (player.StatusLabel.Text.Contains("Call"))
                     {
                         var changeCall = player.StatusLabel.Text.Substring(5);
-                        player.Call = int.Parse(changeCall);
+                        player.CallAmount = int.Parse(changeCall);
                     }
                     if (player.StatusLabel.Text.Contains("Check"))
                     {
-                        //player.Raise = 0;
+                        //player.RaiseAmount = 0;
                         this.ResetCall(new List<IPlayer>() { player });
                         this.ResetRaise(new List<IPlayer>() { player });
-                        //player.Call = 0;
+                        //player.CallAmount = 0;
                     }
                 }
 
                 if (options == 2)
                 {
-                    if (player.Raise < this.Raise)//!= Raise && player.Raise <= Raise)
+                    if (player.RaiseAmount < this.Raise)//!= RaiseAmount && player.RaiseAmount <= RaiseAmount)
                     {
-                        //player.Call = Convert.ToInt32(Raise) - player.Raise;
-                        call = Convert.ToInt32(Raise) - player.Raise;
+                        //player.CallAmount = Convert.ToInt32(RaiseAmount) - player.RaiseAmount;
+                        call = Convert.ToInt32(Raise) - player.RaiseAmount;
                     }
 
-                    if (player.Call < call)//!= call || player.Call <= call)
+                    if (player.CallAmount < call)//!= call || player.CallAmount <= call)
                     {
-                        call = call - player.Call;
+                        call = call - player.CallAmount;
                     }
 
-                    if (player.Raise == Raise && Raise > 0)
+                    if (player.RaiseAmount == Raise && Raise > 0)
                     {
-                        //call = (int)Raise;
+                        //call = (int)RaiseAmount;
                         call = 0;
-                        this.buttonCall.Enabled = false;
+                        //this.buttonCall.Enabled = false;
                         //this.buttonCall.Text = "Callisfuckedup";
                     }
                 }
@@ -706,7 +724,7 @@ namespace Poker
             
             if (allInPlayersCount == this.GetNotFoldedPlayersCount(this.GetAllPlayers()))
             {
-                await Finish(2);
+                //await Finish(2);
             }
             #endregion
 
@@ -716,12 +734,12 @@ namespace Poker
             if (notFoldedPlayersCount == 1)
             {
                 IPlayer notFoldedPlayer = this.GetAllPlayers().FirstOrDefault(p => p.HasFolded == false);
-                notFoldedPlayer.Chips += this.pot.Amount;
-                notFoldedPlayer.ChipsTextBox.Text = notFoldedPlayer.Chips.ToString();
-                notFoldedPlayer.Panel.Visible = false;
+                //notFoldedPlayer.Chips += this.pot.Amount;
+                //notFoldedPlayer.ChipsTextBox.Text = notFoldedPlayer.Chips.ToString();
+                //notFoldedPlayer.Panel.Visible = false;
                 MessageBox.Show(notFoldedPlayer.Name + " Wins");
                 
-                foreach (var pictureBox in this.human.PictureBoxHolder)
+                /*foreach (var pictureBox in this.human.PictureBoxHolder)
                 {
                     pictureBox.Visible = false;
                 }
@@ -737,8 +755,8 @@ namespace Poker
                 foreach (var pictureBox in this.Dealer.PictureBoxHolder)
                 {
                     pictureBox.Visible = false;
-                }
-
+                }*/
+                this.HideCardsPictureBoxes(this.GetCardHolders());
                 await Finish(1);
             }
             
@@ -752,6 +770,17 @@ namespace Poker
             #endregion
         }
 
+        private void HideCardsPictureBoxes(ICollection<ICardHolder> cardHolders)
+        {
+            foreach (var cardHolder in cardHolders)
+            {
+                foreach (var pictureBox in cardHolder.PictureBoxHolder)
+                {
+                    pictureBox.Visible = false;
+                }
+            }
+        }
+
         private void ResetForNextGame(IPlayer human, ICollection<IPlayer> enemies)
         {
             IList<IPlayer> allPlayers = new List<IPlayer>(enemies);
@@ -762,8 +791,8 @@ namespace Poker
                 player.Panel.Visible = false;
                 player.Type.Power = 0;
                 player.Type.Current = -1;
-                //player.Call = 0;
-                //player.Raise = 0;
+                //player.CallAmount = 0;
+                //player.RaiseAmount = 0;
                 player.FoldedTurn = false;
                 player.HasFolded = false;
                 player.IsInTurn = false;
@@ -786,10 +815,10 @@ namespace Poker
             this.ResetForNextGame(this.human, this.enemies);
 
             //this.SetDefaultCall();
-            //Raise = 0; 
+            //RaiseAmount = 0; 
             //currentRound = 0;
             
-            //Raise = 0;
+            //RaiseAmount = 0;
 
             //restart = false; isAnyPlayerRaise = false;
             //winners = 0;
@@ -883,36 +912,36 @@ namespace Poker
                 //switch (player.Type.Current)
                 //{
                 //    case PokerHand.HighCard:
-                //        handType.HighCard(player, call, textboxPot, ref Raise, ref isAnyPlayerRaise);
+                //        handType.HighCard(player, call, textboxPot, ref RaiseAmount, ref isAnyPlayerRaise);
                 //        break;
                 //    case PokerHand.PairTable:
-                //        handType.PairTable(player, call, textboxPot, ref Raise, ref isAnyPlayerRaise);
+                //        handType.PairTable(player, call, textboxPot, ref RaiseAmount, ref isAnyPlayerRaise);
                 //        break;
                 //    case PokerHand.PairFromHand:
-                //        handType.PairHand(player, call, textboxPot, ref Raise, ref isAnyPlayerRaise, currentRound);
+                //        handType.PairHand(player, call, textboxPot, ref RaiseAmount, ref isAnyPlayerRaise, currentRound);
                 //        break;
                 //    case PokerHand.TwoPair:
-                //        handType.TwoPair(player, call, textboxPot, ref Raise, ref isAnyPlayerRaise, currentRound);
+                //        handType.TwoPair(player, call, textboxPot, ref RaiseAmount, ref isAnyPlayerRaise, currentRound);
                 //        break;
                 //    case PokerHand.ThreeOfAKind:
-                //        handType.ThreeOfAKind(player, call, textboxPot, ref Raise, ref isAnyPlayerRaise);
+                //        handType.ThreeOfAKind(player, call, textboxPot, ref RaiseAmount, ref isAnyPlayerRaise);
                 //        break;
                 //    case PokerHand.Straigth:
-                //        handType.Straight(player, call, textboxPot, ref Raise, ref isAnyPlayerRaise);
+                //        handType.Straight(player, call, textboxPot, ref RaiseAmount, ref isAnyPlayerRaise);
                 //        break;
                 //    case PokerHand.Flush:
                 //    case PokerHand.FlushWithAce:
-                //        handType.Flush(player, call, textboxPot, ref Raise, ref isAnyPlayerRaise);
+                //        handType.Flush(player, call, textboxPot, ref RaiseAmount, ref isAnyPlayerRaise);
                 //        break;
                 //    case PokerHand.FullHouse:
-                //        handType.FullHouse(player, call, textboxPot, ref Raise, ref isAnyPlayerRaise);
+                //        handType.FullHouse(player, call, textboxPot, ref RaiseAmount, ref isAnyPlayerRaise);
                 //        break;
                 //    case PokerHand.FourOfAKind:
-                //        handType.FourOfAKind(player, call, textboxPot, ref Raise, ref isAnyPlayerRaise);
+                //        handType.FourOfAKind(player, call, textboxPot, ref RaiseAmount, ref isAnyPlayerRaise);
                 //        break;
                 //    case PokerHand.StraightFlush:
                 //    case PokerHand.RoyalFlush:
-                //        handType.StraightFlush(player, call, textboxPot, ref Raise, ref isAnyPlayerRaise);
+                //        handType.StraightFlush(player, call, textboxPot, ref RaiseAmount, ref isAnyPlayerRaise);
                 //        break;
                 //    default:
                 //        throw new InvalidOperationException("Invalid Pocker Hand");
@@ -1000,7 +1029,7 @@ namespace Poker
 
         private void UpdateTick(object sender, object e)
         {
-            this.UpdatePlayersChipsTextBoxes(this.GetAllPlayers());
+            //this.UpdatePlayersChipsTextBoxes(this.GetAllPlayers());
 
             if (this.human.Chips <= 0)
             {
@@ -1061,9 +1090,10 @@ namespace Poker
 
         private async void OnFoldClick(object sender, EventArgs e)
         {
-            this.human.StatusLabel.Text = "Fold";
-            this.human.IsInTurn = false;
-            this.human.FoldedTurn = true;
+            this.human.Fold();
+            //this.human.StatusLabel.Text = "Fold";
+            //this.human.IsInTurn = false;
+            //this.human.FoldedTurn = true;
             await this.Turns();
         }
 
@@ -1071,8 +1101,9 @@ namespace Poker
         {
             if (call <= 0)
             {
-                this.human.IsInTurn = false;
-                this.human.StatusLabel.Text = "Check";
+                this.human.Check();
+                //this.human.IsInTurn = false;
+                //this.human.StatusLabel.Text = "Check";
             }
             else
             {
@@ -1090,22 +1121,24 @@ namespace Poker
 
             if (this.human.Chips >= call)
             {
-                this.human.Chips -= call;
-                this.textboxChipsAmount.Text = AppSettigns.PlayerChipsTextBoxText + this.human.Chips.ToString();
+                this.human.Call(call);
+                //this.human.Chips -= call;
+                //this.textboxChipsAmount.Text = AppSettigns.PlayerChipsTextBoxText + this.human.Chips.ToString();
                 this.pot.Add(call);
-                this.human.IsInTurn = false;
-                this.human.StatusLabel.Text = "Call " + call;
-                this.human.Call = call;
+                //this.human.IsInTurn = false;
+                //this.human.StatusLabel.Text = "Call " + call;
+                //this.human.CallAmount = call;
             }
             else if (this.human.Chips <= call && call > 0)
             {
                 this.pot.Add(this.human.Chips);
-                this.human.StatusLabel.Text = "All in " + this.human.Chips;
-                this.human.Chips = 0;
-                this.textboxChipsAmount.Text = AppSettigns.PlayerChipsTextBoxText + this.human.Chips.ToString();
-                this.human.IsInTurn = false;
+                this.human.AllIn();
+                //this.human.StatusLabel.Text = "All in " + this.human.Chips;
+                //this.human.Chips = 0;
+                //this.textboxChipsAmount.Text = AppSettigns.PlayerChipsTextBoxText + this.human.Chips.ToString();
+                //this.human.IsInTurn = false;
                 this.buttonFold.Enabled = false;
-                this.human.Call = this.human.Chips;
+                //this.human.CallAmount = this.human.Chips;
             }
 
             await this.Turns();
@@ -1132,22 +1165,24 @@ namespace Poker
                         {
                             call = int.Parse(this.textboxRaise.Text);
                             Raise = int.Parse(this.textboxRaise.Text);
-                            this.human.StatusLabel.Text = "Raise " + call;
+                            //this.human.StatusLabel.Text = "Raise " + call;
                             this.pot.Add(call);
                             this.buttonCall.Text = "Call";
-                            this.human.Chips -= int.Parse(this.textboxRaise.Text);
+                            this.human.Raise((int)Raise);
+                            //this.human.Chips -= int.Parse(this.textboxRaise.Text);
                             isAnyPlayerRaise = true;
-                            this.human.Raise = Convert.ToInt32(Raise);
+                            //this.human.Raise = Convert.ToInt32(Raise);
                         }
                         else
                         {
                             call = this.human.Chips;
                             Raise = this.human.Chips;
                             this.pot.Add(this.human.Chips);
-                            this.human.StatusLabel.Text = "Raise " + call;
-                            this.human.Chips = 0;
+                            this.human.Raise(this.human.Chips);
+                            //this.human.StatusLabel.Text = "Raise " + call;
+                            //this.human.Chips = 0;
                             isAnyPlayerRaise = true;
-                            this.human.Raise = Convert.ToInt32(Raise);
+                            //this.human.Raise = Convert.ToInt32(Raise);
                         }
                     }
                 }
@@ -1171,7 +1206,7 @@ namespace Poker
 
                 this.AddChips(this.GetAllPlayers(), chipsToAdd);
 
-                this.UpdatePlayersChipsTextBoxes(this.GetAllPlayers());
+                //this.UpdatePlayersChipsTextBoxes(this.GetAllPlayers());
             }
         }
 

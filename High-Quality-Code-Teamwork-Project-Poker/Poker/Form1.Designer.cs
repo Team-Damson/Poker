@@ -134,7 +134,7 @@
             this.buttonCall.Name = "buttonCall";
             this.buttonCall.Size = new Size(126, 62);
             this.buttonCall.TabIndex = 3;
-            this.buttonCall.Text = "Call";
+            this.buttonCall.Text = "CallAmount";
             this.buttonCall.UseVisualStyleBackColor = true;
             this.buttonCall.Click += new EventHandler(this.OnCallClick);
 
@@ -147,7 +147,7 @@
             this.buttonRaise.Name = "buttonRaise";
             this.buttonRaise.Size = new Size(124, 62);
             this.buttonRaise.TabIndex = 4;
-            this.buttonRaise.Text = "Raise";
+            this.buttonRaise.Text = "RaiseAmount";
             this.buttonRaise.UseVisualStyleBackColor = true;
             this.buttonRaise.Click += new EventHandler(this.OnRaiseClick);
 
