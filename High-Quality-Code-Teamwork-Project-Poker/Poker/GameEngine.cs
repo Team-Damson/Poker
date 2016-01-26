@@ -9,7 +9,7 @@
     using Poker.Events;
     using Poker.Interfaces;
 
-    public class GameEngine
+    public class GameEngine : IGameEngine
     {
         public const int DefaultBigBlind = 500;
         public const int DefaultSmallBlind = 250;

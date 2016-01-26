@@ -72,6 +72,7 @@
     <Compile Include="Interfaces\ICardHolder.cs" />
     <Compile Include="Interfaces\IDealer.cs" />
     <Compile Include="Interfaces\IDeck.cs" />
+    <Compile Include="Interfaces\IGameEngine.cs" />
     <Compile Include="Interfaces\IMessageWriter.cs" />
     <Compile Include="Interfaces\IPlayer.cs" />
     <Compile Include="Interfaces\IPot.cs" />

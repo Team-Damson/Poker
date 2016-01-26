@@ -13,7 +13,7 @@
     {
         private readonly Timer timer = new Timer();
         private readonly Timer updates = new Timer();
-        private readonly GameEngine engine;
+        private readonly IGameEngine engine;
         private readonly IMessageWriter messageWriter;
         private int secondsForHumanToPlay;
 
