@@ -33,7 +33,8 @@
             this.textboxRaise.Text = (GameEngine.DefaultBigBlind * 2).ToString();
 
             IPlayer human = this.GetHumanPlayer();
-            ICollection<IPlayer> enemies = this.GetEnemies();
+            IAILogicProvider logicProvider = new AILogicProvider();
+            ICollection<IAIPlayer> enemies = this.GetEnemies(logicProvider);
             IPot pot = new Pot(this.textboxPot);
             IDealer dealer = this.GetDealer();
             IDeck deck = Deck.Instance;
@@ -95,21 +96,21 @@
 
         private IPlayer GetHumanPlayer()
         {
-            IPlayer human = PlayerFactory.Create(PlayerType.Human, AppSettigns.FirstPlayerName, AppSettigns.DefaultChipsCount, this.labelPlayerStatus, this.textboxChipsAmount, AppSettigns.FirstPlayerAnchorStyles, AppSettigns.FirstPlayerPictureBoxX, AppSettigns.FirstPlayerPictureBoxY);
+            IPlayer human = PlayerFactory.CreateHuman(AppSettigns.FirstPlayerName, AppSettigns.DefaultChipsCount, this.labelPlayerStatus, this.textboxChipsAmount, AppSettigns.FirstPlayerAnchorStyles, AppSettigns.FirstPlayerPictureBoxX, AppSettigns.FirstPlayerPictureBoxY);
             this.AddPlayerUIComponents(human);
 
             return human;
         }
 
-        private ICollection<IPlayer> GetEnemies()
+        private ICollection<IAIPlayer> GetEnemies(IAILogicProvider logicProvider)
         {
-            IPlayer AI1 = PlayerFactory.Create(PlayerType.AI, AppSettigns.SecondPlayerName, AppSettigns.DefaultChipsCount, this.labelBot1Status, this.textboxBot1Chips, AppSettigns.SecondPlayerAnchorStyles, AppSettigns.SecondPlayerPictureBoxX, AppSettigns.SecondPlayerPictureBoxY);
-            IPlayer AI2 = PlayerFactory.Create(PlayerType.AI, AppSettigns.ThirdPlayerName, AppSettigns.DefaultChipsCount, this.labelBot2Status, this.textboxBot2Chips, AppSettigns.ThirdPlayerAnchorStyles, AppSettigns.ThirdPlayerPictureBoxX, AppSettigns.ThirdPlayerPictureBoxY);
-            IPlayer AI3 = PlayerFactory.Create(PlayerType.AI, AppSettigns.FourthPlayerName, AppSettigns.DefaultChipsCount, this.labelBot3Status, this.textboxBot3Chips, AppSettigns.FourthPlayerAnchorStyles, AppSettigns.FourthPlayerPictureBoxX, AppSettigns.FourthPlayerPictureBoxY);
-            IPlayer AI4 = PlayerFactory.Create(PlayerType.AI, AppSettigns.FifthPlayerName, AppSettigns.DefaultChipsCount, this.labelBot4Status, this.textboxBot4Chips, AppSettigns.FifthPlayerAnchorStyles, AppSettigns.FifthPlayerPictureBoxX, AppSettigns.FifthPlayerPictureBoxY);
-            IPlayer AI5 = PlayerFactory.Create(PlayerType.AI, AppSettigns.SixthPlayerName, AppSettigns.DefaultChipsCount, this.labelBot5Status, this.textboxBot5Chips, AppSettigns.SixthPlayerAnchorStyles, AppSettigns.SixthPlayerPictureBoxX, AppSettigns.SixthPlayerPictureBoxY);
+            IAIPlayer AI1 = PlayerFactory.CreateAI(logicProvider, AppSettigns.SecondPlayerName, AppSettigns.DefaultChipsCount, this.labelBot1Status, this.textboxBot1Chips, AppSettigns.SecondPlayerAnchorStyles, AppSettigns.SecondPlayerPictureBoxX, AppSettigns.SecondPlayerPictureBoxY);
+            IAIPlayer AI2 = PlayerFactory.CreateAI(logicProvider, AppSettigns.ThirdPlayerName, AppSettigns.DefaultChipsCount, this.labelBot2Status, this.textboxBot2Chips, AppSettigns.ThirdPlayerAnchorStyles, AppSettigns.ThirdPlayerPictureBoxX, AppSettigns.ThirdPlayerPictureBoxY);
+            IAIPlayer AI3 = PlayerFactory.CreateAI(logicProvider, AppSettigns.FourthPlayerName, AppSettigns.DefaultChipsCount, this.labelBot3Status, this.textboxBot3Chips, AppSettigns.FourthPlayerAnchorStyles, AppSettigns.FourthPlayerPictureBoxX, AppSettigns.FourthPlayerPictureBoxY);
+            IAIPlayer AI4 = PlayerFactory.CreateAI(logicProvider, AppSettigns.FifthPlayerName, AppSettigns.DefaultChipsCount, this.labelBot4Status, this.textboxBot4Chips, AppSettigns.FifthPlayerAnchorStyles, AppSettigns.FifthPlayerPictureBoxX, AppSettigns.FifthPlayerPictureBoxY);
+            IAIPlayer AI5 = PlayerFactory.CreateAI(logicProvider, AppSettigns.SixthPlayerName, AppSettigns.DefaultChipsCount, this.labelBot5Status, this.textboxBot5Chips, AppSettigns.SixthPlayerAnchorStyles, AppSettigns.SixthPlayerPictureBoxX, AppSettigns.SixthPlayerPictureBoxY);
 
-            ICollection<IPlayer> enemies = new List<IPlayer>() { AI1, AI2, AI3, AI4, AI5 };
+            ICollection<IAIPlayer> enemies = new List<IAIPlayer>() { AI1, AI2, AI3, AI4, AI5 };
             foreach (var enemy in enemies)
             {
                 this.AddPlayerUIComponents(enemy);

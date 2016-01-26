@@ -68,6 +68,8 @@
     </Compile>
     <Compile Include="GameEngine.cs" />
     <Compile Include="HandTypes.cs" />
+    <Compile Include="Interfaces\IAILogicProvider.cs" />
+    <Compile Include="Interfaces\IAIPlayer.cs" />
     <Compile Include="Interfaces\ICard.cs" />
     <Compile Include="Interfaces\ICardHolder.cs" />
     <Compile Include="Interfaces\IDealer.cs" />
@@ -77,6 +79,7 @@
     <Compile Include="Interfaces\IPlayer.cs" />
     <Compile Include="Interfaces\IPot.cs" />
     <Compile Include="MessageWriters\MessageBoxWriter.cs" />
+    <Compile Include="Models\AILogicProvider.cs" />
     <Compile Include="Models\Card.cs" />
     <Compile Include="Models\Dealer.cs" />
     <Compile Include="Models\Deck.cs" />
@@ -107,6 +110,7 @@
       <DependentUpon>Resources.resx</DependentUpon>
       <DesignTime>True</DesignTime>
     </Compile>
+    <None Include="ClassDiagram1.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

@@ -14,13 +14,13 @@
         public const int DefaultBigBlind = 500;
         public const int DefaultSmallBlind = 250;
 
-        private HandTypes handType = new HandTypes();
+        //private HandTypes handType = new HandTypes();
         private CheckHandType checkHandType = new CheckHandType();
         private IPlayer human;
         private IDealer dealer;
         private IDeck deck;
         private double raise;
-        private IList<IPlayer> enemies;
+        private IList<IAIPlayer> enemies;
         private bool changed;
         private int raisedTurn = 1;
         private List<Type> strongestHands = new List<Type>();
@@ -53,10 +53,10 @@
         public IMessageWriter MessageWriter { get; set; }
 
 
-        public GameEngine(IPlayer human, ICollection<IPlayer> enemies, IPot pot, IDealer dealer, IDeck deck, IMessageWriter messageWriter)
+        public GameEngine(IPlayer human, ICollection<IAIPlayer> enemies, IPot pot, IDealer dealer, IDeck deck, IMessageWriter messageWriter)
         {
             this.human = human;
-            this.enemies = new List<IPlayer>(enemies);
+            this.enemies = new List<IAIPlayer>(enemies);
             this.Pot = pot;
             this.dealer = dealer;
             this.deck = deck;
@@ -126,7 +126,7 @@
             this.Call = this.BigBlind;
         }
 
-        private async Task HandleAITurn(IPlayer currentAI, IPlayer nextAI)
+        private async Task HandleAITurn(IAIPlayer currentAI, IPlayer nextAI)
         {
             if (!currentAI.FoldedTurn)
             {
@@ -136,7 +136,8 @@
                     this.FixCall(currentAI, 2);
                     this.Rules(currentAI);
                     this.MessageWriter.Write(currentAI.Name + AppSettigns.PlayerTurnMessage);
-                    this.AI(currentAI);
+                    currentAI.ProccessNextTurn(Call, this.Pot, ref raise, ref isAnyPlayerRaise, this.dealer.CurrentRound);
+                    //this.AI(currentAI);
                     this.turnCount++;
                     currentAI.IsInTurn = false;
                     nextAI.IsInTurn = true;
@@ -282,7 +283,7 @@
                     {
                         //if (player.Type.Power == this.winningHand.Power)
                         //{
-                            winners.Add(player);
+                        winners.Add(player);
                         //}
                     }
                 }
@@ -655,7 +656,7 @@
             }
         }
 
-        private void ResetForNextGame(IPlayer human, ICollection<IPlayer> enemies)
+        private void ResetForNextGame(IPlayer human, ICollection<IAIPlayer> enemies)
         {
             IList<IPlayer> allPlayers = new List<IPlayer>(enemies);
             allPlayers.Add(human);
@@ -778,7 +779,7 @@
             this.CheckWinners(this.GetAllPlayers(), this.dealer);
         }
 
-        void AI(IPlayer player)
+        /*void AI(IPlayer player)
         {
             if (!player.FoldedTurn)
             {
@@ -880,6 +881,6 @@
                 //player.PictureBoxHolder[0].Visible = false;
                 //player.PictureBoxHolder[1].Visible = false;
             }
-        }
+        }*/
     }
 }

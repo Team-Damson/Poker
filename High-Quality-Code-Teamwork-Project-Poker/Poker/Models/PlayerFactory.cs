@@ -11,12 +11,10 @@
 
     public class PlayerFactory
     {
-        //private static int cardsIndexCounter = 0;
         private static int currentPlayerId = 0;
         private static int cardHoldersCount = 0;
 
-        public static IPlayer Create(
-            PlayerType playerType,
+        public static IPlayer CreateHuman(
             string name,
             int chips, 
             Label statusLabel, 
@@ -25,11 +23,53 @@
             int cardHoldersPictureBoxesX,
             int cardHoldersPictureBoxesY)
         {
-            IList<PictureBox> cardHolders = new List<PictureBox>();
-            cardHolders.Add(CreatePictureBox(cardHoldersPictureBoxesAnchorStyles, cardHoldersPictureBoxesX, cardHoldersPictureBoxesY));
-            cardHoldersPictureBoxesX += cardHolders.First().Width;
-            cardHolders.Add(CreatePictureBox(cardHoldersPictureBoxesAnchorStyles, cardHoldersPictureBoxesX, cardHoldersPictureBoxesY));
-            
+            IList<PictureBox> cardHolders = GetCardHoldersPictureBoxes(cardHoldersPictureBoxesAnchorStyles,
+                cardHoldersPictureBoxesX, cardHoldersPictureBoxesY);
+
+            Panel panel = GetPlayerPanel(cardHolders);
+
+            chipsTextBox.Enabled = false;
+
+            return new Human(
+                currentPlayerId,
+                name,
+                statusLabel,
+                chipsTextBox,
+                chips,
+                cardHolders,
+                panel);
+        }
+
+        public static IAIPlayer CreateAI(
+            IAILogicProvider logicProvider,
+            string name,
+            int chips,
+            Label statusLabel,
+            TextBox chipsTextBox,
+            AnchorStyles cardHoldersPictureBoxesAnchorStyles,
+            int cardHoldersPictureBoxesX,
+            int cardHoldersPictureBoxesY)
+        {
+            IList<PictureBox> cardHolders = GetCardHoldersPictureBoxes(cardHoldersPictureBoxesAnchorStyles,
+                cardHoldersPictureBoxesX, cardHoldersPictureBoxesY);
+
+            Panel panel = GetPlayerPanel(cardHolders);
+
+            chipsTextBox.Enabled = false;
+
+            return new AI(
+                currentPlayerId,
+                name,
+                statusLabel,
+                chipsTextBox,
+                chips,
+                cardHolders,
+                panel,
+                logicProvider);
+        }
+
+        private static Panel GetPlayerPanel(IList<PictureBox> cardHolders)
+        {
             Panel panel = new Panel();
             panel.Location = new Point(cardHolders.First().Left - 10, cardHolders.Last().Top - 10);
             panel.BackColor = Color.DarkBlue;
@@ -37,35 +77,20 @@
             panel.Width = 180;
             panel.Visible = false;
 
-            chipsTextBox.Enabled = false;
+            return panel;
+        }
 
-            switch (playerType)
-            {
-                case PlayerType.Human:
-                    return new Human(
-                        currentPlayerId,
-                        name,
-                        statusLabel,
-                        chipsTextBox,
-                        //new int[] { cardsIndexCounter++, cardsIndexCounter++ },
-                        chips,
-                        cardHolders,
-                        panel);
-                    break;
-                case PlayerType.AI:
-                    return new AI(
-                        currentPlayerId,
-                        name,
-                        statusLabel,
-                        chipsTextBox,
-                        //new int[] { cardsIndexCounter++, cardsIndexCounter++ },
-                        chips,
-                        cardHolders,
-                        panel);
-                    break;
-                default:
-                    throw new NotImplementedException("This player type is not implemented.");
-            }
+        private static IList<PictureBox> GetCardHoldersPictureBoxes(
+            AnchorStyles cardHoldersPictureBoxesAnchorStyles,
+            int cardHoldersPictureBoxesX,
+            int cardHoldersPictureBoxesY)
+        {
+            IList<PictureBox> cardHolders = new List<PictureBox>();
+            cardHolders.Add(CreatePictureBox(cardHoldersPictureBoxesAnchorStyles, cardHoldersPictureBoxesX, cardHoldersPictureBoxesY));
+            cardHoldersPictureBoxesX += cardHolders.First().Width;
+            cardHolders.Add(CreatePictureBox(cardHoldersPictureBoxesAnchorStyles, cardHoldersPictureBoxesX, cardHoldersPictureBoxesY));
+
+            return cardHolders;
         }
 
         private static PictureBox CreatePictureBox(
