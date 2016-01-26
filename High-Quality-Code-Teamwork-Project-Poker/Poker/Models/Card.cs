@@ -1,10 +1,8 @@
 ﻿namespace Poker.Models
 {
-    using Poker.Enums;
-    using Poker.Interfaces;
     using System.Drawing;
-    using System.Windows.Forms;
-
+    using Poker.Interfaces;
+   
     public class Card : ICard
     {
         public static readonly Bitmap BackImage = new Bitmap("Assets\\Back\\Back.png");

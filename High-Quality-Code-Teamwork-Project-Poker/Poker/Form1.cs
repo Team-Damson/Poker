@@ -1,40 +1,30 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using System.Runtime.InteropServices;
-using Poker.Events;
-using Poker.Interfaces;
-using Poker.MessageWriters;
-using Poker.Models;
-
-namespace Poker
+﻿namespace Poker
 {
+    using System;
+    using System.Collections.Generic;
+    using System.Windows.Forms;
     using Poker.Enums;
+    using Poker.Events;
+    using Poker.Interfaces;
+    using Poker.MessageWriters;
+    using Poker.Models;
 
     public partial class Form1 : Form
     {
-        private Timer timer = new Timer();
-        private Timer updates = new Timer();
+        private readonly Timer timer = new Timer();
+        private readonly Timer updates = new Timer();
+        private readonly GameEngine engine;
+        private readonly IMessageWriter messageWriter;
         private int secondsForHumanToPlay;
-        private GameEngine engine;
-        private IMessageWriter messageWriter;
 
         public Form1()
         {
-            InitializeComponent();
+            this.InitializeComponent();
 
-            timer.Interval = (1000);
-            timer.Tick += this.TimerTick;
-            updates.Interval = (100);
-            updates.Tick += this.UpdateTick;
+            this.timer.Interval = 1000;
+            this.timer.Tick += this.TimerTick;
+            this.updates.Interval = 100;
+            this.updates.Tick += this.UpdateTick;
 
             this.textboxBigBlind.Visible = false;
             this.textboxSmallBlind.Visible = false;
@@ -50,9 +40,9 @@ namespace Poker
             this.messageWriter = new MessageBoxWriter();
 
             this.engine = new GameEngine(human, enemies, pot, dealer, deck, this.messageWriter);
-            engine.GameEngineStateEvent += ChangeGameEngineStateHandler;
-            updates.Start();
-            engine.Run();
+            this.engine.GameEngineStateEvent += this.ChangeGameEngineStateHandler;
+            this.updates.Start();
+            this.engine.Run();
         }
 
         private void ChangeGameEngineStateHandler(object sender, GameEngineEventArgs args)
@@ -72,14 +62,14 @@ namespace Poker
 
         private void DisableButtons()
         {
-            timer.Stop();
+            this.timer.Stop();
             this.progressbarTimer.Visible = false;
             this.buttonCall.Enabled = false;
             this.buttonRaise.Enabled = false;
             this.buttonFold.Enabled = false;
             this.buttonCheck.Enabled = false;
-            MaximizeBox = false;
-            MinimizeBox = false;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
         }
 
         private void EnableButtons()
@@ -87,12 +77,12 @@ namespace Poker
             this.buttonRaise.Enabled = true;
             this.buttonCall.Enabled = true;
             this.buttonFold.Enabled = true;
-            MaximizeBox = true;
-            MinimizeBox = true;
+            this.MaximizeBox = true;
+            this.MinimizeBox = true;
             this.progressbarTimer.Visible = true;
             this.progressbarTimer.Value = 1000;
-            secondsForHumanToPlay = 60;
-            timer.Start();
+            this.secondsForHumanToPlay = 60;
+            this.timer.Start();
         }
 
         private IDealer GetDealer()
@@ -151,10 +141,10 @@ namespace Poker
                 await this.engine.Turns();
             }
 
-            if (secondsForHumanToPlay > 0)
+            if (this.secondsForHumanToPlay > 0)
             {
-                secondsForHumanToPlay--;
-                this.progressbarTimer.Value = (secondsForHumanToPlay / 6) * 100;
+                this.secondsForHumanToPlay--;
+                this.progressbarTimer.Value = (this.secondsForHumanToPlay / 6) * 100;
             }
         }
 

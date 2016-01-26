@@ -1,12 +1,9 @@
 ﻿namespace Poker
 {
     using System;
-    using System.Windows.Forms;
-
     using Poker.Enums;
     using Poker.Interfaces;
-    using Poker.Models;
-
+   
     public class HandTypes
     {
         private readonly Dunno type = new Dunno();

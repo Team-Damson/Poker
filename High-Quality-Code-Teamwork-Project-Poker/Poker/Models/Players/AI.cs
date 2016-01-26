@@ -1,7 +1,6 @@
 ﻿namespace Poker.Models.Players
 {
     using System.Collections.Generic;
-    using System.Drawing;
     using System.Windows.Forms;
 
     public class AI : Player
