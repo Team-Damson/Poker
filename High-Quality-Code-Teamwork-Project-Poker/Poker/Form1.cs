@@ -30,7 +30,7 @@
             this.textboxSmallBlind.Visible = false;
             this.buttonBigBlind.Visible = false;
             this.buttonSmallBlind.Visible = false;
-            this.textboxRaise.Text = (GameEngine.DefaultBigBlind * 2).ToString();
+            this.textboxRaise.Text = (AppSettigns.DefaultMinBigBlind * 2).ToString();
 
             IPlayer human = this.GetHumanPlayer();
             IAILogicProvider logicProvider = new AILogicProvider();
@@ -69,8 +69,8 @@
             this.buttonRaise.Enabled = false;
             this.buttonFold.Enabled = false;
             this.buttonCheck.Enabled = false;
-            this.MaximizeBox = false;
-            this.MinimizeBox = false;
+            //this.MaximizeBox = false;
+            //this.MinimizeBox = false;
         }
 
         private void EnableButtons()
@@ -155,12 +155,13 @@
 
             if (this.engine.GetHumanPlayer().Chips <= 0)
             {
-                this.engine.GetHumanPlayer().IsInTurn = false;
-                this.engine.GetHumanPlayer().FoldedTurn = true;
-                this.buttonCall.Enabled = false;
-                this.buttonRaise.Enabled = false;
-                this.buttonFold.Enabled = false;
-                this.buttonCheck.Enabled = false;
+                //this.engine.GetHumanPlayer().IsInTurn = false;
+                //this.engine.GetHumanPlayer().FoldedTurn = true;
+                this.DisableButtons();
+                //this.buttonCall.Enabled = false;
+                //this.buttonRaise.Enabled = false;
+                //this.buttonFold.Enabled = false;
+                //this.buttonCheck.Enabled = false;
             }
 
             if (this.engine.GetHumanPlayer().Chips >= this.engine.Call)
@@ -185,14 +186,14 @@
                 this.buttonCall.Enabled = false;
             }
 
-            if (this.engine.GetHumanPlayer().Chips <= 0)
-            {
-                this.buttonRaise.Enabled = false;
-            }
+            //if (this.engine.GetHumanPlayer().Chips <= 0)
+            //{
+            //    this.buttonRaise.Enabled = false;
+            //}
 
             int parsedValue;
 
-            if (this.textboxRaise.Text != "" && int.TryParse(this.textboxRaise.Text, out parsedValue))
+            if (this.textboxRaise.Text != string.Empty && int.TryParse(this.textboxRaise.Text, out parsedValue))
             {
                 if (this.engine.GetHumanPlayer().Chips <= int.Parse(this.textboxRaise.Text))
                 {
@@ -204,10 +205,10 @@
                 }
             }
 
-            if (this.engine.GetHumanPlayer().Chips < this.engine.Call)
-            {
-                this.buttonRaise.Enabled = false;
-            }
+            //if (this.engine.GetHumanPlayer().Chips < this.engine.Call)
+            //{
+            //    this.buttonRaise.Enabled = false;
+            //}
         }
 
         private async void OnFoldClick(object sender, EventArgs e)
@@ -278,7 +279,7 @@
                     if (this.engine.Raise * 2 > int.Parse(this.textboxRaise.Text))
                     {
                         this.textboxRaise.Text = (this.engine.Raise * 2).ToString();
-                        this.messageWriter.Write("You must raise atleast twice as the current raise !");
+                        this.messageWriter.Write(Messages.RaiseAtleastTwice);
                         return;
                     }
                     else
@@ -311,7 +312,7 @@
             }
             else
             {
-                this.messageWriter.Write("This is a number only field");
+                this.messageWriter.Write(Messages.NumberOnlyField);
                 return;
             }
 
@@ -355,87 +356,83 @@
 
         private void OnSmallBlindClick(object sender, EventArgs e)
         {
-            var minSmallBlind = 250;
-            var maxSmallBlind = 100000;
             int parsedValue;
 
             if (this.textboxSmallBlind.Text.Contains(",") || this.textboxSmallBlind.Text.Contains("."))
             {
-                var message = "The Small Blind can be only round number !";
-                this.messageWriter.Write(message);
+                //var message = "The Small Blind can be only round number !";
+                this.messageWriter.Write(Messages.SmallBlindRoundNumber);
                 this.textboxSmallBlind.Text = this.engine.SmallBlind.ToString();
                 return;
             }
 
             if (!int.TryParse(this.textboxSmallBlind.Text, out parsedValue))
             {
-                var message = "This is a number only field";
-                this.messageWriter.Write(message);
+                //var message = "This is a number only field";
+                this.messageWriter.Write(Messages.NumberOnlyField);
                 this.textboxSmallBlind.Text = this.engine.SmallBlind.ToString();
                 return;
             }
 
-            if (int.Parse(this.textboxSmallBlind.Text) > maxSmallBlind)
+            if (int.Parse(this.textboxSmallBlind.Text) > AppSettigns.DefaultMaxSmallBlind)
             {
-                var message = "The maximum of the Small Blind is 100 000 $";
-                this.messageWriter.Write(message);
+                //var message = "The maximum of the Small Blind is 100 000 $";
+                this.messageWriter.Write(string.Format(Messages.SmallBlindMaxValue, AppSettigns.DefaultMaxSmallBlind));
                 this.textboxSmallBlind.Text = this.engine.SmallBlind.ToString();
             }
 
-            if (int.Parse(this.textboxSmallBlind.Text) < minSmallBlind)
+            if (int.Parse(this.textboxSmallBlind.Text) < AppSettigns.DefaultMinSmallBlind)
             {
-                var message = "The minimum of the Small Blind is 250 $";
-                this.messageWriter.Write(message);
+                //var message = "The minimum of the Small Blind is 250 $";
+                this.messageWriter.Write(string.Format(Messages.SmallBlindMinValue, AppSettigns.DefaultMinSmallBlind));
             }
 
-            if (int.Parse(this.textboxSmallBlind.Text) >= minSmallBlind && int.Parse(this.textboxSmallBlind.Text) <= maxSmallBlind)
+            if (int.Parse(this.textboxSmallBlind.Text) >= AppSettigns.DefaultMinSmallBlind && int.Parse(this.textboxSmallBlind.Text) <= AppSettigns.DefaultMaxSmallBlind)
             {
                 this.engine.SmallBlind = int.Parse(this.textboxSmallBlind.Text);
-                var message = "The changes have been saved ! They will become available the next hand you play.";
-                this.messageWriter.Write(message);
+                //var message = "The changes have been saved ! They will become available the next hand you play.";
+                this.messageWriter.Write(Messages.SaveChanges);
             }
         }
 
         private void OnBigBlindClick(object sender, EventArgs e)
         {
-            var minBigBlind = 500;
-            var maxBigBlind = 200000;
             int parsedValue;
 
             if (this.textboxBigBlind.Text.Contains(",") || this.textboxBigBlind.Text.Contains("."))
             {
-                var message = "The Big Blind can be only round number!";
-                this.messageWriter.Write(message);
+                //var message = "The Big Blind can be only round number!";
+                this.messageWriter.Write(Messages.BigBlindRoundNumber);
                 this.textboxBigBlind.Text = this.engine.BigBlind.ToString();
                 return;
             }
 
             if (!int.TryParse(this.textboxSmallBlind.Text, out parsedValue))
             {
-                var message = "This is a number only field";
-                this.messageWriter.Write(message);
+                //var message = "This is a number only field";
+                this.messageWriter.Write(Messages.NumberOnlyField);
                 this.textboxSmallBlind.Text = this.engine.BigBlind.ToString();
                 return;
             }
 
-            if (int.Parse(this.textboxBigBlind.Text) > maxBigBlind)
+            if (int.Parse(this.textboxBigBlind.Text) > AppSettigns.DefaultMaxBigBlind)
             {
-                var message = "The maximum of the Big Blind is 200 000";
-                this.messageWriter.Write(message);
+                //var message = "The maximum of the Big Blind is 200 000";
+                this.messageWriter.Write(string.Format(Messages.BigBlindMaxValue, AppSettigns.DefaultMaxBigBlind));
                 this.textboxBigBlind.Text = this.engine.BigBlind.ToString();
             }
 
-            if (int.Parse(this.textboxBigBlind.Text) < minBigBlind)
+            if (int.Parse(this.textboxBigBlind.Text) < AppSettigns.DefaultMinBigBlind)
             {
-                var message = "The minimum of the Big Blind is 500 $";
-                this.messageWriter.Write(message);
+                //var message = "The minimum of the Big Blind is 500 $";
+                this.messageWriter.Write(string.Format(Messages.BigBlindMinValue, AppSettigns.DefaultMinBigBlind));
             }
 
-            if (int.Parse(this.textboxBigBlind.Text) >= minBigBlind && int.Parse(this.textboxBigBlind.Text) <= maxBigBlind)
+            if (int.Parse(this.textboxBigBlind.Text) >= AppSettigns.DefaultMinBigBlind && int.Parse(this.textboxBigBlind.Text) <= AppSettigns.DefaultMaxBigBlind)
             {
                 this.engine.BigBlind = int.Parse(this.textboxBigBlind.Text);
-                var message = "The changes have been saved ! They will become available the next hand you play.";
-                this.messageWriter.Write(message);
+                //var message = "The changes have been saved ! They will become available the next hand you play.";
+                this.messageWriter.Write(Messages.SaveChanges);
             }
         }
         #endregion

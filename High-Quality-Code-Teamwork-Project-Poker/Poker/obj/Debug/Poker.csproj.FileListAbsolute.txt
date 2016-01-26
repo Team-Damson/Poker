@@ -28,3 +28,4 @@ E:\kpk\team\Poker\High-Quality-Code-Teamwork-Project-Poker\Poker\obj\Debug\Poker
 E:\kpk\team\Poker\High-Quality-Code-Teamwork-Project-Poker\Poker\obj\Debug\Poker.Form1.resources
 E:\kpk\team\Poker\High-Quality-Code-Teamwork-Project-Poker\Poker\obj\Debug\Poker.Properties.Resources.resources
 E:\kpk\team\Poker\High-Quality-Code-Teamwork-Project-Poker\Poker\obj\Debug\Poker.csproj.GenerateResource.Cache
+E:\kpk\team\Poker\High-Quality-Code-Teamwork-Project-Poker\Poker\obj\Debug\Poker.Messages.resources

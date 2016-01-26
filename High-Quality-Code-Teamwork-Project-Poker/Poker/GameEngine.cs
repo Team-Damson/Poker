@@ -11,8 +11,8 @@
 
     public class GameEngine : IGameEngine
     {
-        public const int DefaultBigBlind = 500;
-        public const int DefaultSmallBlind = 250;
+        //public const int DefaultBigBlind = 500;
+        //public const int DefaultSmallBlind = 250;
 
         //private HandTypes handType = new HandTypes();
         private CheckHandType checkHandType = new CheckHandType();
@@ -62,8 +62,8 @@
             this.deck = deck;
             this.MessageWriter = messageWriter;
             this.winningHand = new Type();
-            this.BigBlind = DefaultBigBlind;
-            this.SmallBlind = DefaultSmallBlind;
+            this.BigBlind = AppSettigns.DefaultMinBigBlind;
+            this.SmallBlind = AppSettigns.DefaultMinSmallBlind;
             this.SetDefaultCall();
             this.Raise = 0;
             this.IsAnyPlayerRaise = false;
@@ -107,7 +107,7 @@
             
             if (this.enemies.Count(e => !e.CanPlay()) == 5)
             {
-                DialogResult dialogResult = this.MessageWriter.ShowDialog(AppSettigns.PlayAgainMessage, AppSettigns.WinningMessage, MessageBoxButtons.YesNo);
+                DialogResult dialogResult = this.MessageWriter.ShowDialog(Messages.PlayAgainMessage, Messages.WinningMessage, MessageBoxButtons.YesNo);
                 if (dialogResult == DialogResult.Yes)
                 {
                     Application.Restart();
@@ -135,7 +135,7 @@
                     this.FixCall(currentAI, 1);
                     this.FixCall(currentAI, 2);
                     this.Rules(currentAI);
-                    this.MessageWriter.Write(currentAI.Name + AppSettigns.PlayerTurnMessage);
+                    this.MessageWriter.Write(string.Format(Messages.PlayerTurn, currentAI.Name));
                     currentAI.ProccessNextTurn(Call, this.Pot, ref raise, ref isAnyPlayerRaise, this.dealer.CurrentRound);
                     //this.AI(currentAI);
                     this.turnCount++;
@@ -612,7 +612,7 @@
                 //notFoldedPlayer.Chips += this.Pot.Amount;
                 //notFoldedPlayer.ChipsTextBox.Text = notFoldedPlayer.Chips.ToString();
                 //notFoldedPlayer.Panel.Visible = false;
-                this.MessageWriter.Write(notFoldedPlayer.Name + " Wins");
+                this.MessageWriter.Write(string.Format(Messages.PlayerWinHand, notFoldedPlayer.Name));
                 
                 /*foreach (var pictureBox in this.human.PictureBoxHolder)
                 {

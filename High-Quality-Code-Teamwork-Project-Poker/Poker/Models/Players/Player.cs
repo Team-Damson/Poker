@@ -135,7 +135,7 @@
 
         private void UpdateChipsTetxBox(int value)
         {
-            this.ChipsTextBox.Text = AppSettigns.PlayerChipsTextBoxText + value;
+            this.ChipsTextBox.Text = string.Format(Messages.PlayerChips, value);
         }
     }
 }

@@ -44,12 +44,18 @@
         public const int DealerPictureBoxX = 410;
         public const int DealerPictureBoxY = 265;
 
-        public const string PlayerChipsTextBoxText = "Chips : ";
-
+        // Chips
         public const int DefaultChipsCount = 10000;
 
-        public const string WinningMessage = "You Won , Congratulations ! ";
-        public const string PlayAgainMessage = "Would You Like To Play Again ?";
-        public const string PlayerTurnMessage = "'s Turn";
+        // Blinds
+        public const int DefaultMinBigBlind = 500;
+        public const int DefaultMaxBigBlind = 200000;
+        public const int DefaultMinSmallBlind = 250;
+        public const int DefaultMaxSmallBlind = 100000;
+
+        //public const string PlayerChipsTextBoxText = "Chips : ";
+        //public const string WinningMessage = "You Won , Congratulations ! ";
+        //public const string PlayAgainMessage = "Would You Like To Play Again ?";
+        //public const string PlayerTurnMessage = "'s Turn";
     }
 }
