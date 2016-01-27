@@ -8,7 +8,7 @@
 
     public class CheckHandType
     {
-        public void CheckStraightFlush(IPlayer player, int[] spades, int[] hearts, int[] diamonds, int[] clubs, ref List<Type> strongestHands, ref Type winningHand)
+        public void CheckStraightFlush(IPlayer player, int[] spades, int[] hearts, int[] diamonds, int[] clubs)//, ref List<Type> strongestHands, ref Type winningHand)
         {
             if (player.Type.Current >= PokerHand.HighCard)
             {
@@ -19,13 +19,13 @@
                         player.Type.Current = PokerHand.StraightFlush;
                         player.Type.Power = spades.Max() / 4 + player.Type.Current * 100;
 
-                        strongestHands.Add(new Type()
-                                    {
-                                        Power = player.Type.Power,
-                                        Current = player.Type.Current
-                                    });
+                        //strongestHands.Add(new Type()
+                        //            {
+                        //                Power = player.Type.Power,
+                        //                Current = player.Type.Current
+                        //            });
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                     }
 
                     if (spades[0] == 0 && spades[1] == 9 && spades[2] == 10 && spades[3] == 11 && spades[0] + 12 == spades[4])
@@ -33,13 +33,13 @@
                         player.Type.Current = PokerHand.RoyalFlush;
                         player.Type.Power = spades.Max() / 4 + player.Type.Current * 100;
 
-                        strongestHands.Add(new Type()
-                                    {
-                                        Power = player.Type.Power,
-                                        Current = player.Type.Current
-                                    });
+                        //strongestHands.Add(new Type()
+                        //            {
+                        //                Power = player.Type.Power,
+                        //                Current = player.Type.Current
+                        //            });
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                     }
                 }
 
@@ -50,13 +50,13 @@
                         player.Type.Current = PokerHand.StraightFlush;
                         player.Type.Power = hearts.Max() / 4 + player.Type.Current * 100;
 
-                        strongestHands.Add(new Type()
-                                    {
-                                        Power = player.Type.Power,
-                                        Current = player.Type.Current
-                                    });
+                        //strongestHands.Add(new Type()
+                        //            {
+                        //                Power = player.Type.Power,
+                        //                Current = player.Type.Current
+                        //            });
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                     }
 
                     if (hearts[0] == 0 && hearts[1] == 9 && hearts[2] == 10 && hearts[3] == 11 && hearts[0] + 12 == hearts[4])
@@ -64,13 +64,13 @@
                         player.Type.Current = PokerHand.RoyalFlush;
                         player.Type.Power = (hearts.Max()) / 4 + player.Type.Current * 100;
 
-                        strongestHands.Add(new Type()
-                                    {
-                                        Power = player.Type.Power,
-                                        Current = player.Type.Current
-                                    });
+                        //strongestHands.Add(new Type()
+                        //            {
+                        //                Power = player.Type.Power,
+                        //                Current = player.Type.Current
+                        //            });
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                     }
                 }
 
@@ -81,16 +81,16 @@
                         player.Type.Current = PokerHand.StraightFlush;
                         player.Type.Power = (diamonds.Max()) / 4 + player.Type.Current * 100;
 
-                        strongestHands.Add(new Type()
-                                    {
-                                        Power = player.Type.Power,
-                                        Current = player.Type.Current
-                                    });
+                        //strongestHands.Add(new Type()
+                        //            {
+                        //                Power = player.Type.Power,
+                        //                Current = player.Type.Current
+                        //            });
 
-                        winningHand = strongestHands
-                            .OrderByDescending(op1 => op1.Current)
-                            .ThenByDescending(op1 => op1.Power)
-                            .First();
+                        //winningHand = strongestHands
+                        //    .OrderByDescending(op1 => op1.Current)
+                        //    .ThenByDescending(op1 => op1.Power)
+                        //    .First();
                     }
 
                     if (diamonds[0] == 0 && diamonds[1] == 9 && diamonds[2] == 10 && diamonds[3] == 11 && diamonds[0] + 12 == diamonds[4])
@@ -98,13 +98,13 @@
                         player.Type.Current = PokerHand.RoyalFlush;
                         player.Type.Power = (diamonds.Max()) / 4 + player.Type.Current * 100;
 
-                        strongestHands.Add(new Type()
-                                    {
-                                        Power = player.Type.Power,
-                                        Current = player.Type.Current
-                                    });
+                        //strongestHands.Add(new Type()
+                        //            {
+                        //                Power = player.Type.Power,
+                        //                Current = player.Type.Current
+                        //            });
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                     }
                 }
 
@@ -115,13 +115,13 @@
                         player.Type.Current = PokerHand.StraightFlush;
                         player.Type.Power = (clubs.Max()) / 4 + player.Type.Current * 100;
 
-                        strongestHands.Add(new Type()
-                                    {
-                                        Power = player.Type.Power,
-                                        Current = player.Type.Current
-                                    });
+                        //strongestHands.Add(new Type()
+                        //            {
+                        //                Power = player.Type.Power,
+                        //                Current = player.Type.Current
+                        //            });
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                     }
 
                     if (clubs[0] == 0 && clubs[1] == 9 && clubs[2] == 10 && clubs[3] == 11 && clubs[0] + 12 == clubs[4])
@@ -129,19 +129,19 @@
                         player.Type.Current = PokerHand.RoyalFlush;
                         player.Type.Power = clubs.Max() / 4 + player.Type.Current * 100;
 
-                        strongestHands.Add(new Type()
-                                    {
-                                        Power = player.Type.Power,
-                                        Current = player.Type.Current
-                                    });
+                        //strongestHands.Add(new Type()
+                        //            {
+                        //                Power = player.Type.Power,
+                        //                Current = player.Type.Current
+                        //            });
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                     }
                 }
             }
         }
 
-        public void CheckFourOfAKind(IPlayer player, int[] cards, ref List<Type> strongestHands, ref Type winningHand)
+        public void CheckFourOfAKind(IPlayer player, int[] cards)//, ref List<Type> strongestHands, ref Type winningHand)
         {
             if (player.Type.Current >= PokerHand.HighCard)
             {
@@ -153,13 +153,13 @@
                         player.Type.Current = PokerHand.FourOfAKind;
                         player.Type.Power = (cards[i] / 4) * 4 + player.Type.Current * 100;
 
-                        strongestHands.Add(new Type()
-                                    {
-                                        Power = player.Type.Power,
-                                        Current = player.Type.Current
-                                    });
+                        //strongestHands.Add(new Type()
+                        //            {
+                        //                Power = player.Type.Power,
+                        //                Current = player.Type.Current
+                        //            });
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                     }
 
                     if (cards[i] / 4 == 0 && cards[i + 1] / 4 == 0 && cards[i + 2] / 4 == 0 && cards[i + 3] / 4 == 0)
@@ -167,19 +167,19 @@
                         player.Type.Current = PokerHand.FourOfAKind;
                         player.Type.Power = 13 * 4 + player.Type.Current * 100;
 
-                        strongestHands.Add(new Type()
-                                    {
-                                        Power = player.Type.Power,
-                                        Current = player.Type.Current
-                                    });
+                        //strongestHands.Add(new Type()
+                        //            {
+                        //                Power = player.Type.Power,
+                        //                Current = player.Type.Current
+                        //            });
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                     }
                 }
             }
         }
 
-        public void CheckFullHouse(IPlayer player, ref bool done, int[] cards, ref List<Type> strongestHands, ref Type winningHand)
+        public void CheckFullHouse(IPlayer player, ref bool done, int[] cards)//, ref List<Type> strongestHands, ref Type winningHand)
         {
             if (player.Type.Current >= PokerHand.HighCard)
             {
@@ -198,13 +198,13 @@
                                 player.Type.Current = PokerHand.FullHouse;
                                 player.Type.Power = 13 * 2 + player.Type.Current * 100;
 
-                                strongestHands.Add(new Type()
-                                            {
-                                                Power = player.Type.Power,
-                                                Current = player.Type.Current
-                                            });
+                                //strongestHands.Add(new Type()
+                                //            {
+                                //                Power = player.Type.Power,
+                                //                Current = player.Type.Current
+                                //            });
 
-                                winningHand = GetWinningHand(strongestHands);
+                                //winningHand = GetWinningHand(strongestHands);
                                 break;
                             }
 
@@ -213,13 +213,13 @@
                                 player.Type.Current = PokerHand.FullHouse;
                                 player.Type.Power = fullHouse.Max() / 4 * 2 + player.Type.Current * 100;
 
-                                strongestHands.Add(new Type()
-                                            {
-                                                Power = player.Type.Power,
-                                                Current = player.Type.Current
-                                            });
+                                //strongestHands.Add(new Type()
+                                //            {
+                                //                Power = player.Type.Power,
+                                //                Current = player.Type.Current
+                                //            });
 
-                                winningHand = GetWinningHand(strongestHands);
+                                //winningHand = GetWinningHand(strongestHands);
                                 break;
                             }
                         }
@@ -249,7 +249,7 @@
             }
         }
 
-        public void CheckFlush(IPlayer player, ref bool validFlush, int[] cards, ref List<Type> strongestHands, ref Type winningHand, IList<Card> reserve, int i)
+        public void CheckFlush(IPlayer player, ref bool validFlush, int[] cards, /*ref List<Type> strongestHands, ref Type winningHand,*/ IList<Card> reserve, int i)
         {
             if (player.Type.Current >= PokerHand.HighCard)
             {
@@ -267,13 +267,13 @@
                             player.Type.Current = PokerHand.Flush;
                             player.Type.Power = reserve[i].Power + player.Type.Current * 100;
 
-                            strongestHands.Add(new Type()
-                                        {
-                                            Power = player.Type.Power,
-                                            Current = player.Type.Current
-                                        });
+                            //strongestHands.Add(new Type()
+                            //            {
+                            //                Power = player.Type.Power,
+                            //                Current = player.Type.Current
+                            //            });
 
-                            winningHand = GetWinningHand(strongestHands);
+                            //winningHand = GetWinningHand(strongestHands);
                             validFlush = true;
                         }
 
@@ -282,13 +282,13 @@
                             player.Type.Current = PokerHand.Flush;
                             player.Type.Power = reserve[i + 1].Power + player.Type.Current * 100;
 
-                            strongestHands.Add(new Type()
-                                        {
-                                            Power = player.Type.Power,
-                                            Current = player.Type.Current
-                                        });
+                            //strongestHands.Add(new Type()
+                            //            {
+                            //                Power = player.Type.Power,
+                            //                Current = player.Type.Current
+                            //            });
 
-                            winningHand = GetWinningHand(strongestHands);
+                            //winningHand = GetWinningHand(strongestHands);
                             validFlush = true;
                         }
 
@@ -297,13 +297,13 @@
                             player.Type.Current = PokerHand.Flush;
                             player.Type.Power = spadesFlush.Max() + player.Type.Current * 100;
 
-                            strongestHands.Add(new Type()
-                                        {
-                                            Power = player.Type.Power,
-                                            Current = player.Type.Current
-                                        });
+                            //strongestHands.Add(new Type()
+                            //            {
+                            //                Power = player.Type.Power,
+                            //                Current = player.Type.Current
+                            //            });
 
-                            winningHand = GetWinningHand(strongestHands);
+                            //winningHand = GetWinningHand(strongestHands);
                             validFlush = true;
                         }
                     }
@@ -318,26 +318,26 @@
                         {
                             player.Type.Power = reserve[i].Power + player.Type.Current * 100;
 
-                            strongestHands.Add(new Type()
-                                        {
-                                            Power = player.Type.Power,
-                                            Current = player.Type.Current
-                                        });
+                            //strongestHands.Add(new Type()
+                            //            {
+                            //                Power = player.Type.Power,
+                            //                Current = player.Type.Current
+                            //            });
 
-                            winningHand = GetWinningHand(strongestHands);
+                            //winningHand = GetWinningHand(strongestHands);
                             validFlush = true;
                         }
                         else
                         {
                             player.Type.Power = spadesFlush.Max() + player.Type.Current * 100;
 
-                            strongestHands.Add(new Type()
-                                        {
-                                            Power = player.Type.Power,
-                                            Current = player.Type.Current
-                                        });
+                            //strongestHands.Add(new Type()
+                            //            {
+                            //                Power = player.Type.Power,
+                            //                Current = player.Type.Current
+                            //            });
 
-                            winningHand = GetWinningHand(strongestHands);
+                            //winningHand = GetWinningHand(strongestHands);
                             validFlush = true;
                         }
                     }
@@ -349,25 +349,25 @@
                         {
                             player.Type.Power = reserve[i + 1].Power + player.Type.Current * 100;
 
-                            strongestHands.Add(new Type()
-                                        {
-                                            Power = player.Type.Power,
-                                            Current = player.Type.Current
-                                        });
+                            //strongestHands.Add(new Type()
+                            //            {
+                            //                Power = player.Type.Power,
+                            //                Current = player.Type.Current
+                            //            });
 
-                            winningHand = GetWinningHand(strongestHands);
+                            //winningHand = GetWinningHand(strongestHands);
                             validFlush = true;
                         }
                         else
                         {
                             player.Type.Power = spadesFlush.Max() + player.Type.Current * 100;
-                            strongestHands.Add(new Type()
-                                        {
-                                            Power = player.Type.Power,
-                                            Current = player.Type.Current
-                                        });
+                            //strongestHands.Add(new Type()
+                            //            {
+                            //                Power = player.Type.Power,
+                            //                Current = player.Type.Current
+                            //            });
 
-                            winningHand = GetWinningHand(strongestHands);
+                            //winningHand = GetWinningHand(strongestHands);
                             validFlush = true;
                         }
                     }
@@ -380,13 +380,13 @@
                         player.Type.Current = PokerHand.Flush;
                         player.Type.Power = reserve[i].Power + player.Type.Current * 100;
 
-                        strongestHands.Add(new Type()
-                                               {
-                                                   Power = player.Type.Power, 
-                                                   Current = player.Type.Current
-                                               });
+                        //strongestHands.Add(new Type()
+                        //                       {
+                        //                           Power = player.Type.Power, 
+                        //                           Current = player.Type.Current
+                        //                       });
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                         validFlush = true;
                     }
 
@@ -395,13 +395,13 @@
                         player.Type.Current = PokerHand.Flush;
                         player.Type.Power = reserve[i + 1].Power + player.Type.Current * 100;
 
-                        strongestHands.Add(new Type()
-                                               {
-                                                   Power = player.Type.Power,
-                                                   Current = player.Type.Current
-                                               });
+                        //strongestHands.Add(new Type()
+                        //                       {
+                        //                           Power = player.Type.Power,
+                        //                           Current = player.Type.Current
+                        //                       });
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                         validFlush = true;
                     }
 
@@ -410,13 +410,13 @@
                         player.Type.Current = PokerHand.Flush;
                         player.Type.Power = spadesFlush.Max() + player.Type.Current * 100;
 
-                        strongestHands.Add(new Type()
-                                               {
-                                                   Power = player.Type.Power,
-                                                   Current = player.Type.Current
-                                               });
+                        //strongestHands.Add(new Type()
+                        //                       {
+                        //                           Power = player.Type.Power,
+                        //                           Current = player.Type.Current
+                        //                       });
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                         validFlush = true;
                     }
                 }
@@ -430,13 +430,13 @@
                             player.Type.Current = PokerHand.Flush;
                             player.Type.Power = reserve[i].Power + player.Type.Current * 100;
 
-                            strongestHands.Add(new Type()
-                                                   {
-                                                       Power = player.Type.Power,
-                                                       Current = player.Type.Current
-                                                   });
+                            //strongestHands.Add(new Type()
+                            //                       {
+                            //                           Power = player.Type.Power,
+                            //                           Current = player.Type.Current
+                            //                       });
 
-                            winningHand = GetWinningHand(strongestHands);
+                            //winningHand = GetWinningHand(strongestHands);
                             validFlush = true;
                         }
 
@@ -445,13 +445,13 @@
                             player.Type.Current = PokerHand.Flush;
                             player.Type.Power = reserve[i + 1].Power + player.Type.Current * 100;
 
-                            strongestHands.Add(new Type()
-                                                   {
-                                                       Power = player.Type.Power,
-                                                       Current = player.Type.Current
-                                                   });
+                            //strongestHands.Add(new Type()
+                            //                       {
+                            //                           Power = player.Type.Power,
+                            //                           Current = player.Type.Current
+                            //                       });
 
-                            winningHand = GetWinningHand(strongestHands);
+                            //winningHand = GetWinningHand(strongestHands);
                             validFlush = true;
                         }
 
@@ -460,13 +460,13 @@
                             player.Type.Current = PokerHand.Flush;
                             player.Type.Power = heartsFlush.Max() + player.Type.Current * 100;
 
-                            strongestHands.Add(new Type()
-                                                   {
-                                                       Power = player.Type.Power,
-                                                       Current = player.Type.Current
-                                                   });
+                            //strongestHands.Add(new Type()
+                            //                       {
+                            //                           Power = player.Type.Power,
+                            //                           Current = player.Type.Current
+                            //                       });
 
-                            winningHand = GetWinningHand(strongestHands);
+                            //winningHand = GetWinningHand(strongestHands);
                             validFlush = true;
                         }
                     }
@@ -486,13 +486,13 @@
                             player.Type.Power = heartsFlush.Max() + player.Type.Current * 100;
                         }
 
-                        strongestHands.Add(new Type()
-                        {
-                            Power = player.Type.Power,
-                            Current = player.Type.Current
-                        });
+                        //strongestHands.Add(new Type()
+                        //{
+                        //    Power = player.Type.Power,
+                        //    Current = player.Type.Current
+                        //});
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                         validFlush = true;
                     }
 
@@ -508,13 +508,13 @@
                             player.Type.Power = heartsFlush.Max() + player.Type.Current * 100;
                         }
 
-                        strongestHands.Add(new Type()
-                        {
-                            Power = player.Type.Power,
-                            Current = player.Type.Current
-                        });
+                        //strongestHands.Add(new Type()
+                        //{
+                        //    Power = player.Type.Power,
+                        //    Current = player.Type.Current
+                        //});
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                         validFlush = true;
                     }
                 }
@@ -525,13 +525,13 @@
                     {
                         player.Type.Current = PokerHand.Flush;
                         player.Type.Power = reserve[i].Power + player.Type.Current * 100;
-                        strongestHands.Add(new Type()
-                                               {
-                                                   Power = player.Type.Power,
-                                                   Current = player.Type.Current
-                                               });
+                        //strongestHands.Add(new Type()
+                        //                       {
+                        //                           Power = player.Type.Power,
+                        //                           Current = player.Type.Current
+                        //                       });
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                         validFlush = true;
                     }
 
@@ -539,13 +539,13 @@
                     {
                         player.Type.Current = PokerHand.Flush;
                         player.Type.Power = reserve[i + 1].Power + player.Type.Current * 100;
-                        strongestHands.Add(new Type()
-                                               {
-                                                   Power = player.Type.Power,
-                                                   Current = player.Type.Current
-                                               });
+                        //strongestHands.Add(new Type()
+                        //                       {
+                        //                           Power = player.Type.Power,
+                        //                           Current = player.Type.Current
+                        //                       });
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                         validFlush = true;
                     }
 
@@ -554,13 +554,13 @@
                         player.Type.Current = PokerHand.Flush;
                         player.Type.Power = heartsFlush.Max() + player.Type.Current * 100;
 
-                        strongestHands.Add(new Type()
-                                               {
-                                                   Power = player.Type.Power,
-                                                   Current = player.Type.Current
-                                               });
+                        //strongestHands.Add(new Type()
+                        //                       {
+                        //                           Power = player.Type.Power,
+                        //                           Current = player.Type.Current
+                        //                       });
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                         validFlush = true;
                     }
                 }
@@ -574,13 +574,13 @@
                             player.Type.Current = PokerHand.Flush;
                             player.Type.Power = reserve[i].Power + player.Type.Current * 100;
 
-                            strongestHands.Add(new Type()
-                                                   {
-                                                       Power = player.Type.Power,
-                                                       Current = player.Type.Current
-                                                   });
+                            //strongestHands.Add(new Type()
+                            //                       {
+                            //                           Power = player.Type.Power,
+                            //                           Current = player.Type.Current
+                            //                       });
 
-                            winningHand = GetWinningHand(strongestHands);
+                            //winningHand = GetWinningHand(strongestHands);
                             validFlush = true;
                         }
 
@@ -589,13 +589,13 @@
                             player.Type.Current = PokerHand.Flush;
                             player.Type.Power = reserve[i + 1].Power + player.Type.Current * 100;
 
-                            strongestHands.Add(new Type()
-                                                   {
-                                                       Power = player.Type.Power,
-                                                       Current = player.Type.Current
-                                                   });
+                            //strongestHands.Add(new Type()
+                            //                       {
+                            //                           Power = player.Type.Power,
+                            //                           Current = player.Type.Current
+                            //                       });
 
-                            winningHand = GetWinningHand(strongestHands);
+                            //winningHand = GetWinningHand(strongestHands);
                             validFlush = true;
                         }
 
@@ -604,13 +604,13 @@
                             player.Type.Current = PokerHand.Flush;
                             player.Type.Power = diamondsFlush.Max() + player.Type.Current * 100;
 
-                            strongestHands.Add(new Type()
-                                                   {
-                                                       Power = player.Type.Power,
-                                                       Current = player.Type.Current
-                                                   });
+                            //strongestHands.Add(new Type()
+                            //                       {
+                            //                           Power = player.Type.Power,
+                            //                           Current = player.Type.Current
+                            //                       });
 
-                            winningHand = GetWinningHand(strongestHands);
+                            //winningHand = GetWinningHand(strongestHands);
                             validFlush = true;
                         }
                     }
@@ -630,13 +630,13 @@
                             player.Type.Power = diamondsFlush.Max() + player.Type.Current * 100;
                         }
 
-                        strongestHands.Add(new Type()
-                                               {
-                                                   Power = player.Type.Power,
-                                                   Current = player.Type.Current
-                                               });
+                        //strongestHands.Add(new Type()
+                        //                       {
+                        //                           Power = player.Type.Power,
+                        //                           Current = player.Type.Current
+                        //                       });
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                         validFlush = true;
                     }
 
@@ -652,13 +652,13 @@
                             player.Type.Power = diamondsFlush.Max() + player.Type.Current * 100;
                         }
 
-                        strongestHands.Add(new Type()
-                        {
-                            Power = player.Type.Power,
-                            Current = player.Type.Current
-                        });
+                        //strongestHands.Add(new Type()
+                        //{
+                        //    Power = player.Type.Power,
+                        //    Current = player.Type.Current
+                        //});
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                         validFlush = true;
                     }
                 }
@@ -670,13 +670,13 @@
                         player.Type.Current = PokerHand.Flush;
                         player.Type.Power = reserve[i].Power + player.Type.Current * 100;
 
-                        strongestHands.Add(new Type()
-                                               {
-                                                   Power = player.Type.Power,
-                                                   Current = player.Type.Current
-                                               });
+                        //strongestHands.Add(new Type()
+                        //                       {
+                        //                           Power = player.Type.Power,
+                        //                           Current = player.Type.Current
+                        //                       });
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                         validFlush = true;
                     }
 
@@ -685,13 +685,13 @@
                         player.Type.Current = PokerHand.Flush;
                         player.Type.Power = reserve[i + 1].Power + player.Type.Current * 100;
 
-                        strongestHands.Add(new Type()
-                                               {
-                                                   Power = player.Type.Power,
-                                                   Current = player.Type.Current
-                                               });
+                        //strongestHands.Add(new Type()
+                        //                       {
+                        //                           Power = player.Type.Power,
+                        //                           Current = player.Type.Current
+                        //                       });
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                         validFlush = true;
                     }
 
@@ -700,13 +700,13 @@
                         player.Type.Current = PokerHand.Flush;
                         player.Type.Power = diamondsFlush.Max() + player.Type.Current * 100;
 
-                        strongestHands.Add(new Type()
-                                               {
-                                                   Power = player.Type.Power,
-                                                   Current = player.Type.Current
-                                               });
+                        //strongestHands.Add(new Type()
+                        //                       {
+                        //                           Power = player.Type.Power,
+                        //                           Current = player.Type.Current
+                        //                       });
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                         validFlush = true;
                     }
                 }
@@ -720,13 +720,13 @@
                             player.Type.Current = PokerHand.Flush;
                             player.Type.Power = reserve[i].Power + player.Type.Current * 100;
 
-                            strongestHands.Add(new Type()
-                                                   {
-                                                       Power = player.Type.Power, 
-                                                       Current = player.Type.Current
-                                                   });
+                            //strongestHands.Add(new Type()
+                            //                       {
+                            //                           Power = player.Type.Power, 
+                            //                           Current = player.Type.Current
+                            //                       });
 
-                            winningHand = GetWinningHand(strongestHands);
+                            //winningHand = GetWinningHand(strongestHands);
                             validFlush = true;
                         }
 
@@ -735,13 +735,13 @@
                             player.Type.Current = PokerHand.Flush;
                             player.Type.Power = reserve[i + 1].Power + player.Type.Current * 100;
 
-                            strongestHands.Add(new Type()
-                                                   {
-                                                       Power = player.Type.Power,
-                                                       Current = player.Type.Current
-                                                   });
+                            //strongestHands.Add(new Type()
+                            //                       {
+                            //                           Power = player.Type.Power,
+                            //                           Current = player.Type.Current
+                            //                       });
 
-                            winningHand = GetWinningHand(strongestHands);
+                            //winningHand = GetWinningHand(strongestHands);
                             validFlush = true;
                         }
 
@@ -750,13 +750,13 @@
                             player.Type.Current = PokerHand.Flush;
                             player.Type.Power = clubsFlush.Max() + player.Type.Current * 100;
 
-                            strongestHands.Add(new Type()
-                                                   {
-                                                       Power = player.Type.Power,
-                                                       Current = player.Type.Current
-                                                   });
+                            //strongestHands.Add(new Type()
+                            //                       {
+                            //                           Power = player.Type.Power,
+                            //                           Current = player.Type.Current
+                            //                       });
 
-                            winningHand = GetWinningHand(strongestHands);
+                            //winningHand = GetWinningHand(strongestHands);
                             validFlush = true;
                         }
                     }
@@ -776,13 +776,13 @@
                             player.Type.Power = clubsFlush.Max() + player.Type.Current * 100;
                         }
 
-                        strongestHands.Add(new Type()
-                        {
-                            Power = player.Type.Power,
-                            Current = player.Type.Current
-                        });
+                        //strongestHands.Add(new Type()
+                        //{
+                        //    Power = player.Type.Power,
+                        //    Current = player.Type.Current
+                        //});
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                         validFlush = true;
                     }
 
@@ -798,13 +798,13 @@
                             player.Type.Power = clubsFlush.Max() + player.Type.Current * 100;
                         }
 
-                        strongestHands.Add(new Type()
-                        {
-                            Power = player.Type.Power,
-                            Current = player.Type.Current
-                        });
+                        //strongestHands.Add(new Type()
+                        //{
+                        //    Power = player.Type.Power,
+                        //    Current = player.Type.Current
+                        //});
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                         validFlush = true;
                     }
                 }
@@ -816,13 +816,13 @@
                         player.Type.Current = PokerHand.Flush;
                         player.Type.Power = reserve[i].Power + player.Type.Current * 100;
 
-                        strongestHands.Add(new Type()
-                        {
-                            Power = player.Type.Power,
-                            Current = player.Type.Current
-                        });
+                        //strongestHands.Add(new Type()
+                        //{
+                        //    Power = player.Type.Power,
+                        //    Current = player.Type.Current
+                        //});
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                         validFlush = true;
                     }
 
@@ -831,13 +831,13 @@
                         player.Type.Current = PokerHand.Flush;
                         player.Type.Power = reserve[i + 1].Power + player.Type.Current * 100;
 
-                        strongestHands.Add(new Type()
-                        {
-                            Power = player.Type.Power,
-                            Current = player.Type.Current
-                        });
+                        //strongestHands.Add(new Type()
+                        //{
+                        //    Power = player.Type.Power,
+                        //    Current = player.Type.Current
+                        //});
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                         validFlush = true;
                     }
                     
@@ -846,13 +846,13 @@
                         player.Type.Current = PokerHand.Flush;
                         player.Type.Power = clubsFlush.Max() + player.Type.Current * 100;
 
-                        strongestHands.Add(new Type()
-                        {
-                            Power = player.Type.Power,
-                            Current = player.Type.Current
-                        });
+                        //strongestHands.Add(new Type()
+                        //{
+                        //    Power = player.Type.Power,
+                        //    Current = player.Type.Current
+                        //});
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                         validFlush = true;
                     }
                 }
@@ -864,13 +864,13 @@
                         player.Type.Current = PokerHand.FlushWithAce;
                         player.Type.Power = 13 + player.Type.Current * 100;
 
-                        strongestHands.Add(new Type()
-                        {
-                            Power = player.Type.Power,
-                            Current = player.Type.Current
-                        });
+                        //strongestHands.Add(new Type()
+                        //{
+                        //    Power = player.Type.Power,
+                        //    Current = player.Type.Current
+                        //});
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                     }
 
                     if (reserve[i + 1].Power / 4 == 0 && reserve[i + 1].Power % 4 == spadesFlush[0] % 4 && validFlush && spadesFlush.Length > 0)
@@ -878,13 +878,13 @@
                         player.Type.Current = 5.5;
                         player.Type.Power = 13 + player.Type.Current * 100;
 
-                        strongestHands.Add(new Type()
-                        {
-                            Power = player.Type.Power,
-                            Current = player.Type.Current
-                        });
+                        //strongestHands.Add(new Type()
+                        //{
+                        //    Power = player.Type.Power,
+                        //    Current = player.Type.Current
+                        //});
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                     }
                 }
 
@@ -895,13 +895,13 @@
                         player.Type.Current = PokerHand.FlushWithAce;
                         player.Type.Power = 13 + player.Type.Current * 100;
 
-                        strongestHands.Add(new Type()
-                        {
-                            Power = player.Type.Power,
-                            Current = player.Type.Current
-                        });
+                        //strongestHands.Add(new Type()
+                        //{
+                        //    Power = player.Type.Power,
+                        //    Current = player.Type.Current
+                        //});
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                     }
 
                     if (reserve[i + 1].Power / 4 == 0 && reserve[i + 1].Power % 4 == heartsFlush[0] % 4 && validFlush && heartsFlush.Length > 0)
@@ -909,13 +909,13 @@
                         player.Type.Current = PokerHand.FlushWithAce;
                         player.Type.Power = 13 + player.Type.Current * 100;
 
-                        strongestHands.Add(new Type()
-                        {
-                            Power = player.Type.Power,
-                            Current = player.Type.Current
-                        });
+                        //strongestHands.Add(new Type()
+                        //{
+                        //    Power = player.Type.Power,
+                        //    Current = player.Type.Current
+                        //});
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                     }
                 }
 
@@ -926,13 +926,13 @@
                         player.Type.Current = PokerHand.FlushWithAce;
                         player.Type.Power = 13 + player.Type.Current * 100;
 
-                        strongestHands.Add(new Type()
-                        {
-                            Power = player.Type.Power,
-                            Current = player.Type.Current
-                        });
+                        //strongestHands.Add(new Type()
+                        //{
+                        //    Power = player.Type.Power,
+                        //    Current = player.Type.Current
+                        //});
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                     }
 
                     if (reserve[i + 1].Power / 4 == 0 && reserve[i + 1].Power % 4 == diamondsFlush[0] % 4 && validFlush && diamondsFlush.Length > 0)
@@ -940,13 +940,13 @@
                         player.Type.Current = PokerHand.FlushWithAce;
                         player.Type.Power = 13 + player.Type.Current * 100;
 
-                        strongestHands.Add(new Type()
-                        {
-                            Power = player.Type.Power,
-                            Current = player.Type.Current
-                        });
+                        //strongestHands.Add(new Type()
+                        //{
+                        //    Power = player.Type.Power,
+                        //    Current = player.Type.Current
+                        //});
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                     }
                 }
 
@@ -957,13 +957,13 @@
                         player.Type.Current = PokerHand.FlushWithAce;
                         player.Type.Power = 13 + player.Type.Current * 100;
 
-                        strongestHands.Add(new Type()
-                        {
-                            Power = player.Type.Power,
-                            Current = player.Type.Current
-                        });
+                        //strongestHands.Add(new Type()
+                        //{
+                        //    Power = player.Type.Power,
+                        //    Current = player.Type.Current
+                        //});
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                     }
 
                     if (reserve[i + 1].Power / 4 == 0 && reserve[i + 1].Power % 4 == clubsFlush[0] % 4 && validFlush)
@@ -971,19 +971,19 @@
                         player.Type.Current = PokerHand.FlushWithAce;
                         player.Type.Power = 13 + player.Type.Current * 100;
 
-                        strongestHands.Add(new Type()
-                        {
-                            Power = player.Type.Power,
-                            Current = player.Type.Current
-                        });
+                        //strongestHands.Add(new Type()
+                        //{
+                        //    Power = player.Type.Power,
+                        //    Current = player.Type.Current
+                        //});
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                     }
                 }
             }
         }
 
-        public void CheckStraight(IPlayer player, int[] cards, ref List<Type> strongestHands, ref Type winningHand)
+        public void CheckStraight(IPlayer player, int[] cards)//, ref List<Type> strongestHands, ref Type winningHand)
         {
             if (player.Type.Current >= PokerHand.HighCard)
             {
@@ -998,26 +998,26 @@
                             player.Type.Current = PokerHand.Straigth;
                             player.Type.Power = straight.Max() + player.Type.Current * 100;
 
-                            strongestHands.Add(new Type()
-                            {
-                                Power = player.Type.Power,
-                                Current = player.Type.Current
-                            });
+                            //strongestHands.Add(new Type()
+                            //{
+                            //    Power = player.Type.Power,
+                            //    Current = player.Type.Current
+                            //});
 
-                            winningHand = GetWinningHand(strongestHands);
+                            //winningHand = GetWinningHand(strongestHands);
                         }
                         else
                         {
                             player.Type.Current = PokerHand.Straigth;
                             player.Type.Power = straight[i + 4] + player.Type.Current * 100;
 
-                            strongestHands.Add(new Type()
-                            {
-                                Power = player.Type.Power,
-                                Current = player.Type.Current
-                            });
+                            //strongestHands.Add(new Type()
+                            //{
+                            //    Power = player.Type.Power,
+                            //    Current = player.Type.Current
+                            //});
 
-                            winningHand = GetWinningHand(strongestHands);
+                            //winningHand = GetWinningHand(strongestHands);
                         }
                     }
 
@@ -1026,19 +1026,19 @@
                         player.Type.Current = PokerHand.Straigth;
                         player.Type.Power = 13 + player.Type.Current * 100;
 
-                        strongestHands.Add(new Type()
-                        {
-                            Power = player.Type.Power,
-                            Current = player.Type.Current
-                        });
+                        //strongestHands.Add(new Type()
+                        //{
+                        //    Power = player.Type.Power,
+                        //    Current = player.Type.Current
+                        //});
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                     }
                 }
             }
         }
 
-        public void CheckThreeOfAKind(IPlayer player, int[] straight, ref List<Type> strongestHands, ref Type winningHand)
+        public void CheckThreeOfAKind(IPlayer player, int[] straight)//, ref List<Type> strongestHands, ref Type winningHand)
         {
             if (player.Type.Current >= PokerHand.HighCard)
             {
@@ -1059,19 +1059,19 @@
                             player.Type.Power = threeOfAKind[0] / 4 + threeOfAKind[1] / 4 + threeOfAKind[2] / 4 + player.Type.Current * 100;
                         }
 
-                        strongestHands.Add(new Type()
-                        {
-                            Power = player.Type.Power,
-                            Current = player.Type.Current
-                        });
+                        //strongestHands.Add(new Type()
+                        //{
+                        //    Power = player.Type.Power,
+                        //    Current = player.Type.Current
+                        //});
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                     }
                 }
             }
         }
 
-        public void CheckTwoPair(IPlayer player, ref List<Type> strongestHands, ref Type winningHand,  IList<Card> reserve, int i)
+        public void CheckTwoPair(IPlayer player, /*ref List<Type> strongestHands, ref Type winningHand,*/  IList<Card> reserve, int i)
         {
             if (player.Type.Current >= PokerHand.HighCard)
             {
@@ -1102,13 +1102,13 @@
                                             player.Type.Current = PokerHand.TwoPair;
                                             player.Type.Power = 13 * 4 + (reserve[i + 1].Power / 4) * 2 + player.Type.Current * 100;
 
-                                            strongestHands.Add(new Type()
-                                            {
-                                                Power = player.Type.Power,
-                                                Current = player.Type.Current
-                                            });
+                                            //strongestHands.Add(new Type()
+                                            //{
+                                            //    Power = player.Type.Power,
+                                            //    Current = player.Type.Current
+                                            //});
 
-                                            winningHand = GetWinningHand(strongestHands);
+                                            //winningHand = GetWinningHand(strongestHands);
                                         }
 
                                         if (reserve[i + 1].Power / 4 == 0)
@@ -1116,13 +1116,13 @@
                                             player.Type.Current = PokerHand.TwoPair;
                                             player.Type.Power = 13 * 4 + (reserve[i].Power / 4) * 2 + player.Type.Current * 100;
 
-                                            strongestHands.Add(new Type()
-                                            {
-                                                Power = player.Type.Power,
-                                                Current = player.Type.Current
-                                            });
+                                            //strongestHands.Add(new Type()
+                                            //{
+                                            //    Power = player.Type.Power,
+                                            //    Current = player.Type.Current
+                                            //});
 
-                                            winningHand = GetWinningHand(strongestHands);
+                                            //winningHand = GetWinningHand(strongestHands);
                                         }
 
                                         if (reserve[i + 1].Power / 4 != 0 && reserve[i].Power / 4 != 0)
@@ -1130,13 +1130,13 @@
                                             player.Type.Current = PokerHand.TwoPair;
                                             player.Type.Power = (reserve[i].Power / 4) * 2 + (reserve[i + 1].Power / 4) * 2 + player.Type.Current * 100;
 
-                                            strongestHands.Add(new Type()
-                                            {
-                                                Power = player.Type.Power,
-                                                Current = player.Type.Current
-                                            });
+                                            //strongestHands.Add(new Type()
+                                            //{
+                                            //    Power = player.Type.Power,
+                                            //    Current = player.Type.Current
+                                            //});
 
-                                            winningHand = GetWinningHand(strongestHands);
+                                            //winningHand = GetWinningHand(strongestHands);
                                         }
                                     }
 
@@ -1149,7 +1149,7 @@
             }
         }
 
-        public void CheckPairTwoPair(IPlayer player, ref List<Type> strongestHands, ref Type winningHand, IList<Card> reserve, int i)
+        public void CheckPairTwoPair(IPlayer player, /*ref List<Type> strongestHands, ref Type winningHand,*/ IList<Card> reserve, int i)
         {
             if (player.Type.Current >= PokerHand.HighCard)
             {
@@ -1180,13 +1180,13 @@
                                             player.Type.Current = PokerHand.TwoPair;
                                             player.Type.Power = (reserve[i].Power / 4) * 2 + 13 * 4 + player.Type.Current * 100;
 
-                                            strongestHands.Add(new Type()
-                                            {
-                                                Power = player.Type.Power,
-                                                Current = player.Type.Current
-                                            });
+                                            //strongestHands.Add(new Type()
+                                            //{
+                                            //    Power = player.Type.Power,
+                                            //    Current = player.Type.Current
+                                            //});
 
-                                            winningHand = GetWinningHand(strongestHands);
+                                            //winningHand = GetWinningHand(strongestHands);
                                         }
 
                                         if (reserve[i].Power / 4 == 0)
@@ -1194,13 +1194,13 @@
                                             player.Type.Current = PokerHand.TwoPair;
                                             player.Type.Power = (reserve[i + 1].Power / 4) * 2 + 13 * 4 + player.Type.Current * 100;
 
-                                            strongestHands.Add(new Type()
-                                            {
-                                                Power = player.Type.Power,
-                                                Current = player.Type.Current
-                                            });
+                                            //strongestHands.Add(new Type()
+                                            //{
+                                            //    Power = player.Type.Power,
+                                            //    Current = player.Type.Current
+                                            //});
 
-                                            winningHand = GetWinningHand(strongestHands);
+                                            //winningHand = GetWinningHand(strongestHands);
                                         }
 
                                         if (reserve[i + 1].Power / 4 != 0)
@@ -1208,13 +1208,13 @@
                                             player.Type.Current = PokerHand.TwoPair;
                                             player.Type.Power = (reserve[tc].Power / 4) * 2 + (reserve[i + 1].Power / 4) * 2 + player.Type.Current * 100;
 
-                                            strongestHands.Add(new Type()
-                                            {
-                                                Power = player.Type.Power,
-                                                Current = player.Type.Current
-                                            });
+                                            //strongestHands.Add(new Type()
+                                            //{
+                                            //    Power = player.Type.Power,
+                                            //    Current = player.Type.Current
+                                            //});
 
-                                            winningHand = GetWinningHand(strongestHands);
+                                            //winningHand = GetWinningHand(strongestHands);
                                         }
 
                                         if (reserve[i].Power / 4 != 0)
@@ -1222,13 +1222,13 @@
                                             player.Type.Current = PokerHand.TwoPair;
                                             player.Type.Power = (reserve[tc].Power / 4) * 2 + (reserve[i].Power / 4) * 2 + player.Type.Current * 100;
 
-                                            strongestHands.Add(new Type()
-                                            {
-                                                Power = player.Type.Power,
-                                                Current = player.Type.Current
-                                            });
+                                            //strongestHands.Add(new Type()
+                                            //{
+                                            //    Power = player.Type.Power,
+                                            //    Current = player.Type.Current
+                                            //});
 
-                                            winningHand = GetWinningHand(strongestHands);
+                                            //winningHand = GetWinningHand(strongestHands);
                                         }
                                     }
 
@@ -1251,13 +1251,13 @@
                                                 player.Type.Power = reserve[tc].Power / 4 + reserve[i].Power / 4 + player.Type.Current * 100;
                                             }
 
-                                            strongestHands.Add(new Type()
-                                            {
-                                                Power = player.Type.Power,
-                                                Current = 1 //??
-                                            });
+                                            //strongestHands.Add(new Type()
+                                            //{
+                                            //    Power = player.Type.Power,
+                                            //    Current = 1 //??
+                                            //});
 
-                                            winningHand = GetWinningHand(strongestHands);
+                                            //winningHand = GetWinningHand(strongestHands);
                                         }
                                         else
                                         {
@@ -1272,13 +1272,13 @@
                                                 player.Type.Power = reserve[tc].Power / 4 + reserve[i + 1].Power / 4 + player.Type.Current * 100;
                                             }
 
-                                            strongestHands.Add(new Type()
-                                            {
-                                                Power = player.Type.Power,
-                                                Current = 1 //??
-                                            });
+                                            //strongestHands.Add(new Type()
+                                            //{
+                                            //    Power = player.Type.Power,
+                                            //    Current = 1 //??
+                                            //});
 
-                                            winningHand = GetWinningHand(strongestHands);
+                                            //winningHand = GetWinningHand(strongestHands);
                                         }
                                     }
 
@@ -1291,7 +1291,7 @@
             }
         }
 
-        public void CheckPairFromHand(IPlayer player, ref List<Type> strongestHands, ref Type winningHand, IList<Card> reserve, int i)
+        public void CheckPairFromHand(IPlayer player, /*ref List<Type> strongestHands, ref Type winningHand,*/ IList<Card> reserve, int i)
         {
             if (player.Type.Current >= PokerHand.HighCard)
             {
@@ -1312,13 +1312,13 @@
                             player.Type.Power = (reserve[i + 1].Power / 4) * 4 + player.Type.Current * 100;
                         }
 
-                        strongestHands.Add(new Type()
-                        {
-                            Power = player.Type.Power,
-                            Current = player.Type.Current
-                        });
+                        //strongestHands.Add(new Type()
+                        //{
+                        //    Power = player.Type.Power,
+                        //    Current = player.Type.Current
+                        //});
 
-                        winningHand = GetWinningHand(strongestHands);
+                        //winningHand = GetWinningHand(strongestHands);
                     }
 
                     msgbox = true;
@@ -1340,13 +1340,13 @@
                                 player.Type.Power = (reserve[i + 1].Power / 4) * 4 + reserve[i].Power / 4 + player.Type.Current * 100;
                             }
 
-                            strongestHands.Add(new Type()
-                            {
-                                Power = player.Type.Power,
-                                Current = player.Type.Current
-                            });
+                            //strongestHands.Add(new Type()
+                            //{
+                            //    Power = player.Type.Power,
+                            //    Current = player.Type.Current
+                            //});
 
-                            winningHand = GetWinningHand(strongestHands);
+                            //winningHand = GetWinningHand(strongestHands);
                         }
 
                         msgbox = true;
@@ -1367,13 +1367,13 @@
                                 player.Type.Power = (reserve[tc].Power / 4) * 4 + reserve[i + 1].Power / 4 + player.Type.Current * 100;
                             }
 
-                            strongestHands.Add(new Type()
-                            {
-                                Power = player.Type.Power,
-                                Current = player.Type.Current
-                            });
+                            //strongestHands.Add(new Type()
+                            //{
+                            //    Power = player.Type.Power,
+                            //    Current = player.Type.Current
+                            //});
 
-                            winningHand = GetWinningHand(strongestHands);
+                            //winningHand = GetWinningHand(strongestHands);
                         }
 
                         msgbox = true;
@@ -1382,7 +1382,7 @@
             }
         }
 
-        public void CheckHighCard(IPlayer player, ref List<Type> strongestHands, ref Type winningHand, IList<Card> reserve, int i)
+        public void CheckHighCard(IPlayer player, /*ref List<Type> strongestHands, ref Type winningHand,*/ IList<Card> reserve, int i)
         {
             if (player.Type.Current == PokerHand.HighCard)
             {
@@ -1399,13 +1399,13 @@
                     player.Type.Power = reserve[i + 1].Power / 4;
                 }
 
-                strongestHands.Add(new Type()
-                {
-                    Power = player.Type.Power,
-                    Current = player.Type.Current
-                });
+                //strongestHands.Add(new Type()
+                //{
+                //    Power = player.Type.Power,
+                //    Current = player.Type.Current
+                //});
 
-                winningHand = GetWinningHand(strongestHands);
+                //winningHand = GetWinningHand(strongestHands);
             }
         }
 

@@ -7,6 +7,8 @@
 // </summary>
 // --------------------------------------------------------------------------------------------------------------------
 
+using Poker.Enums;
+
 namespace Poker.Interfaces
 {
     using System.Windows.Forms;
@@ -24,6 +26,7 @@ namespace Poker.Interfaces
         /// </value>
         int Id { get; set; }
 
+        PlayerState PlayerState { get; set; }
         /// <summary>
         /// Gets or sets the name.
         /// </summary>

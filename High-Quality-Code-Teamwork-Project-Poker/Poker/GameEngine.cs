@@ -23,9 +23,9 @@
         private IList<IAIPlayer> enemies;
         private bool changed;
         private int raisedTurn = 1;
-        private List<Type> strongestHands = new List<Type>();
+        //private List<Type> strongestHands = new List<Type>();
         private bool isAnyPlayerRaise;
-        private Type winningHand;
+        //private Type winningHand;
         private int turnCount = 0;
 
         public event GameEngineStateEvent GameEngineStateEvent;
@@ -61,7 +61,7 @@
             this.dealer = dealer;
             this.deck = deck;
             this.MessageWriter = messageWriter;
-            this.winningHand = new Type();
+            //this.winningHand = new Type();
             this.BigBlind = AppSettigns.DefaultMinBigBlind;
             this.SmallBlind = AppSettigns.DefaultMinSmallBlind;
             this.SetDefaultCall();
@@ -107,18 +107,23 @@
             
             if (this.enemies.Count(e => !e.CanPlay()) == 5)
             {
-                DialogResult dialogResult = this.MessageWriter.ShowDialog(Messages.PlayAgainMessage, Messages.WinningMessage, MessageBoxButtons.YesNo);
-                if (dialogResult == DialogResult.Yes)
-                {
-                    Application.Restart();
-                }
-                else if (dialogResult == DialogResult.No)
-                {
-                    Application.Exit();
-                }
+                this.ShowPlayAgainDialog();
             }
 
             this.InvokeGameEngineStateEvent(new GameEngineEventArgs(GameEngineState.EndShuffling));
+        }
+
+        private void ShowPlayAgainDialog()
+        {
+            DialogResult dialogResult = this.MessageWriter.ShowDialog(Messages.PlayAgainMessage, Messages.WinningMessage, MessageBoxButtons.YesNo);
+            if (dialogResult == DialogResult.Yes)
+            {
+                Application.Restart();
+            }
+            else if (dialogResult == DialogResult.No)
+            {
+                Application.Exit();
+            }
         }
 
         private void SetDefaultCall()
@@ -132,8 +137,8 @@
             {
                 if (currentAI.IsInTurn)
                 {
-                    this.FixCall(currentAI, 1);
-                    this.FixCall(currentAI, 2);
+                    this.FixCall(currentAI);//, 1);
+                    //this.FixCall(currentAI, 2);
                     this.Rules(currentAI);
                     this.MessageWriter.Write(string.Format(Messages.PlayerTurn, currentAI.Name));
                     currentAI.ProccessNextTurn(Call, this.Pot, ref raise, ref isAnyPlayerRaise, this.dealer.CurrentRound);
@@ -163,10 +168,10 @@
             {
                 if (this.human.IsInTurn)
                 {
-                    this.FixCall(this.human, 1);
+                    this.FixCall(this.human);//, 1);
                     this.InvokeGameEngineStateEvent(new GameEngineEventArgs(GameEngineState.HumanTurn));
                     this.turnCount++;
-                    this.FixCall(this.human, 2);
+                    //this.FixCall(this.human, 2);
                 }
             }
 
@@ -224,15 +229,15 @@
                 var b = Straight.Where(o => o % 4 == 1).ToArray();
                 var c = Straight.Where(o => o % 4 == 2).ToArray();
                 var d = Straight.Where(o => o % 4 == 3).ToArray();
-                var st1 = a.Select(o => o / 4).Distinct().ToArray();
-                var st2 = b.Select(o => o / 4).Distinct().ToArray();
-                var st3 = c.Select(o => o / 4).Distinct().ToArray();
-                var st4 = d.Select(o => o / 4).Distinct().ToArray();
+                var spades = a.Select(o => o / 4).Distinct().ToArray();
+                var hearts = b.Select(o => o / 4).Distinct().ToArray();
+                var diamonds = c.Select(o => o / 4).Distinct().ToArray();
+                var clubs = d.Select(o => o / 4).Distinct().ToArray();
                 Array.Sort(Straight);
-                Array.Sort(st1);
-                Array.Sort(st2);
-                Array.Sort(st3);
-                Array.Sort(st4);
+                Array.Sort(spades);
+                Array.Sort(hearts);
+                Array.Sort(diamonds);
+                Array.Sort(clubs);
 
                 #endregion
 
@@ -240,32 +245,32 @@
                 {
                     if (this.deck.GetCardAtIndex(i).Power == player.Cards.First().Power && this.deck.GetCardAtIndex(i + 1).Power == player.Cards.Last().Power)
                     {
+                        // High Card
+                        this.checkHandType.CheckHighCard(player, /*ref this.strongestHands, ref this.winningHand,*/ this.deck.GetCards(), i);
+
                         // TwoPair from Hand
-                        this.checkHandType.CheckPairFromHand(player, ref this.strongestHands, ref this.winningHand, this.deck.GetCards(), i);
+                        this.checkHandType.CheckPairFromHand(player, /*ref this.strongestHands, ref this.winningHand,*/ this.deck.GetCards(), i);
 
                         // TwoPair or Two TwoPair from Table
-                        this.checkHandType.CheckPairTwoPair(player, ref this.strongestHands, ref this.winningHand, this.deck.GetCards(), i);
+                        this.checkHandType.CheckPairTwoPair(player, /*ref this.strongestHands, ref this.winningHand,*/ this.deck.GetCards(), i);
                         
                         // Three of a kind
-                        this.checkHandType.CheckThreeOfAKind(player, Straight, ref this.strongestHands, ref this.winningHand);
+                        this.checkHandType.CheckThreeOfAKind(player, Straight); //ref this.strongestHands, ref this.winningHand);
                         
                         // Straight
-                        this.checkHandType.CheckStraight(player, Straight, ref this.strongestHands, ref this.winningHand);
+                        this.checkHandType.CheckStraight(player, Straight); //ref this.strongestHands, ref this.winningHand);
                         
                         // Flush current
-                        this.checkHandType.CheckFlush(player, ref vf, Straight1, ref this.strongestHands, ref this.winningHand, this.deck.GetCards(), i);
+                        this.checkHandType.CheckFlush(player, ref vf, Straight1, /*ref this.strongestHands, ref this.winningHand,*/ this.deck.GetCards(), i);
                         
                         // Full House
-                        this.checkHandType.CheckFullHouse(player, ref done, Straight, ref this.strongestHands, ref this.winningHand);
+                        this.checkHandType.CheckFullHouse(player, ref done, Straight); //ref this.strongestHands, ref this.winningHand);
                         
                         // Four of a Kind
-                        this.checkHandType.CheckFourOfAKind(player, Straight, ref this.strongestHands, ref this.winningHand);
+                        this.checkHandType.CheckFourOfAKind(player, Straight); //ref this.strongestHands, ref this.winningHand);
                        
                         // Straight Flush
-                        this.checkHandType.CheckStraightFlush(player, st1, st2, st3, st4, ref this.strongestHands, ref this.winningHand);
-                        
-                        // High Card
-                        this.checkHandType.CheckHighCard(player, ref this.strongestHands, ref this.winningHand, this.deck.GetCards(), i);
+                        this.checkHandType.CheckStraightFlush(player, spades, hearts, diamonds, clubs); //ref this.strongestHands, ref this.winningHand);
                     }
                 }
             }
@@ -274,12 +279,12 @@
         private ICollection<IPlayer> GetWinners(ICollection<IPlayer> players)
         {
             ICollection<IPlayer> winners = new List<IPlayer>();
-
+            Type highestHand = this.GetHighestNotFoldedHand(this.GetAllPlayers());
             foreach (var player in players)
             {
                 if (!player.HasFolded)
                 {
-                    if ((player.Type.Current == this.winningHand.Current && player.Type.Power == this.winningHand.Power) || this.GetNotFoldedPlayersCount(this.GetAllPlayers()) == 1)
+                    if ((player.Type.Current == highestHand.Current && player.Type.Power == highestHand.Power) || this.GetNotFoldedPlayersCount(this.GetAllPlayers()) == 1)
                     {
                         //if (player.Type.Power == this.winningHand.Power)
                         //{
@@ -290,6 +295,18 @@
             }
 
             return winners;
+        }
+
+        private Type GetHighestNotFoldedHand(IList<IPlayer> players)
+        {
+            Type winner =
+                players.Where(p => !p.HasFolded)
+                    .OrderByDescending(p => p.Type.Current)
+                    .ThenByDescending(p => p.Type.Power)
+                    .Select(p => p.Type)
+                    .First();
+
+            return winner;
         }
 
         private void ShowWinnersMessages(ICollection<IPlayer> winners)
@@ -353,7 +370,7 @@
             foreach (var player in players)
             {
                 player.Chips += this.Pot.Amount / players.Count;
-                player.ChipsTextBox.Text = player.Chips.ToString();
+                //player.ChipsTextBox.Text = player.Chips.ToString();
             }
         }
 
@@ -526,54 +543,54 @@
             }
         }
 
-        void FixCall(IPlayer player, int options)
+        void FixCall(IPlayer player)//, int options)
         {
             if (this.dealer.CurrentRound != CommunityCardBoard.End)
             {
-                if (options == 1)
+                //if (options == 1)
+                //{
+                if (player.StatusLabel.Text.Contains("Raise"))
                 {
-                    if (player.StatusLabel.Text.Contains("Raise"))
-                    {
-                        var changeRaise = player.StatusLabel.Text.Substring(6);
-                        player.RaiseAmount = int.Parse(changeRaise);
-                    }
-
-                    if (player.StatusLabel.Text.Contains("Call"))
-                    {
-                        var changeCall = player.StatusLabel.Text.Substring(5);
-                        player.CallAmount = int.Parse(changeCall);
-                    }
-
-                    if (player.StatusLabel.Text.Contains("Check"))
-                    {
-                        //player.RaiseAmount = 0;
-                        this.ResetCall(new List<IPlayer>() { player });
-                        this.ResetRaise(new List<IPlayer>() { player });
-                        //player.CallAmount = 0;
-                    }
+                    var changeRaise = player.StatusLabel.Text.Substring(6);
+                    player.RaiseAmount = int.Parse(changeRaise);
                 }
 
-                if (options == 2)
+                if (player.StatusLabel.Text.Contains("Call"))
                 {
-                    if (player.RaiseAmount < this.Raise)//!= RaiseAmount && player.RaiseAmount <= RaiseAmount)
-                    {
-                        //player.CallAmount = Convert.ToInt32(RaiseAmount) - player.RaiseAmount;
-                        Call = Convert.ToInt32(Raise) - player.RaiseAmount;
-                    }
-
-                    if (player.CallAmount < Call)//!= Call || player.CallAmount <= Call)
-                    {
-                        Call = Call - player.CallAmount;
-                    }
-
-                    if (player.RaiseAmount == Raise && Raise > 0)
-                    {
-                        //Call = (int)RaiseAmount;
-                        Call = 0;
-                        //this.buttonCall.Enabled = false;
-                        //this.buttonCall.Text = "Callisfuckedup";
-                    }
+                    var changeCall = player.StatusLabel.Text.Substring(5);
+                    player.CallAmount = int.Parse(changeCall);
                 }
+
+                if (player.StatusLabel.Text.Contains("Check"))
+                {
+                    //player.RaiseAmount = 0;
+                    this.ResetCall(new List<IPlayer>() { player });
+                    this.ResetRaise(new List<IPlayer>() { player });
+                    //player.CallAmount = 0;
+                }
+                //}
+
+                //if (options == 2)
+                //{
+                if (player.RaiseAmount < this.Raise)//!= RaiseAmount && player.RaiseAmount <= RaiseAmount)
+                {
+                    //player.CallAmount = Convert.ToInt32(RaiseAmount) - player.RaiseAmount;
+                    Call = Convert.ToInt32(Raise) - player.RaiseAmount;
+                }
+
+                if (player.CallAmount < Call)//!= Call || player.CallAmount <= Call)
+                {
+                    Call = Call - player.CallAmount;
+                }
+
+                if (player.RaiseAmount == Raise && Raise > 0)
+                {
+                    //Call = (int)RaiseAmount;
+                    Call = 0;
+                    //this.buttonCall.Enabled = false;
+                    //this.buttonCall.Text = "Callisfuckedup";
+                }
+                //}
             }
         }
 
@@ -746,9 +763,9 @@
 
         private void ResetGameVariables()
         {
-            this.strongestHands.Clear();
-            this.winningHand.Current = 0;
-            this.winningHand.Power = 0;
+            ///this.strongestHands.Clear();
+            //this.winningHand.Current = 0;
+            //this.winningHand.Power = 0;
             this.Pot.Clear();
             this.SetDefaultCall();
             this.dealer.CurrentRound = 0;

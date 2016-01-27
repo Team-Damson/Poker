@@ -1,4 +1,6 @@
-﻿namespace Poker.Models.Players
+﻿using Poker.Enums;
+
+namespace Poker.Models.Players
 {
     using System.Collections.Generic;
     using System.Threading.Tasks;
@@ -101,6 +103,7 @@
             this.Chips -= amount;
             this.RaiseAmount = amount;
             this.IsInTurn = false;
+            this.PlayerState = PlayerState.Raise;
         }
 
         public void Call(int amount)
@@ -109,6 +112,7 @@
             this.Chips -= amount;
             this.CallAmount = amount;
             this.StatusLabel.Text = "Call " + amount;
+            this.PlayerState = PlayerState.Call;
         }
 
         public void Fold()
@@ -117,12 +121,14 @@
             this.IsInTurn = false;
             this.FoldedTurn = true;
             this.HasFolded = true;
+            this.PlayerState = PlayerState.Fold;
         }
 
         public void Check()
         {
             this.StatusLabel.Text = "Check";
             this.IsInTurn = false;
+            this.PlayerState = PlayerState.Check;
         }
 
         public void AllIn()
@@ -131,11 +137,15 @@
             this.CallAmount = this.Chips;
             this.Chips = 0;
             this.IsInTurn = false;
+            this.PlayerState = PlayerState.AllIn;
         }
 
         private void UpdateChipsTetxBox(int value)
         {
             this.ChipsTextBox.Text = string.Format(Messages.PlayerChips, value);
         }
+
+
+        public PlayerState PlayerState { get; set; }
     }
 }

@@ -55,6 +55,7 @@
     <Compile Include="Dunno.cs" />
     <Compile Include="Enums\CommunityCardBoard.cs" />
     <Compile Include="Enums\GameEngineState.cs" />
+    <Compile Include="Enums\PlayerState.cs" />
     <Compile Include="Enums\PlayerType.cs" />
     <Compile Include="Enums\PokerHand.cs" />
     <Compile Include="Enums\Suit.cs" />
