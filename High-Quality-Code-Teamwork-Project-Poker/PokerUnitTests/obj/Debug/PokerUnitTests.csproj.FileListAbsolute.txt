@@ -1,0 +1,7 @@
+E:\kpk\team\Poker\High-Quality-Code-Teamwork-Project-Poker\PokerUnitTests\obj\Debug\PokerUnitTests.csprojResolveAssemblyReference.cache
+E:\kpk\team\Poker\High-Quality-Code-Teamwork-Project-Poker\PokerUnitTests\bin\Debug\PokerUnitTests.dll
+E:\kpk\team\Poker\High-Quality-Code-Teamwork-Project-Poker\PokerUnitTests\bin\Debug\PokerUnitTests.pdb
+E:\kpk\team\Poker\High-Quality-Code-Teamwork-Project-Poker\PokerUnitTests\bin\Debug\Poker.exe
+E:\kpk\team\Poker\High-Quality-Code-Teamwork-Project-Poker\PokerUnitTests\bin\Debug\Poker.pdb
+E:\kpk\team\Poker\High-Quality-Code-Teamwork-Project-Poker\PokerUnitTests\obj\Debug\PokerUnitTests.dll
+E:\kpk\team\Poker\High-Quality-Code-Teamwork-Project-Poker\PokerUnitTests\obj\Debug\PokerUnitTests.pdb

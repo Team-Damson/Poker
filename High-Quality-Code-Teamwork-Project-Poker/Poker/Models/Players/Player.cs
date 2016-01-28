@@ -11,18 +11,17 @@ namespace Poker.Models.Players
     {
         private int chips;
 
-        protected Player(int id, string name, Label statusLabel, TextBox chipsTextBoxTextBox, /*int[] cardIndexes,*/ int chips, IList<PictureBox> pictureBoxHolder, Panel panel)
+        protected Player(int id, string name, Label statusLabel, TextBox chipsTextBoxTextBox, int chips, IList<PictureBox> pictureBoxHolder, Panel panel)
         {
             this.Id = id;
             this.Name = name;
             this.StatusLabel = statusLabel;
             this.ChipsTextBox = chipsTextBoxTextBox;
             this.Chips = chips;
-            //this.CardIndexes = cardIndexes;
             this.PictureBoxHolder = pictureBoxHolder ?? new List<PictureBox>();
             this.Panel = panel ?? new Panel();
             this.Type = new Type();
-            this.Cards = new List<Card>();
+            this.Cards = new List<ICard>();
         }
 
         public string Name { get; set; }
@@ -46,8 +45,6 @@ namespace Poker.Models.Players
             }
         }
 
-        //public int[] CardIndexes { get; set; }
-
         public Label StatusLabel { get; set; }
 
         public TextBox ChipsTextBox { get; set; }
@@ -55,8 +52,6 @@ namespace Poker.Models.Players
         public int CallAmount { get; set; }
 
         public int RaiseAmount { get; set; }
-
-        //public Hand Hand { get; set; }
 
         public bool HasFolded { get; set; }
 
@@ -70,7 +65,7 @@ namespace Poker.Models.Players
 
         public int Id { get; set; }
 
-        public override async Task SetCards(IList<Card> cards)
+        public override async Task SetCards(IList<ICard> cards)
         {
             for (int i = 0; i < cards.Count; i++)
             {
@@ -103,7 +98,7 @@ namespace Poker.Models.Players
             this.Chips -= amount;
             this.RaiseAmount = amount;
             this.IsInTurn = false;
-            this.PlayerState = PlayerState.Raise;
+            //this.PlayerState = PlayerState.Raise;
         }
 
         public void Call(int amount)
@@ -112,7 +107,7 @@ namespace Poker.Models.Players
             this.Chips -= amount;
             this.CallAmount = amount;
             this.StatusLabel.Text = "Call " + amount;
-            this.PlayerState = PlayerState.Call;
+            //this.PlayerState = PlayerState.Call;
         }
 
         public void Fold()
@@ -121,14 +116,14 @@ namespace Poker.Models.Players
             this.IsInTurn = false;
             this.FoldedTurn = true;
             this.HasFolded = true;
-            this.PlayerState = PlayerState.Fold;
+            //this.PlayerState = PlayerState.Fold;
         }
 
         public void Check()
         {
             this.StatusLabel.Text = "Check";
             this.IsInTurn = false;
-            this.PlayerState = PlayerState.Check;
+            //this.PlayerState = PlayerState.Check;
         }
 
         public void AllIn()
@@ -137,7 +132,7 @@ namespace Poker.Models.Players
             this.CallAmount = this.Chips;
             this.Chips = 0;
             this.IsInTurn = false;
-            this.PlayerState = PlayerState.AllIn;
+            //this.PlayerState = PlayerState.AllIn;
         }
 
         private void UpdateChipsTetxBox(int value)
@@ -146,6 +141,6 @@ namespace Poker.Models.Players
         }
 
 
-        public PlayerState PlayerState { get; set; }
+        //public PlayerState PlayerState { get; set; }
     }
 }

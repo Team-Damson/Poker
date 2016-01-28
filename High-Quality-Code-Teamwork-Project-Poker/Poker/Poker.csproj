@@ -61,11 +61,11 @@
     <Compile Include="Enums\Suit.cs" />
     <Compile Include="Enums\Face.cs" />
     <Compile Include="Events\GameEngineEventArgs.cs" />
-    <Compile Include="Form1.cs">
+    <Compile Include="GameForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="Form1.Designer.cs">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <Compile Include="GameForm.Designer.cs">
+      <DependentUpon>GameForm.cs</DependentUpon>
     </Compile>
     <Compile Include="GameEngine.cs" />
     <Compile Include="HandTypes.cs" />
@@ -76,6 +76,7 @@
     <Compile Include="Interfaces\IDealer.cs" />
     <Compile Include="Interfaces\IDeck.cs" />
     <Compile Include="Interfaces\IGameEngine.cs" />
+    <Compile Include="Interfaces\IHandTypeHandler.cs" />
     <Compile Include="Interfaces\IMessageWriter.cs" />
     <Compile Include="Interfaces\IPlayer.cs" />
     <Compile Include="Interfaces\IPot.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="Models\Dealer.cs" />
     <Compile Include="Models\Deck.cs" />
     <Compile Include="Models\Hand.cs" />
+    <Compile Include="Models\HandTypeHandler.cs" />
     <Compile Include="Models\Players\AI.cs" />
     <Compile Include="Models\Players\CardHolder.cs" />
     <Compile Include="Models\Players\Human.cs" />
@@ -103,8 +105,8 @@
     <EmbeddedResource Include="AddChips.resx">
       <DependentUpon>AddChips.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Form1.resx">
-      <DependentUpon>Form1.cs</DependentUpon>
+    <EmbeddedResource Include="GameForm.resx">
+      <DependentUpon>GameForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Messages.resx">
       <Generator>ResXFileCodeGenerator</Generator>

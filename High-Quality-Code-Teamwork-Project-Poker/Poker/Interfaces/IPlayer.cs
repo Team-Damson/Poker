@@ -26,7 +26,7 @@ namespace Poker.Interfaces
         /// </value>
         int Id { get; set; }
 
-        PlayerState PlayerState { get; set; }
+        //PlayerState PlayerState { get; set; }
         /// <summary>
         /// Gets or sets the name.
         /// </summary>

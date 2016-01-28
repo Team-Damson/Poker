@@ -1,4 +1,6 @@
-﻿namespace Poker.Models
+﻿using System;
+
+namespace Poker.Models
 {
     using System.Windows.Forms;
     using Poker.Interfaces;
@@ -25,6 +27,11 @@
 
         public void Add(int amount)
         {
+            if (amount < 0)
+            {
+                throw new ArgumentException("The added amount cannot be negative");
+            }
+
             this.Amount += amount;
             this.UpdateTextBox();
         }

@@ -2,35 +2,36 @@
 
 namespace Poker.Models.Players
 {
+    using Poker.Enums;
     using System.Collections.Generic;
     using System.Windows.Forms;
 
     public class AI : Player, IAIPlayer
     {
         private IAILogicProvider aiLogicProvider;
+
         public AI(
                   int id,
                   string name,
                   Label statusLabel,
                   TextBox chipsTextBoxTextBox,
-                  //int[] cardIndexes,
                   int chips,
                   IList<PictureBox> pictureBoxHolder,
                   Panel panel,
                   IAILogicProvider logicProvider)
-            : base(id, name, statusLabel, chipsTextBoxTextBox, /*cardIndexes,*/ chips, pictureBoxHolder, panel)
+            : base(id, name, statusLabel, chipsTextBoxTextBox, chips, pictureBoxHolder, panel)
         {
             this.aiLogicProvider = logicProvider;
         }
 
-        protected override void SetCardImage(Card card, PictureBox pictureBox)
+        protected override void SetCardImage(ICard card, PictureBox pictureBox)
         {
             pictureBox.Image = Card.BackImage;
         }
 
-        public void ProccessNextTurn(int call, IPot Pot, ref double raise, ref bool isAnyPlayerRaise, Enums.CommunityCardBoard currentRound)
+        public void ProccessNextTurn(int call, IPot pot, ref double raise, ref bool isAnyPlayerRaise, CommunityCardBoard currentRound)
         {
-            this.aiLogicProvider.HandleTurn(this, call, Pot, ref raise, ref isAnyPlayerRaise, currentRound);
+            this.aiLogicProvider.HandleTurn(this, call, pot, ref raise, ref isAnyPlayerRaise, currentRound);
         }
     }
 }

@@ -9,7 +9,7 @@
     using Poker.MessageWriters;
     using Poker.Models;
 
-    public partial class Form1 : Form
+    public partial class GameForm : Form
     {
         private readonly Timer timer = new Timer();
         private readonly Timer updates = new Timer();
@@ -17,7 +17,7 @@
         private readonly IMessageWriter messageWriter;
         private int secondsForHumanToPlay;
 
-        public Form1()
+        public GameForm()
         {
             this.InitializeComponent();
 
@@ -39,8 +39,9 @@
             IDealer dealer = this.GetDealer();
             IDeck deck = Deck.Instance;
             this.messageWriter = new MessageBoxWriter();
+            IHandTypeHandler handTypeHandler = new HandTypeHandler();
 
-            this.engine = new GameEngine(human, enemies, pot, dealer, deck, this.messageWriter);
+            this.engine = new GameEngine(human, enemies, pot, dealer, deck, this.messageWriter, handTypeHandler);
             this.engine.GameEngineStateEvent += this.ChangeGameEngineStateHandler;
             this.updates.Start();
             this.engine.Run();
@@ -151,17 +152,9 @@
 
         private void UpdateTick(object sender, object e)
         {
-            //this.UpdatePlayersChipsTextBoxes(this.GetAllPlayers());
-
             if (this.engine.GetHumanPlayer().Chips <= 0)
             {
-                //this.engine.GetHumanPlayer().IsInTurn = false;
-                //this.engine.GetHumanPlayer().FoldedTurn = true;
                 this.DisableButtons();
-                //this.buttonCall.Enabled = false;
-                //this.buttonRaise.Enabled = false;
-                //this.buttonFold.Enabled = false;
-                //this.buttonCheck.Enabled = false;
             }
 
             if (this.engine.GetHumanPlayer().Chips >= this.engine.Call)
@@ -186,11 +179,6 @@
                 this.buttonCall.Enabled = false;
             }
 
-            //if (this.engine.GetHumanPlayer().Chips <= 0)
-            //{
-            //    this.buttonRaise.Enabled = false;
-            //}
-
             int parsedValue;
 
             if (this.textboxRaise.Text != string.Empty && int.TryParse(this.textboxRaise.Text, out parsedValue))
@@ -204,19 +192,11 @@
                     this.buttonRaise.Text = "Raise";
                 }
             }
-
-            //if (this.engine.GetHumanPlayer().Chips < this.engine.Call)
-            //{
-            //    this.buttonRaise.Enabled = false;
-            //}
         }
 
         private async void OnFoldClick(object sender, EventArgs e)
         {
             this.engine.GetHumanPlayer().Fold();
-            //this.human.StatusLabel.Text = "Fold";
-            //this.human.IsInTurn = false;
-            //this.human.FoldedTurn = true;
             await this.engine.Turns();
         }
 
@@ -225,13 +205,9 @@
             if (this.engine.Call <= 0)
             {
                 this.engine.GetHumanPlayer().Check();
-                //this.human.IsInTurn = false;
-                //this.human.StatusLabel.Text = "Check";
             }
             else
             {
-                //labelPlayerStatus.Text = "All in " + Chips;
-
                 this.buttonCheck.Enabled = false;
             }
 
@@ -240,28 +216,16 @@
 
         private async void OnCallClick(object sender, EventArgs e)
         {
-            this.engine.Rules(this.engine.GetHumanPlayer());
-
             if (this.engine.GetHumanPlayer().Chips >= this.engine.Call)
             {
                 this.engine.GetHumanPlayer().Call(this.engine.Call);
-                //this.human.Chips -= Call;
-                //this.textboxChipsAmount.Text = AppSettigns.PlayerChipsTextBoxText + this.human.Chips.ToString();
                 this.engine.Pot.Add(this.engine.Call);
-                //this.human.IsInTurn = false;
-                //this.human.StatusLabel.Text = "Call " + Call;
-                //this.human.CallAmount = Call;
             }
             else if (this.engine.GetHumanPlayer().Chips <= this.engine.Call && this.engine.Call > 0)
             {
                 this.engine.Pot.Add(this.engine.GetHumanPlayer().Chips);
                 this.engine.GetHumanPlayer().AllIn();
-                //this.human.StatusLabel.Text = "All in " + this.human.Chips;
-                //this.human.Chips = 0;
-                //this.textboxChipsAmount.Text = AppSettigns.PlayerChipsTextBoxText + this.human.Chips.ToString();
-                //this.human.IsInTurn = false;
                 this.buttonFold.Enabled = false;
-                //this.human.CallAmount = this.human.Chips;
             }
 
             await this.engine.Turns();
@@ -269,7 +233,6 @@
 
         private async void OnRaiseClick(object sender, EventArgs e)
         {
-            this.engine.Rules(this.engine.GetHumanPlayer());
             int parsedValue;
 
             if (this.textboxRaise.Text != string.Empty && int.TryParse(this.textboxRaise.Text, out parsedValue))
@@ -288,13 +251,10 @@
                         {
                             this.engine.Call = int.Parse(this.textboxRaise.Text);
                             this.engine.Raise = int.Parse(this.textboxRaise.Text);
-                            //this.human.StatusLabel.Text = "Raise " + Call;
                             this.engine.Pot.Add(this.engine.Call);
                             this.buttonCall.Text = "Call";
                             this.engine.GetHumanPlayer().Raise((int)this.engine.Raise);
-                            //this.human.Chips -= int.Parse(this.textboxRaise.Text);
                             this.engine.IsAnyPlayerRaise = true;
-                            //this.human.Raise = Convert.ToInt32(Raise);
                         }
                         else
                         {
@@ -302,10 +262,7 @@
                             this.engine.Raise = this.engine.GetHumanPlayer().Chips;
                             this.engine.Pot.Add(this.engine.GetHumanPlayer().Chips);
                             this.engine.GetHumanPlayer().Raise(this.engine.GetHumanPlayer().Chips);
-                            //this.human.StatusLabel.Text = "Raise " + Call;
-                            //this.human.Chips = 0;
                             this.engine.IsAnyPlayerRaise = true;
-                            //this.human.Raise = Convert.ToInt32(Raise);
                         }
                     }
                 }
@@ -328,8 +285,6 @@
                 int.TryParse(this.textboxPlayerChips.Text, out chipsToAdd);
 
                 this.engine.AddChips(this.engine.GetAllPlayers(), chipsToAdd);
-
-                //this.UpdatePlayersChipsTextBoxes(this.GetAllPlayers());
             }
         }
 
@@ -360,7 +315,6 @@
 
             if (this.textboxSmallBlind.Text.Contains(",") || this.textboxSmallBlind.Text.Contains("."))
             {
-                //var message = "The Small Blind can be only round number !";
                 this.messageWriter.Write(Messages.SmallBlindRoundNumber);
                 this.textboxSmallBlind.Text = this.engine.SmallBlind.ToString();
                 return;
@@ -368,7 +322,6 @@
 
             if (!int.TryParse(this.textboxSmallBlind.Text, out parsedValue))
             {
-                //var message = "This is a number only field";
                 this.messageWriter.Write(Messages.NumberOnlyField);
                 this.textboxSmallBlind.Text = this.engine.SmallBlind.ToString();
                 return;
@@ -376,21 +329,18 @@
 
             if (int.Parse(this.textboxSmallBlind.Text) > AppSettigns.DefaultMaxSmallBlind)
             {
-                //var message = "The maximum of the Small Blind is 100 000 $";
                 this.messageWriter.Write(string.Format(Messages.SmallBlindMaxValue, AppSettigns.DefaultMaxSmallBlind));
                 this.textboxSmallBlind.Text = this.engine.SmallBlind.ToString();
             }
 
             if (int.Parse(this.textboxSmallBlind.Text) < AppSettigns.DefaultMinSmallBlind)
             {
-                //var message = "The minimum of the Small Blind is 250 $";
                 this.messageWriter.Write(string.Format(Messages.SmallBlindMinValue, AppSettigns.DefaultMinSmallBlind));
             }
 
             if (int.Parse(this.textboxSmallBlind.Text) >= AppSettigns.DefaultMinSmallBlind && int.Parse(this.textboxSmallBlind.Text) <= AppSettigns.DefaultMaxSmallBlind)
             {
                 this.engine.SmallBlind = int.Parse(this.textboxSmallBlind.Text);
-                //var message = "The changes have been saved ! They will become available the next hand you play.";
                 this.messageWriter.Write(Messages.SaveChanges);
             }
         }
@@ -401,7 +351,6 @@
 
             if (this.textboxBigBlind.Text.Contains(",") || this.textboxBigBlind.Text.Contains("."))
             {
-                //var message = "The Big Blind can be only round number!";
                 this.messageWriter.Write(Messages.BigBlindRoundNumber);
                 this.textboxBigBlind.Text = this.engine.BigBlind.ToString();
                 return;
@@ -409,7 +358,6 @@
 
             if (!int.TryParse(this.textboxSmallBlind.Text, out parsedValue))
             {
-                //var message = "This is a number only field";
                 this.messageWriter.Write(Messages.NumberOnlyField);
                 this.textboxSmallBlind.Text = this.engine.BigBlind.ToString();
                 return;
@@ -417,21 +365,18 @@
 
             if (int.Parse(this.textboxBigBlind.Text) > AppSettigns.DefaultMaxBigBlind)
             {
-                //var message = "The maximum of the Big Blind is 200 000";
                 this.messageWriter.Write(string.Format(Messages.BigBlindMaxValue, AppSettigns.DefaultMaxBigBlind));
                 this.textboxBigBlind.Text = this.engine.BigBlind.ToString();
             }
 
             if (int.Parse(this.textboxBigBlind.Text) < AppSettigns.DefaultMinBigBlind)
             {
-                //var message = "The minimum of the Big Blind is 500 $";
                 this.messageWriter.Write(string.Format(Messages.BigBlindMinValue, AppSettigns.DefaultMinBigBlind));
             }
 
             if (int.Parse(this.textboxBigBlind.Text) >= AppSettigns.DefaultMinBigBlind && int.Parse(this.textboxBigBlind.Text) <= AppSettigns.DefaultMaxBigBlind)
             {
                 this.engine.BigBlind = int.Parse(this.textboxBigBlind.Text);
-                //var message = "The changes have been saved ! They will become available the next hand you play.";
                 this.messageWriter.Write(Messages.SaveChanges);
             }
         }

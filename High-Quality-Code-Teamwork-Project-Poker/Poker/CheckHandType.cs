@@ -249,7 +249,7 @@
             }
         }
 
-        public void CheckFlush(IPlayer player, ref bool validFlush, int[] cards, /*ref List<Type> strongestHands, ref Type winningHand,*/ IList<Card> reserve, int i)
+        public void CheckFlush(IPlayer player, ref bool validFlush, int[] cards, /*ref List<Type> strongestHands, ref Type winningHand,*/ IList<ICard> reserve, int i)
         {
             if (player.Type.Current >= PokerHand.HighCard)
             {
@@ -1071,7 +1071,7 @@
             }
         }
 
-        public void CheckTwoPair(IPlayer player, /*ref List<Type> strongestHands, ref Type winningHand,*/  IList<Card> reserve, int i)
+        public void CheckTwoPair(IPlayer player, /*ref List<Type> strongestHands, ref Type winningHand,*/  IList<ICard> reserve, int i)
         {
             if (player.Type.Current >= PokerHand.HighCard)
             {
@@ -1149,7 +1149,7 @@
             }
         }
 
-        public void CheckPairTwoPair(IPlayer player, /*ref List<Type> strongestHands, ref Type winningHand,*/ IList<Card> reserve, int i)
+        public void CheckPairTwoPair(IPlayer player, /*ref List<Type> strongestHands, ref Type winningHand,*/ IList<ICard> reserve, int i)
         {
             if (player.Type.Current >= PokerHand.HighCard)
             {
@@ -1291,7 +1291,7 @@
             }
         }
 
-        public void CheckPairFromHand(IPlayer player, /*ref List<Type> strongestHands, ref Type winningHand,*/ IList<Card> reserve, int i)
+        public void CheckPairFromHand(IPlayer player, /*ref List<Type> strongestHands, ref Type winningHand,*/ IList<ICard> reserve, int i)
         {
             if (player.Type.Current >= PokerHand.HighCard)
             {
@@ -1382,7 +1382,7 @@
             }
         }
 
-        public void CheckHighCard(IPlayer player, /*ref List<Type> strongestHands, ref Type winningHand,*/ IList<Card> reserve, int i)
+        public void CheckHighCard(IPlayer player, /*ref List<Type> strongestHands, ref Type winningHand,*/ IList<ICard> reserve, int i)
         {
             if (player.Type.Current == PokerHand.HighCard)
             {

@@ -29,7 +29,7 @@ namespace Poker.Interfaces
 
         Task Turns();
 
-        void Rules(IPlayer player);
+        //void Rules(IPlayer player);
 
         void AddChips(ICollection<IPlayer> players, int amount);
 

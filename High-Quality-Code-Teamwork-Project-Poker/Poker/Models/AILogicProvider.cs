@@ -23,44 +23,6 @@ namespace Poker.Models
         {
             if (!player.FoldedTurn)
             {
-                //switch (player.Type.Current)
-                //{
-                //    case PokerHand.HighCard:
-                //        handType.HighCard(player, Call, textboxPot, ref RaiseAmount, ref IsAnyPlayerRaise);
-                //        break;
-                //    case PokerHand.PairTable:
-                //        handType.PairTable(player, Call, textboxPot, ref RaiseAmount, ref IsAnyPlayerRaise);
-                //        break;
-                //    case PokerHand.PairFromHand:
-                //        handType.PairHand(player, Call, textboxPot, ref RaiseAmount, ref IsAnyPlayerRaise, currentRound);
-                //        break;
-                //    case PokerHand.TwoPair:
-                //        handType.TwoPair(player, Call, textboxPot, ref RaiseAmount, ref IsAnyPlayerRaise, currentRound);
-                //        break;
-                //    case PokerHand.ThreeOfAKind:
-                //        handType.ThreeOfAKind(player, Call, textboxPot, ref RaiseAmount, ref IsAnyPlayerRaise);
-                //        break;
-                //    case PokerHand.Straigth:
-                //        handType.Straight(player, Call, textboxPot, ref RaiseAmount, ref IsAnyPlayerRaise);
-                //        break;
-                //    case PokerHand.Flush:
-                //    case PokerHand.FlushWithAce:
-                //        handType.Flush(player, Call, textboxPot, ref RaiseAmount, ref IsAnyPlayerRaise);
-                //        break;
-                //    case PokerHand.FullHouse:
-                //        handType.FullHouse(player, Call, textboxPot, ref RaiseAmount, ref IsAnyPlayerRaise);
-                //        break;
-                //    case PokerHand.FourOfAKind:
-                //        handType.FourOfAKind(player, Call, textboxPot, ref RaiseAmount, ref IsAnyPlayerRaise);
-                //        break;
-                //    case PokerHand.StraightFlush:
-                //    case PokerHand.RoyalFlush:
-                //        handType.StraightFlush(player, Call, textboxPot, ref RaiseAmount, ref IsAnyPlayerRaise);
-                //        break;
-                //    default:
-                //        throw new InvalidOperationException("Invalid Pocker Hand");
-                //}
-
                 if (player.Type.Current == PokerHand.HighCard)
                 {
                     this.handType.HighCard(player, call, Pot, ref raise, ref isAnyPlayerRaise);
@@ -118,8 +80,6 @@ namespace Poker.Models
                 {
                     pictureBox.Visible = false;
                 }
-                //player.PictureBoxHolder[0].Visible = false;
-                //player.PictureBoxHolder[1].Visible = false;
             }
         }
     }

@@ -7,12 +7,10 @@
     {
         public static readonly Bitmap BackImage = new Bitmap("Assets\\Back\\Back.png");
 
-        public Card(int power, Image image)//Face cardFace, Suit cardSuit)
+        public Card(int power, Image image)
         {
             this.Power = power;
             this.Image = image;
-            //this.CardFace = cardFace;
-            //this.CardSuit = cardSuit;
         }
 
         public int Power { get; private set; }

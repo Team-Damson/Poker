@@ -15,13 +15,12 @@
         public Dealer(int horizontal, int vertical)
         {
             this.PictureBoxHolder = new List<PictureBox>();
-            this.Cards = new List<Card>();
+            this.Cards = new List<ICard>();
 
             for (int i = 0; i < DealedCards; i++)
             {
                 PictureBox cardHolder = new PictureBox();
                 cardHolder.Anchor = AnchorStyles.None;
-                //Holder[i].Image = Deck[i];
                 cardHolder.SizeMode = PictureBoxSizeMode.StretchImage;
                 cardHolder.Height = 130;
                 cardHolder.Width = 80;
@@ -34,7 +33,7 @@
 
         public CommunityCardBoard CurrentRound { get; set; }
 
-        public override async Task SetCards(IList<Card> cards)
+        public override async Task SetCards(IList<ICard> cards)
         {
             for (int i = 0; i < cards.Count; i++)
             {
@@ -46,7 +45,7 @@
             }
         }
         
-        protected override void SetCardImage(Card card, PictureBox pictureBox)
+        protected override void SetCardImage(ICard card, PictureBox pictureBox)
         {
             pictureBox.Image = Card.BackImage;
         }

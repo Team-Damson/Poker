@@ -5,7 +5,7 @@
     using System.Drawing;
     using System.Windows.Forms;
 
-    partial class Form1
+    partial class GameForm
     {
         private Button buttonFold;
 

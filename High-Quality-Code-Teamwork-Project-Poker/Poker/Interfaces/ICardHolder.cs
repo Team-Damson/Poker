@@ -26,7 +26,7 @@ namespace Poker.Interfaces
         /// <value>
         /// The cards.
         /// </value>
-        ICollection<Card> Cards { get; set; }
+        IList<ICard> Cards { get; set; }
 
         /// <summary>
         /// Gets or sets the picture box holder.
@@ -36,6 +36,7 @@ namespace Poker.Interfaces
         /// </value>
         IList<PictureBox> PictureBoxHolder { get; set; }
 
+        void AddCard(ICard card);
         /// <summary>
         /// Set cards.
         /// </summary>
@@ -45,10 +46,10 @@ namespace Poker.Interfaces
         /// <returns>
         /// The <see cref="Task"/>.
         /// </returns>
-        Task SetCards(IList<Card> cards);
+        Task SetCards(IList<ICard> cards);
 
         // void SetCard(Card card);
-
+        void CleanCard();
         /// <summary>
         /// The reveal card at index.
         /// </summary>

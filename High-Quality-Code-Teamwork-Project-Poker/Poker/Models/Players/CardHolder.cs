@@ -8,17 +8,29 @@
 
     public abstract class CardHolder : ICardHolder
     {
-        public ICollection<Card> Cards { get; set; }
+        public IList<ICard> Cards { get; set; }
 
         public IList<PictureBox> PictureBoxHolder { get; set; }
 
-        public abstract Task SetCards(IList<Card> cards);
+        public abstract Task SetCards(IList<ICard> cards);
 
         public void RevealCardAtIndex(int index)
         {
             this.PictureBoxHolder[index].Image = this.Cards.ElementAt(index).Image;
         }
 
-        protected abstract void SetCardImage(Card card, PictureBox pictureBox);
+        protected abstract void SetCardImage(ICard card, PictureBox pictureBox);
+
+
+        public void AddCard(ICard card)
+        {
+            this.Cards.Add(card);
+        }
+
+
+        public void CleanCard()
+        {
+            this.Cards.Clear();
+        }
     }
 }

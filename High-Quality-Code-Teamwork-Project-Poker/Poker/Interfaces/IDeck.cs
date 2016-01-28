@@ -19,13 +19,7 @@ namespace Poker.Interfaces
     /// </summary>
     public interface IDeck
     {
-        /// <summary>
-        /// Get cards.
-        /// </summary>
-        /// <returns>
-        /// The <see cref="IList"/>.
-        /// </returns>
-        IList<Card> GetCards();
+        IList<ICard> Cards { get; set; }
 
         /// <summary>
         /// Get card at index.
@@ -36,7 +30,7 @@ namespace Poker.Interfaces
         /// <returns>
         /// The <see cref="Card"/>.
         /// </returns>
-        Card GetCardAtIndex(int index);
+        ICard GetCardAtIndex(int index);
 
         /// <summary>
         /// Set cards.
