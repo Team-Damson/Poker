@@ -23,25 +23,25 @@ namespace Poker.Models
                 #region Variables
 
                 bool done = false;
-                bool vf = false;
-                int[] Straight1 = new int[5];
-                int[] Straight = new int[7];
-                Straight[0] = player.Cards.First().Power;
-                Straight[1] = player.Cards.Last().Power;
-                Straight1[0] = Straight[2] = dealer.Cards.ElementAt(0).Power;
-                Straight1[1] = Straight[3] = dealer.Cards.ElementAt(1).Power;
-                Straight1[2] = Straight[4] = dealer.Cards.ElementAt(2).Power;
-                Straight1[3] = Straight[5] = dealer.Cards.ElementAt(3).Power;
-                Straight1[4] = Straight[6] = dealer.Cards.ElementAt(4).Power;
-                var a = Straight.Where(o => o % 4 == 0).ToArray();
-                var b = Straight.Where(o => o % 4 == 1).ToArray();
-                var c = Straight.Where(o => o % 4 == 2).ToArray();
-                var d = Straight.Where(o => o % 4 == 3).ToArray();
+                bool validFlush = false;
+                int[] dealerCards = new int[5];
+                int[] dealerWithPlayerCards = new int[7];
+                dealerWithPlayerCards[0] = player.Cards.First().Power;
+                dealerWithPlayerCards[1] = player.Cards.Last().Power;
+                dealerCards[0] = dealerWithPlayerCards[2] = dealer.Cards.ElementAt(0).Power;
+                dealerCards[1] = dealerWithPlayerCards[3] = dealer.Cards.ElementAt(1).Power;
+                dealerCards[2] = dealerWithPlayerCards[4] = dealer.Cards.ElementAt(2).Power;
+                dealerCards[3] = dealerWithPlayerCards[5] = dealer.Cards.ElementAt(3).Power;
+                dealerCards[4] = dealerWithPlayerCards[6] = dealer.Cards.ElementAt(4).Power;
+                var a = dealerWithPlayerCards.Where(o => o % 4 == 0).ToArray();
+                var b = dealerWithPlayerCards.Where(o => o % 4 == 1).ToArray();
+                var c = dealerWithPlayerCards.Where(o => o % 4 == 2).ToArray();
+                var d = dealerWithPlayerCards.Where(o => o % 4 == 3).ToArray();
                 var spades = a.Select(o => o / 4).Distinct().ToArray();
                 var hearts = b.Select(o => o / 4).Distinct().ToArray();
                 var diamonds = c.Select(o => o / 4).Distinct().ToArray();
                 var clubs = d.Select(o => o / 4).Distinct().ToArray();
-                Array.Sort(Straight);
+                Array.Sort(dealerWithPlayerCards);
                 Array.Sort(spades);
                 Array.Sort(hearts);
                 Array.Sort(diamonds);
@@ -63,19 +63,19 @@ namespace Poker.Models
                         this.checkHandType.CheckPairTwoPair(player, deck.Cards, i);
 
                         // Three of a kind
-                        this.checkHandType.CheckThreeOfAKind(player, Straight); 
+                        this.checkHandType.CheckThreeOfAKind(player, dealerWithPlayerCards); 
 
                         // Straight
-                        this.checkHandType.CheckStraight(player, Straight); 
+                        this.checkHandType.CheckStraight(player, dealerWithPlayerCards); 
 
                         // Flush current
-                        this.checkHandType.CheckFlush(player, ref vf, Straight1, deck.Cards, i);
+                        this.checkHandType.CheckFlush(player, ref validFlush, dealerCards, deck.Cards, i);
 
                         // Full House
-                        this.checkHandType.CheckFullHouse(player, ref done, Straight); 
+                        this.checkHandType.CheckFullHouse(player, ref done, dealerWithPlayerCards); 
 
                         // Four of a Kind
-                        this.checkHandType.CheckFourOfAKind(player, Straight);
+                        this.checkHandType.CheckFourOfAKind(player, dealerWithPlayerCards);
 
                         // Straight Flush
                         this.checkHandType.CheckStraightFlush(player, spades, hearts, diamonds, clubs); 
